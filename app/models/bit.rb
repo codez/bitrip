@@ -1,10 +1,10 @@
 class Bit < ActiveRecord::Base
   
-  act_as_list :scope => :rip
-  
   belongs_to :rip
+  acts_as_list :scope => :rip
   
   validates_presence_of :xpath
+  validates_uniqueness_of :position, :scope => :rip
   
   
 end
