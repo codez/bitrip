@@ -1,3 +1,5 @@
+gem "RubyInline", "= 3.6.3"
+require 'scrubyt'
 require 'rexml/document'
 
 class Scrubator
