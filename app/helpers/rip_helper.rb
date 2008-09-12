@@ -1,0 +1,2 @@
+module RipHelper
+end

@@ -1,0 +1,2 @@
+class RipController < ApplicationController
+end
