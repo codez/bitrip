@@ -10,13 +10,13 @@ class InitialSetup < ActiveRecord::Migration
       t.column :label, :string
       t.column :xpath, :string, :null => false
       t.column :generalize, :boolean, :default => true
-      t.column :id_rip, :int, :null => false
+      t.column :rip_id, :int, :null => false
       t.column :position, :int
     end
     
     create_table :navi_actions do |t|
       t.column :type, :string
-      t.column :id_rip, :int, :null => false
+      t.column :rip_id, :int, :null => false
       t.column :position, :int 
       t.column :link_text, :string
     end
