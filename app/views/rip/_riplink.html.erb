@@ -1,1 +1,4 @@
-<li><%= link_to riplink.name, riplink.name %></li>
+<li>
+	<%= link_to riplink.name, :controller => riplink.name %>
+	<%= link_to '[..]', :action => 'edit', :id => liplink.id %>
+</li>

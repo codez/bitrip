@@ -26,14 +26,15 @@ class Scrubator
   def generate_html(rip, pattern)
     bit_list = pattern.to_hash
     html = ''
-    rip.bits.each_index do |i|¨
+    rip.bits.each_index do |i|
       bit = rip.bits[i]
-      html += '<p>\n'
-      html += bit.label unless bit.label.nil? || bit.label.empty?
+      html += "<p>\n"
+      html += bit.label + ' ' unless bit.label.nil? || bit.label.empty?
       html += '<b>'
       html += bit_list[i][:html]
-      html += '</b>\n</p>\n'
+      html += "</b>\n</p>\n"
     end
+    html
   end
   
 end

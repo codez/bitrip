@@ -2,7 +2,7 @@ class InitialSetup < ActiveRecord::Migration
   def self.up
     create_table :rips do |t|
       t.column :name, :string, :null => false
-      t.column :description, :text
+      t.column :description, :string
       t.column :start_page, :string, :null => false
     end
     

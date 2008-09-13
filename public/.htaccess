@@ -1,6 +1,7 @@
 # General Apache options
-AddHandler fastcgi-script .fcgi
-AddHandler cgi-script .cgi
+#AddHandler fastcgi-script .fcgi
+#AddHandler cgi-script .cgi
+AddHandler fcgid-script .fcgi
 Options +FollowSymLinks +ExecCGI
 
 # If you don't want Rails to look in certain directories,
@@ -25,11 +26,12 @@ RewriteEngine On
 # Example:
 #   Alias /myrailsapp /path/to/myrailsapp/public
 #   RewriteBase /myrailsapp
+RewriteBase /dapples
 
 RewriteRule ^$ index.html [QSA]
 RewriteRule ^([^.]+)$ $1.html [QSA]
 RewriteCond %{REQUEST_FILENAME} !-f
-RewriteRule ^(.*)$ dispatch.cgi [QSA,L]
+RewriteRule ^(.*)$ dispatch.fcgi [QSA,L]
 
 # In case Rails experiences terminal errors
 # Instead of displaying this message you can supply a file here which will be rendered instead
