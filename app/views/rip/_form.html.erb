@@ -1,9 +1,22 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html>
-	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-		<title>Untitled Document</title>
-	</head>
-	<body>
-	</body>
-</html>
+
+<%= error_messages_for 'rip' %>
+
+<table>
+<tr>
+  <td>Name: </td>
+  <td><%= text_field 'rip', 'name',  :size => '25' %></td>
+</tr>
+<tr>
+  <td>Description: </td>
+  <td><%= text_field 'rip', 'description',  :size => '50' %></td>
+</tr>
+<tr>
+  <td>Start Page: </td>
+  <td><%= text_field 'rip', 'start_page',  :size => '50' %></td>
+</tr>
+<tr>
+   <td></td>
+   <td><%= submit_tag %></td>
+</tr>
+</table>
+ 

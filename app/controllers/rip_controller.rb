@@ -19,7 +19,13 @@ class RipController < ApplicationController
   end
 
   def update
-    @rip = Rip.find params[:id]
+    @rip.attributes = params[:rip]
+    if @rip.save
+      flash[:notice] = "#{@rip.name} bitRip was saved successfully"
+      redirect_to :action => 'index'
+    else
+      render :action => 'edit'
+    end  
   end
   
   def add
