@@ -1,5 +1,4 @@
 class RipController < ApplicationController
-  layout 'showrip', :only => :show
   
   def index
     @list = Rip.find :all, :order => 'name'
@@ -12,6 +11,7 @@ class RipController < ApplicationController
     end
     
     @output = Scrubator.new.ripit @rip, params
+    render :action => 'show', :layout => 'showrip'
   end
   
   def edit
@@ -19,6 +19,7 @@ class RipController < ApplicationController
   end
 
   def update
+    @rip = Rip.find params[:id]
     @rip.attributes = params[:rip]
     if @rip.save
       flash[:notice] = "#{@rip.name} bitRip was saved successfully"
@@ -29,11 +30,17 @@ class RipController < ApplicationController
   end
   
   def add
-    @rip = Rip.find params[:id]
+    @rip = Rip.new
   end
   
   def create
-    @rip = Rip.find params[:id]
+    @rip = Rip.new params[:rip]
+    if @rip.save
+      flash[:notice] = "#{@rip.name} bitRip was added successfully"
+      redirect_to :action => 'index'
+    else
+      render :action => 'add'
+    end  
   end
 private
  

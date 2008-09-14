@@ -1,5 +1,18 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
-one:
+
+codez_title:
   id: 1
-two:
+  rip_id: 1
+  label: Title
+  xpath: /html/body/h1
+  generalize: false
+  position: 1
+  
+codez_bird:
   id: 2
+  rip_id: 1
+  label: Bird
+  xpath: /html/body/div
+  generalize: false
+  position: 2
+  

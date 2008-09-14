@@ -1,3 +1,42 @@
-body {
-	
+BODY {
+    background-color: white;
+    color: black;
+}
+
+BODY, P, DIV, TD  {
+	font-family : Courier New, monospace ;
+	font-size : 12pt;
+}
+
+H1  {
+	font-size : 15pt;
+}
+
+H2  {
+	font-size : 13pt;	
+}
+
+A  {
+	text-decoration : none;
+	font-weight : bold;
+	color : #505050;
+}
+
+A:Hover  {
+	text-decoration : underline;
+}
+
+A:visited {
+	color : #666666;
+}
+
+A IMG {
+	border: none;
+}
+
+INPUT
+{
+	color: Black;
+	font-weight: bold;
+	font-family: Courier New, monospace;
 }
