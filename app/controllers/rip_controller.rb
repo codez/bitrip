@@ -21,6 +21,8 @@ class RipController < ApplicationController
   def update
     @rip = Rip.find params[:id]
     @rip.attributes = params[:rip]
+    @rip.bits.clear
+    params[:bits].each_value { |bit| @rip.bits.build(bit) }
     if @rip.save
       flash[:notice] = "#{@rip.name} bitRip was saved successfully"
       redirect_to :action => 'index'
@@ -35,6 +37,7 @@ class RipController < ApplicationController
   
   def create
     @rip = Rip.new params[:rip]
+    params[:bits].each_value { |bit| @rip.bits.build(bit) }
     if @rip.save
       flash[:notice] = "#{@rip.name} bitRip was added successfully"
       redirect_to :action => 'index'
@@ -42,6 +45,14 @@ class RipController < ApplicationController
       render :action => 'add'
     end  
   end
+  
+  def add_bit
+    @bit = Bit.new
+  end
+  
+  def remove_bit
+  end
+  
 private
  
   

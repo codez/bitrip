@@ -1,0 +1,4 @@
+page["bit_#{params[:index]}"].remove 
+
+page.replace :add_bit_link, :partial => 'add_bit_link', :locals => { :index => (params[:index].to_i - 1) }
+ 

@@ -55,4 +55,5 @@
 	<pathentry path="GEM_LIB/RubyInline-3.7.0/lib" type="var"/>
 	<pathentry path="GEM_LIB/RubyInline-3.7.0/lib" type="var"/>
 	<pathentry path="GEM_LIB/RubyInline-3.7.0/lib" type="var"/>
+	<pathentry path="GEM_LIB/RubyInline-3.7.0/lib" type="var"/>
 </loadpath>

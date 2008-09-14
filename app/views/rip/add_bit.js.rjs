@@ -1,0 +1,5 @@
+page.insert_html :bottom, :bits, :partial => 'bitfields',
+                 :locals => { :bitfields => @bit, :bitfields_counter => params[:index] }
+ 
+page.replace :add_bit_link, :partial => 'add_bit_link', :locals => { :index => (params[:index].to_i + 1) }
+ 

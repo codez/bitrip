@@ -1,7 +1,7 @@
 
 <%= error_messages_for 'rip' %>
 
-<table>
+<table id="rip">
 <tr>
   <td>Name: </td>
   <td><%= text_field 'rip', 'name',  :size => '25' %></td>
@@ -12,11 +12,19 @@
 </tr>
 <tr>
   <td>Start Page: </td>
-  <td><%= text_field 'rip', 'start_page',  :size => '50' %></td>
-</tr>
-<tr>
-   <td></td>
-   <td><%= submit_tag %></td>
+  <td><%= text_field 'rip', 'start_page', :size => '50' %></td>
 </tr>
 </table>
+
+
+<h2>Bits</h2>
+
+<div id="bits">
+<%= render :partial => 'bitfields', :collection => @rip.bits %>
+</div>
+
+<%= render :partial => 'add_bit_link', :locals => { :index => @rip.bits.size } %>
+
+
+<%= submit_tag %>
  

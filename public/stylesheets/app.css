@@ -12,6 +12,15 @@ H1  {
 	font-size : 15pt;
 }
 
+H2  {
+	font-size : 13pt;
+}
+
+H3  {
+	font-size : 12pt;
+	font-weight: bold;
+}
+
 A  {
 	text-decoration : none;
 	font-weight : bold;

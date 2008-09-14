@@ -14,10 +14,13 @@ class ApplicationController < ActionController::Base
   # from your application log (in this case, all fields with names like "password"). 
   filter_parameter_logging :password, :pwd
   
-  before_filter :set_charset
+  after_filter :set_charset
 
   def set_charset
-    headers["Content-Type"] = "text/html; charset=UTF-8" 
+    content_type = headers["Content-Type"] || 'text/html'
+    if /^text\//.match(content_type)
+      headers["Content-Type"] = "#{content_type}; charset=utf-8" 
+    end
   end
   
   def rescue_action_in_public(exception)
