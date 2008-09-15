@@ -1,6 +1,20 @@
 
-<ul>
-	<%= render :partial => 'riplink', :collection => @list %>	 
-</ul>
+<div class="riplist">
+	<%= render :partial => 'link', :collection => @list %>	 
+</div>
 
-<%= link_to '[+]', :action => 'add' %>
+<iframe src="about:blank" frameborder="0" name="preview" id="preview">
+  <p>
+  	Your Browser does not support Frames and/or JavaScript.
+	Please activate these features to use this service.
+	Thank you.
+  </p>
+</iframe>
+
+<br/>
+
+<%= render :partial => 'info' %>	 
+
+<div id="addrip">
+<%= link_to '&lt;create new bitRip&gt;', :action => 'add' %>
+</div>

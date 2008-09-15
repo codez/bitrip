@@ -9,7 +9,7 @@ class InitialSetup < ActiveRecord::Migration
     create_table :bits do |t|
       t.column :label, :string
       t.column :xpath, :string, :null => false
-      t.column :generalize, :boolean, :default => true
+      t.column :generalize, :boolean, :default => false
       t.column :rip_id, :int, :null => false
       t.column :position, :int
     end

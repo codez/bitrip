@@ -1,11 +1,12 @@
-gem "RubyInline", "= 3.6.3"
-require 'scrubyt'
+
 
 class Scrubator
   
   # input rip, output html fragment
   def ripit(rip, params = {})
    pattern = scrubyt rip, params  
+   
+   pattern.export(__FILE__)
    
    snippets = pattern.to_hash.collect { |p| p[:html] } 
    base_url = extract_base_url Scrubyt::FetchAction.get_current_doc_url

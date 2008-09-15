@@ -4,6 +4,10 @@ class RipController < ApplicationController
     @list = Rip.find :all, :order => 'name'
   end
   
+  def preview
+    @rip = Rip.find params[:id]
+  end
+  
   def show
     @rip = Rip.find_by_name params[:id]
     if @rip.nil?
@@ -46,14 +50,7 @@ class RipController < ApplicationController
     end  
   end
   
-  def add_bit
-    @bit = Bit.new
-  end
-  
-  def remove_bit
-  end
   
 private
- 
-  
+
 end

@@ -1,11 +1,15 @@
 BODY {
     background-color: white;
-    color: black;
+    color: 			black;
+    padding:        0px;
+    margin:         0px;
+    text-align:     center;   /* centered content in IE */
 }
 
 BODY, P, DIV, TD  {
-	font-family : Courier New, monospace ;
-	font-size : 12pt;
+	font-family: 	Courier New, monospace ;
+	font-size: 		10pt;
+	text-align: 	left;
 }
 
 H1  {
@@ -19,6 +23,7 @@ H2  {
 H3  {
 	font-size : 12pt;
 	font-weight: bold;
+	margin-bottom: 0px;
 }
 
 A  {
@@ -39,9 +44,61 @@ A IMG {
 	border: none;
 }
 
-INPUT
-{
+INPUT {
 	color: Black;
-	font-weight: bold;
 	font-family: Courier New, monospace;
+}
+
+TD {
+	padding: 0px;
+    margin: 0px;
+}
+
+#canvas {
+	display: 		table;
+	margin:         auto;
+    padding:        0px 0px 0px 0px;
+	background: 	#dddddd;
+	border-left:	1px solid #aaaaaa;
+	border-right:	1px solid #aaaaaa;
+	border-bottom:	1px solid #aaaaaa;
+}
+
+#title  {
+	font-size : 	30pt;
+	color: 			white;
+}
+
+#title:Hover  {
+	text-decoration : none;
+}
+
+#content {
+    margin:        6px;
+}
+
+.header {
+	margin-top: 	5pt;
+	border-top:		2px outset #aaaaaa;
+	border-bottom:	1px outset #aaaaaa;
+	background: 	#444444;
+	color: 			white;
+	text-align: 	center;
+}
+
+.riplist {
+	float: 			left;
+	margin-right:   6px;
+}
+
+.preview {
+	width: 		300px;
+	height: 	450px;
+	padding: 	5pt;
+	border-right: 1px solid gray;
+	border-bottom: 1px solid gray;
+}
+
+#addrip {
+	clear: 			both;
 }

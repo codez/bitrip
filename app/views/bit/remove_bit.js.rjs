@@ -1,0 +1,2 @@
+page["bit_#{params[:index]}"].remove 
+

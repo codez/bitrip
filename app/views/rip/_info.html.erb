@@ -1,0 +1,7 @@
+<div id="ripinfo">
+<% if @rip -%>	
+	<h3><%= link_to @rip.name, :action => 'edit', :id => @rip %></h3>
+	(<%= @rip.start_page %>)<br/>
+	direct link: <%= link_to "#{url_for :controller => @rip.name, :only_path => false}", :only_path => false, :controller => @rip.name %><br/>
+<% end -%>
+</div>

@@ -66,5 +66,7 @@ Rails::Initializer.run do |config|
   # config.active_record.observers = :cacher, :garbage_collector
 end
 
-#gem "RubyInline", "= 3.6.3"
-#require 'scrubyt'
+unless ENV['RAILS_ENV'] == 'test'
+  gem "RubyInline", "= 3.6.3"
+  require 'scrubyt'
+end

@@ -20,10 +20,10 @@
 <h2>Bits</h2>
 
 <div id="bits">
-<%= render :partial => 'bitfields', :collection => @rip.bits %>
+<%= render :partial => 'bit/bit', :collection => @rip.bits %>
 </div>
 
-<%= render :partial => 'add_bit_link', :locals => { :index => @rip.bits.size } %>
+<%= render :partial => 'bit/add_bit_link', :locals => { :index => @rip.bits.size } %>
 
 
 <%= submit_tag %>
