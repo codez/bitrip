@@ -26,7 +26,10 @@ class RipController < ApplicationController
     @rip = Rip.find params[:id]
     @rip.attributes = params[:rip]
     @rip.bits.clear
-    params[:bits].each_value { |bit| @rip.bits.build(bit) }
+    params[:bit_order].split(',').each do |index| 
+      @rip.bits.build(params[:bits][index]) 
+    end
+    # TODO: should validate all first?
     if @rip.save
       flash[:notice] = "#{@rip.name} bitRip was saved successfully"
       redirect_to :action => 'index'

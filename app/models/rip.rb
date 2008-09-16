@@ -6,4 +6,7 @@ class Rip < ActiveRecord::Base
   validates_uniqueness_of :name
   validates_format_of :start_page, :with => /^https?:\/\/.+/
   
+  def bit_order
+    (0..(bits.size - 1)).to_a
+  end
 end

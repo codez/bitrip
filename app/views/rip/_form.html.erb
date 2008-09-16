@@ -23,6 +23,13 @@
 <%= render :partial => 'bit/bit', :collection => @rip.bits %>
 </div>
 
+<%= hidden_field_tag 'bit_order', bit_order %>
+
+<%= sortable_element "bits", 
+		:onUpdate => 'function(){$("bit_order").value = Sortable.sequence("bits");}', 
+		:tag => 'table', 
+		:constraint => :vertical %>
+
 <%= render :partial => 'bit/add_bit_link', :locals => { :index => @rip.bits.size } %>
 
 
