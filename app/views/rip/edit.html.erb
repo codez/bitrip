@@ -1,5 +1,6 @@
-<% @title = "edit #{@rip.name} bitRip" %>
+<% 
+@title = "edit #{@rip.name} bitRip" 
+-%>
 
-<% form_tag :action => 'update', :id => @rip do %>                
-	<%= render :partial => 'form' %>
-<% end %>
+            
+<%= render :partial => 'form', :locals => { :action => {:action => 'update', :id => @rip} }%>

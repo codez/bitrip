@@ -1,37 +1,56 @@
 
 <%= error_messages_for 'rip' %>
 
-<table id="rip">
-<tr>
-  <td>Name: </td>
-  <td><%= text_field 'rip', 'name',  :size => '25' %></td>
-</tr>
-<tr>
-  <td>Description: </td>
-  <td><%= text_field 'rip', 'description',  :size => '50' %></td>
-</tr>
-<tr>
-  <td>Start Page: </td>
-  <td><%= text_field 'rip', 'start_page', :size => '50' %></td>
-</tr>
-</table>
-
-
-<h2>Bits</h2>
-
-<div id="bits">
-<%= render :partial => 'bit/bit', :collection => @rip.bits %>
+<% form_tag action do -%>
+<div id="ripform">
+	<table id="rip">
+	<tr>
+	  <td>Name: </td>
+	  <td><%= text_field 'rip', 'name',  :size => '25' %></td>
+	</tr>
+	<tr>
+	  <td>Description: </td>
+	  <td><%= text_field 'rip', 'description',  :size => '50' %></td>
+	</tr>
+	<tr>
+	  <td>Start Page: </td>
+	  <td><%= text_field 'rip', 'start_page', :size => '50' %></td>
+	</tr>
+	</table>
+	
+	
+	<h2 class="header">Bits</h2>
+	
+	<ul id="bits">
+	<%= render :partial => 'bit/bit', :collection => @rip.bits %>
+	</ul>
+	
+	<%= hidden_field_tag 'bit_order', bit_order %>
+	
+	<%= render :partial => 'bit/add_bit_link', :locals => { :index => @rip.bits.size } %>
+	
+	<%= sortable_element "bits", 
+			:onUpdate => 'function(){$("bit_order").value = Sortable.sequence("bits");}', 
+			:tag => 'li', 
+			:constraint => :vertical %>
 </div>
 
-<%= hidden_field_tag 'bit_order', bit_order %>
+<div id="rightform">
+	<%= submit_to_target 'Preview', {:action => 'preview_temp'}, 'preview' %>
+	<%= submit_to_target 'Save', action, '_self' %>
+	<br/>
+	<br/>
+	<%= render :partial => 'iframe' %>
+</div>
 
-<%= sortable_element "bits", 
-		:onUpdate => 'function(){$("bit_order").value = Sortable.sequence("bits");}', 
-		:tag => 'table', 
-		:constraint => :vertical %>
 
-<%= render :partial => 'bit/add_bit_link', :locals => { :index => @rip.bits.size } %>
+<% end -%>
 
-
-<%= submit_tag %>
- 
+<script type="text/javascript">
+	function submit_form(url, target) {
+		form = document.forms[0];
+		form.action = url;
+		form.target = target;
+		return form.submit();
+	}
+</script>

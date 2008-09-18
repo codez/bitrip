@@ -2,10 +2,19 @@ class RipController < ApplicationController
   
   def index
     @list = Rip.find :all, :order => 'name'
+    @rip = Rip.find params[:id] if params[:id]
   end
   
   def preview
     @rip = Rip.find params[:id]
+  end
+  
+  def preview_temp
+    @rip = Rip.new
+    build_from_form
+    puts @rip.inspect
+    puts @rip.bits.inspect
+    render_rip
   end
   
   def show
@@ -14,25 +23,23 @@ class RipController < ApplicationController
       raise ActiveRecord::RecordNotFound, "No rip named '#{params[:id]}' found"
     end
     
-    @output = Scrubator.new.ripit @rip, params
-    render :action => 'show', :layout => 'showrip'
+    render_rip
   end
   
   def edit
     @rip = Rip.find params[:id]
+    @form_action = 'update'
   end
 
   def update
     @rip = Rip.find params[:id]
-    @rip.attributes = params[:rip]
-    @rip.bits.clear
-    params[:bit_order].split(',').each do |index| 
-      @rip.bits.build(params[:bits][index]) 
-    end
+    build_from_form
     # TODO: should validate all first?
+    puts @rip.inspect
+    puts @rip.bits.inspect
     if @rip.save
       flash[:notice] = "#{@rip.name} bitRip was saved successfully"
-      redirect_to :action => 'index'
+      redirect_to :action => 'index', :id => @rip
     else
       render :action => 'edit'
     end  
@@ -43,11 +50,11 @@ class RipController < ApplicationController
   end
   
   def create
-    @rip = Rip.new params[:rip]
-    params[:bits].each_value { |bit| @rip.bits.build(bit) }
+    @rip = Rip.new 
+    build_from_form
     if @rip.save
       flash[:notice] = "#{@rip.name} bitRip was added successfully"
-      redirect_to :action => 'index'
+      redirect_to :action => 'index', :id => @rip
     else
       render :action => 'add'
     end  
@@ -55,5 +62,24 @@ class RipController < ApplicationController
   
   
 private
+
+  def render_rip
+    @output = Scrubator.new(@rip).ripit 
+    render :action => 'show', :layout => 'showrip'
+  end
+
+  def build_from_form       
+    @rip.attributes = params[:rip]
+    @rip.bits.clear
+    pos = 1
+    params[:bit_order].split(',').each do |index|
+      split_attrs = params[:bits][index]
+      if split_attrs
+        split_attrs[:position] = pos
+        @rip.bits.build(split_attrs)
+        pos += 1
+      end  
+    end
+  end
 
 end

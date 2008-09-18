@@ -9,7 +9,7 @@ BODY {
 BODY, P, DIV, TD  {
 	font-family: 	Courier New, monospace ;
 	font-size: 		10pt;
-	text-align: 	left;
+	text-align: 	justify;
 }
 
 H1  {
@@ -74,12 +74,12 @@ TD {
 }
 
 #content {
-    margin:        6px;
+    margin:        6pt;
 }
 
 .header {
 	margin-top: 	5pt;
-	border-top:		2px outset #aaaaaa;
+	border-top:		1px outset #aaaaaa;
 	border-bottom:	1px outset #aaaaaa;
 	background: 	#444444;
 	color: 			white;
@@ -88,17 +88,38 @@ TD {
 
 .riplist {
 	float: 			left;
-	margin-right:   6px;
+	margin-right:   6pt;
 }
 
-.preview {
-	width: 		300px;
-	height: 	450px;
-	padding: 	5pt;
-	border-right: 1px solid gray;
-	border-bottom: 1px solid gray;
+#preview {
+	width: 		200pt;
+	height: 	300pt;
+	border-left: 1px solid gray;
+	border-top: 1px solid gray;
+}
+
+#ripform {
+	float:			left;
+	margin-right: 	6pt;
+	margin-bottom:  6pt;
+}
+
+#rightform {
+	float:			left;
 }
 
 #addrip {
 	clear: 			both;
 }
+
+#bits {
+	padding-left:    0pt;
+}
+
+#bits li {
+	text-indent:	0pt;
+	margin-left:	0pt;
+	list-style:    none;
+}
+
+

@@ -1,6 +1,8 @@
 <% index ||= bit_counter -%>
-<% fields_for "bits[#{index}]", bit do |f| %>
-<table id="bit_<%= index %>">
+
+<li id="bit_<%= index %>" style="position: relative;">
+<% fields_for "bits[#{index}]", bit do |f| -%>
+<table>
   <tr>
   	<td>Label: </td>
 	<td><%= f.text_field :label, :size => '25' %></td>
@@ -20,5 +22,6 @@
 	</td>
   </tr>
 </table>
-<% end %>
+<% end -%>
 <hr/>
+</li>
