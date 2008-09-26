@@ -1,0 +1,17 @@
+
+<% fields_for "bits[#{index}]", bit do |f| -%>
+<table>
+  <tr>
+        <td>Type: </td>
+        <td><%= f.collection_select(NaviAction.TYPES, :to_s, :to_s) %></td>
+  </tr>
+  <tr>
+        <td colspan="2">
+        <%= link_to_remote 'remove', :url => { :controller => 'bit',  :action =>
+ 'remove_bit', :index => index } %>
+    <br/>
+        </td>
+  </tr>
+</table>
+<% end -%>
+<hr/>

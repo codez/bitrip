@@ -4,16 +4,7 @@ BODY {
 }
 
 BODY, P, DIV, TD  {
-	font-family : Courier New, monospace ;
-	font-size : 12pt;
-}
-
-H1  {
-	font-size : 15pt;
-}
-
-H2  {
-	font-size : 13pt;	
+	font-family : Courier New, monospace;
 }
 
 A  {
