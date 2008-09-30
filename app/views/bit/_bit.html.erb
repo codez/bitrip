@@ -1,6 +1,6 @@
 <% index ||= bit_counter -%>
 
-<li id="bit_<%= index %>" style="position: relative;">
+<li id="bit_<%= index %>">
 <% fields_for "bits[#{index}]", bit do |f| -%>
 <table>
   <tr>
@@ -17,7 +17,9 @@
   </tr>
   <tr>
   	<td colspan="2">
-	<%= link_to_remote 'remove', :url => { :controller => 'bit',  :action => 'remove_bit', :index => index } %>
+	<%= link_to_remote 'remove', :url => { :controller => :bit,  
+										   :action => :remove, 
+										   :index => index } %>
     <br/>
 	</td>
   </tr>

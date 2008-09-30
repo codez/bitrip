@@ -1,10 +1,10 @@
 class BitController < ApplicationController
   
-  def add_bit
+  def add
     @bit = Bit.new
   end
   
-  def remove_bit
+  def remove
   end
   
 end

@@ -1,5 +1,3 @@
-
-
 class Scrubator
   
   def initialize(rip)

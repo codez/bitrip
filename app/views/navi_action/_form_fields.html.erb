@@ -1,0 +1,7 @@
+<% count = 0 -%>
+<% for navi.form_fields do |field| -%>
+  <% fields_for "fields[#{index}][#{count}]", field do |f| -%>
+    <%= f.text_field :value, :size => '50'%>	 
+  <% end -%>
+  <% count += 1 -%>
+<% end -%>

@@ -12,8 +12,6 @@ class RipController < ApplicationController
   def preview_temp
     @rip = Rip.new
     build_from_form
-    puts @rip.inspect
-    puts @rip.bits.inspect
     render_rip
   end
   
@@ -35,8 +33,6 @@ class RipController < ApplicationController
     @rip = Rip.find params[:id]
     build_from_form
     # TODO: should validate all first?
-    puts @rip.inspect
-    puts @rip.bits.inspect
     if @rip.save
       flash[:notice] = "#{@rip.name} bitRip was saved successfully"
       redirect_to :action => 'index', :id => @rip
@@ -70,13 +66,14 @@ private
 
   def build_from_form       
     @rip.attributes = params[:rip]
+    
     @rip.bits.clear
     pos = 1
     params[:bit_order].split(',').each do |index|
-      split_attrs = params[:bits][index]
-      if split_attrs
-        split_attrs[:position] = pos
-        @rip.bits.build(split_attrs)
+      bit_attrs = params[:bits][index]
+      if bit_attrs
+        bit_attrs[:position] = pos
+        @rip.bits.build(bit_attrs)
         pos += 1
       end  
     end

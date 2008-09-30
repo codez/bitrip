@@ -18,6 +18,15 @@
 	</tr>
 	</table>
 	
+	<h2 class="header">Navigate</h2>
+	
+	<ul id="navis">
+	<%= render :partial => 'navi_action/navi', :collection => @rip.navi_actions %>
+	</ul>
+	
+	<%= render :partial => 'navi_action/remove_link', :locals => { :index => @rip.navi_actions.size } %>
+	<%= render :partial => 'navi_action/add_link', :locals => { :index => @rip.navi_actions.size } %>
+	
 	
 	<h2 class="header">Bits</h2>
 	
@@ -27,7 +36,7 @@
 	
 	<%= hidden_field_tag 'bit_order', bit_order %>
 	
-	<%= render :partial => 'bit/add_bit_link', :locals => { :index => @rip.bits.size } %>
+	<%= render :partial => 'bit/add_link', :locals => { :index => @rip.bits.size } %>
 	
 	<%= sortable_element "bits", 
 			:onUpdate => 'function(){$("bit_order").value = Sortable.sequence("bits");}', 

@@ -1,0 +1,29 @@
+<% index ||= navi_counter -%>
+
+<li id="navi_<%= index %>">
+	
+<% fields_for "navi[#{index}]", navi do |f| -%>
+<%= f.hidden_field :position %>
+
+Type: <%= f.collection_select :type,
+							  NaviAction.TYPES, 
+							  :to_s, 
+							  :camelize, 
+							  {:include_blank => true}  %>				  
+<br/>
+
+<%= observe_field "navi[#{index}][type]", 
+			      :url => { :controller => :navi_action, :action => :add_type_fields, :index => index },
+				  :with => "'type=' + value",
+				  :update => "navi_fields_#{index}"
+				  # TODO: check if not first selection, if start_url empty, ..
+ %>
+				  
+<div id="navi_fields_<%= index %>">
+	<%= render_type_partial navi, index %>	
+</div>
+
+<% end  # fields_for -%>
+
+<hr/>
+</li>
