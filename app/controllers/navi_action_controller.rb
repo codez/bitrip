@@ -12,10 +12,12 @@ class NaviActionController < ApplicationController
   end
 
   def add_type_fields
-    index = params[:index].to_i
-    navi = NaviAction.new :type => params[:type], :position => index + 1
+    index = params['index'].to_i
+    navi = NaviAction.new(:position => index + 1)
+    navi.type = params[:type].to_sym   # type is special, can't add to '.new' hash
     render_type_partial navi, index
   end
+  
   
   ## helper methods
   
@@ -23,7 +25,7 @@ class NaviActionController < ApplicationController
     if navi.type
       render :partial => type_partial(navi.type), 
              :locals => {:navi => navi, :index => index}
-    else          
+    else     
       render :text => ''
     end
   end
@@ -31,7 +33,7 @@ class NaviActionController < ApplicationController
 private
 
   def type_partial(type)
-    case type
+    case type.to_sym
       when :link then 'link'
       when :form then 'form_fields'
     end 

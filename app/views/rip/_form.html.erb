@@ -20,11 +20,11 @@
 	
 	<h2 class="header">Navigate</h2>
 	
-	<ul id="navis">
+	<div id="navis">
 	<%= render :partial => 'navi_action/navi', :collection => @rip.navi_actions %>
-	</ul>
+	</div>
 	
-	<%= render :partial => 'navi_action/remove_link', :locals => { :index => @rip.navi_actions.size } %>
+	<%= render :partial => 'navi_action/remove_link', :locals => { :index => @rip.navi_actions.size - 1 } %>
 	<%= render :partial => 'navi_action/add_link', :locals => { :index => @rip.navi_actions.size } %>
 	
 	
