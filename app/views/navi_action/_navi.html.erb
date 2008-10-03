@@ -3,26 +3,35 @@
 <div id="navi_<%= index %>">
 	
 <% fields_for "navi[#{index}]", navi do |f| -%>
-<%= f.hidden_field :position %>
+  <%= f.hidden_field :position %>
+  <% if navi.type %>
+	<%= f.hidden_field :type %>
+  <% else -%>
+	<div>	
+	Type <%= f.collection_select :type,
+								  NaviAction::TYPES, 
+								  :to_s, 
+								  :to_s, 
+								  {:include_blank => true}  %>		  							  				  
+	&nbsp; 
+	<span id="notify_<%= index %>"></span>
+	
+	<%= observe_field "navi_#{index}_type", 
+					  # TODO: confirm, check if not first selection, if start_url empty, ..
+				      :url => { :controller => :navi_action, :action => :add_type_fields, :index => index },
+					  :with => "Form.serialize('ripform')",  #"'type=' + value",
+					  :update => "navi_fields_#{index}",
+					  :after => "$('notify_#{index}').update('loading elements ...')",
+					  :loaded => "$('notify_#{index}').update('')" %>
+	</div>
+	<br/>
+  <% end  # if navi.type -%>
 
-Type: <%= f.collection_select :type,
-							  NaviAction::TYPES, 
-							  :to_s, 
-							  :to_s, 
-							  {:include_blank => true}  %>				  
-<br/>
+<% end  # fields_for -%>
 
-<%= observe_field "navi_#{index}_type", 
-				  # TODO: check if not first selection, if start_url empty, ..
-			      :url => { :controller => :navi_action, :action => :add_type_fields, :index => index },
-				  :with => "'type=' + value",
-				  :update => "navi_fields_#{index}" %>
-				  
 <div id="navi_fields_<%= index %>">
 	<%= render_type_partial navi, index %>	
 </div>
-
-<% end  # fields_for -%>
 
 <hr/>
 </div>

@@ -5,15 +5,15 @@
 <div id="ripform">
 	<table id="rip">
 	<tr>
-	  <td>Name: </td>
+	  <td>Name </td>
 	  <td><%= text_field 'rip', 'name',  :size => '25' %></td>
 	</tr>
 	<tr>
-	  <td>Description: </td>
+	  <td>Title </td>
 	  <td><%= text_field 'rip', 'description',  :size => '50' %></td>
 	</tr>
 	<tr>
-	  <td>Start Page: </td>
+	  <td>Start Page </td>
 	  <td><%= text_field 'rip', 'start_page', :size => '50' %></td>
 	</tr>
 	</table>
@@ -24,9 +24,10 @@
 	<%= render :partial => 'navi_action/navi', :collection => @rip.navi_actions %>
 	</div>
 	
+	<div>
 	<%= render :partial => 'navi_action/remove_link', :locals => { :index => @rip.navi_actions.size - 1 } %>
 	<%= render :partial => 'navi_action/add_link', :locals => { :index => @rip.navi_actions.size } %>
-	
+	</div>
 	
 	<h2 class="header">Bits</h2>
 	
@@ -52,14 +53,13 @@
 	<%= render :partial => 'iframe' %>
 </div>
 
-
-<% end -%>
+<% end  # form -%>
 
 <script type="text/javascript">
-	function submit_form(url, target) {
-		form = document.forms[0];
-		form.action = url;
-		form.target = target;
-		return form.submit();
-	}
+function submit_form(url, target) {
+	form = document.forms[0];
+	form.action = url;
+	form.target = target;
+	return form.submit();
+}
 </script>

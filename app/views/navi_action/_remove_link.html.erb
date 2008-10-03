@@ -1,9 +1,8 @@
-<div id="remove_navi_link">
-	
+<span id="remove_navi_link">
 <%= if index >= 0
 	link_to_remote 'remove', :url => { :controller => :navi_action, 
 									   :action => :remove, 
 									   :index => index } 
 	end
 %>
-</div>
+</span>

@@ -51,7 +51,12 @@ INPUT {
 
 TD {
 	padding: 0px;
+	padding-left: 5px;
     margin: 0px;
+}
+
+HR {
+	margin-left: 5px;
 }
 
 #canvas {
