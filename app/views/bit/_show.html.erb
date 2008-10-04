@@ -1,0 +1,16 @@
+<p>
+<%= show.label unless show.label.nil? || show.label.empty? %>
+<b>
+<% if show.snippets.empty? -%>
+	not found
+<% elsif show.snippets.size == 1 -%>
+	<%= show.snippets.first %>
+<% else -%>
+	<ul>
+	<% show.snippets.each do |snip| -%>
+	<li><%= snip %></li>
+	<% end -%>
+	</ul>
+<% end -%>
+</b>
+</p>

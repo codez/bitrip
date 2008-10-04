@@ -24,6 +24,7 @@ ActiveRecord::Schema.define(:version => 2) do
     t.string  "name",                              :null => false
     t.string  "value"
     t.integer "navi_action_id",                    :null => false
+    t.string  "options"
     t.boolean "required",       :default => false
     t.boolean "constant",       :default => false
   end

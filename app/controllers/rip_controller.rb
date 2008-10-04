@@ -44,6 +44,7 @@ class RipController < ApplicationController
   
   def add
     @rip = Rip.new
+    @rip.bits.build :xpath => '/'
   end
   
   def create
@@ -66,7 +67,7 @@ class RipController < ApplicationController
 private
 
   def render_rip
-    @output = Scrubator.new(@rip).ripit 
+    Scrubator.new(@rip).ripit 
     render :action => 'show', :layout => 'showrip'
   end
   

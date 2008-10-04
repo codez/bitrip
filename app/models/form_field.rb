@@ -25,6 +25,19 @@ class FormField < ActiveRecord::Base
     value.to_sym if value
   end  
   
+  def options_arr
+    options ? options.split('<,>') : []
+  end
+  
+  def add_option(value)
+    opts = self.options_arr + [value ? value : ' ']
+    self.options = opts.join('<,>')
+  end
+  
+  def same?(other)
+    self.name == other.name && self.type == other.type
+  end
+  
   def control
     case type
       when :text then :text_field

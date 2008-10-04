@@ -18,8 +18,8 @@ module ApplicationHelper
                   :index => index },
         :with => "Form.serialize('ripform')",  
         :update => "navi_fields_#{index}",
-        :after => "$('notify_#{index}').update('loading elements ...')",
-        :loaded => "$('notify_#{index}').update('')"
+        :after => "$('type_#{index}').update('loading elements ...')",
+        :loaded => "$('type_#{index}').update('<input type=\"hidden\" name=\"navi[#{index}][type]\" value=\"#{type}\" />')"
   end
  
 private  

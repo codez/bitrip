@@ -55,6 +55,10 @@ TD {
     margin: 0px;
 }
 
+TR {
+	vertical-align: top;
+}
+
 HR {
 	margin-left: 5px;
 }
@@ -81,6 +85,11 @@ HR {
 #content {
     margin:        6pt;
 	margin-top:    0pt;
+}
+
+#notice {
+    margin-bottom: 10px;
+	color: 		   #aa0000;
 }
 
 .header {

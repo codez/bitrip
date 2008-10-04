@@ -6,8 +6,6 @@ class Bit < ActiveRecord::Base
   validates_presence_of :xpath
   validates_uniqueness_of :position, :scope => :rip_id
   
-  def xpath
-    value = read_attribute 'xpath'
-    value.empty? ? '/' : value 
-  end
+  attr_accessor :snippets
+  
 end

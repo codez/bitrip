@@ -7,12 +7,11 @@
   <% if navi.type %>
 	<%= f.hidden_field :type %>
   <% else -%>
-	<div class="indent">
+	<div id="type_<%= index %>" class="indent">
 	Type
 	<%= f.radio_button :type, :form %>Form  	
-	<%= f.radio_button :type, :link %>Link					  				  
-	&nbsp; 
-	<span id="notify_<%= index %>"></span>
+	<%= f.radio_button :type, :link %>Link	
+	
 	<%= observe_type_field :form, index %>
 	<%= observe_type_field :link, index %>
 	</div>

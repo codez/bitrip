@@ -2,7 +2,7 @@
 
 <h1><%= @rip.description %></h1>
 
-<%= @output %>
+<%= render :partial => 'bit/show', :collection => @rip.bits %>
 
 <% if @rip.has_fields? && 
 	  request.env["HTTP_REFERER"].include?(request.env["SERVER_NAME"]) -%>

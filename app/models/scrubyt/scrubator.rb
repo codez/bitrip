@@ -9,10 +9,10 @@ class Scrubator
   # input rip, output html fragment
   def ripit
     snippets = scrubyt.to_hash
-    base_url = extract_base_url(Scrubyt::FetchAction.get_current_doc_url)
-    fix_href_urls!(snippets, base_url)
+    host_url, base_url = extract_base_url(Scrubyt::FetchAction.get_current_doc_url)
+    fix_href_urls!(snippets, host_url, base_url)
    
-    generate_html(snippets)
+    assign_snippets(snippets)
   #rescue Exception => ex
   #  ex.message
   end
@@ -35,8 +35,15 @@ class Scrubator
       if FormField::TYPES.include? type
         field = FormField.new :name => f[:name]
         field.type = type
-        # TODO: extract possible values for select
-        form_fields.push field
+        # extract possible values for radio
+        if existing = form_fields.detect{ |e| field.same? e }
+          if existing.type == :radio && type == :radio
+            existing.add_option f[:value]
+          end
+        else
+          field.add_option f[:value] if type == :radio
+          form_fields.push field
+        end
       end  
     end
     form_fields
@@ -73,6 +80,7 @@ class Scrubator
       
       inputs '//input' do
         name '//@name'
+        value '//@value'
         field_type '//@type'
       end
       
@@ -90,7 +98,7 @@ class Scrubator
   
   def navigate_to_dest(extractor)
     extractor.fetch rip.start_page
-      
+    puts rip.navi_actions.inspect
     rip.navi_actions.each do |navi|
       case navi.type
         when :form then
@@ -106,7 +114,7 @@ class Scrubator
               when :checkbox then
                 extractor.check_checkbox field.name if field.value
               when :radio then
-                handle_field extractor, :check_radiobutton, field
+                handle_radio extractor, field
             end
           rescue RuntimeError => ex
             #TODO: raise meaningful exception
@@ -121,30 +129,28 @@ class Scrubator
   end
   
   def handle_field(extractor, method, field)
-    unless field.value.nil? || field.value.empty?
+    unless field.value.nil? || (field.kind_of?(String) && field.value.empty?)
+      #puts "send #{method} with #{field.name}=#{field.value}"
       extractor.send method, field.name, field.value
     end  
   end
   
-  def generate_html(snippets)
-    puts snippets.inspect
-    html = ''
-    @rip.bits.each do |bit|
-      html += "<p>\n"
-      html += bit.label + ' ' unless bit.label.nil? || bit.label.empty?
-      html += '<b>'
-      
-      snips = snippets.select { |s| s[:bit] == bit.position.to_s }
-      snips.collect!{ |s| s[:html] }
-      html += snips.empty? ? 'not found' : snips.join('<br/>')
-      html += "</b>\n</p>\n"
-    end
-    html
+  def handle_radio(extractor, field)
+    field.value = field.options_arr.index(field.value) if field.value
+    handle_field extractor, :check_radiobutton, field
   end
   
-  def fix_href_urls!(snippets, base_url)
+  def assign_snippets(snippets)
+    @rip.bits.each do |bit|
+      snips = snippets.select { |s| s[:bit] == bit.position.to_s }
+      bit.snippets = snips.collect{ |s| s[:html] }
+    end
+  end
+  
+  def fix_href_urls!(snippets, host_url, base_url)
     snippets.each do |snip|
-      snip[:html].gsub!(/ (href|src)\=\"([^:]+)\"/i, " \\1=\"#{base_url}\\2\"")
+      snip[:html].gsub!(/ (href|src)\=\"([^\/][^:]+)\"/i, " \\1=\"#{base_url}\\2\"")
+      snip[:html].gsub!(/ (href|src)\=\"(\/[^:]+)\"/i, " \\1=\"#{host_url}\\2\"")
     end
   end
 
@@ -152,12 +158,16 @@ class Scrubator
     protocol_slash = doc_url.index('//')
     last_slash = doc_url.rindex('/')
     if last_slash.nil? || last_slash == protocol_slash + 1
+      host_url = doc_url
       base_url = doc_url 
     else
+      root_slash = doc_url.index('/', protocol_slash + 2)
+      host_url = doc_url[0, root_slash]
       base_url = doc_url[0, last_slash]
     end
+    host_url = host_url[0..-2] if host_url[-1] == $/
     base_url += '/' if base_url[-1] != $/
-    base_url
+    [host_url, base_url]
   end
 
 private

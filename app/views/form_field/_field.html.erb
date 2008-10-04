@@ -4,9 +4,18 @@
 	<%= field.name %> 
 	<%= f.hidden_field :name %>
 	<%= f.hidden_field :type %>
+	<%= f.hidden_field :options %>
 	</td>
 	<% # TODO: appropriate control for field.type -%>
-	<td><%= f.text_field :value, :size => '30' %> </td>
+	<td>
+	<% if field.type == :radio %>
+		<% field.options_arr.each do |opt| -%>
+		<%= f.radio_button :value, opt %><%= opt %><br/>
+		<% end -%>
+	<% else -%>
+	    <%= f.text_field :value, :size => '30' %> 
+	<% end -%>
+	</td>
 	<td>*<%= f.check_box :required  %></td>
 	<td>C<%= f.check_box :constant  %></td>
 </tr>    
