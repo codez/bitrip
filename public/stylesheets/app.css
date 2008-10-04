@@ -80,6 +80,7 @@ HR {
 
 #content {
     margin:        6pt;
+	margin-top:    0pt;
 }
 
 .header {
@@ -94,6 +95,15 @@ HR {
 .riplist {
 	float: 			left;
 	margin-right:   6pt;
+}
+
+.right {
+	text-align: right;
+	width:      100%;
+}
+
+.indent {
+	padding-left:   5px;
 }
 
 #preview {
@@ -115,6 +125,7 @@ HR {
 
 #addrip {
 	clear: 			both;
+	margin-top:		15pt;
 }
 
 #bits {
@@ -126,5 +137,6 @@ HR {
 	margin-left:	0pt;
 	list-style:    none;
 }
+
 
 

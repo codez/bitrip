@@ -16,8 +16,13 @@
 	<div class="header">
 		<%= link_to '&lt;bitRip&gt;', { :controller => 'rip', :action => 'index' }, { :id => 'title' } %>
 	</div>
-	
 	<div id="content">
+<% unless controller.action_name == 'index' -%>
+	<div class="right">
+		<%= link_to '[&lt;--]', :action => :index, :id => @rip %>
+	</div>
+<% end -%>
+
 	<h1><%= @title %></h1>
 	
 	<% if flash.has_key?(:notice) -%>

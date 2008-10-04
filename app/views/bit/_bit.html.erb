@@ -6,21 +6,20 @@
   <tr>
   	<td>Label: </td>
 	<td><%= f.text_field :label, :size => '25' %></td>
+	<td></td>
   </tr>
   <tr>
   	<td>XPath: </td>
 	<td><%= f.text_field :xpath, :size => '50' %></td>
+	<td></td>
   </tr>
   <tr>
   	<td>Generalize: </td>
 	<td><%= f.check_box :generalize %></td>
-  </tr>
-  <tr>
-  	<td colspan="2">
-	<%= link_to_remote 'remove', :url => { :controller => :bit,  
-										   :action => :remove, 
-										   :index => index } %>
-    <br/>
+	<td class="right">
+	<%= link_to_remote '[-]', :url => { :controller => :bit,  
+									   :action => :remove, 
+									   :index => index } %>
 	</td>
   </tr>
 </table>

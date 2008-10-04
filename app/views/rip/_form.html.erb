@@ -24,10 +24,10 @@
 	<%= render :partial => 'navi_action/navi', :collection => @rip.navi_actions %>
 	</div>
 	
-	<div>
-	<%= render :partial => 'navi_action/remove_link', :locals => { :index => @rip.navi_actions.size - 1 } %>
+	<table><tr>
 	<%= render :partial => 'navi_action/add_link', :locals => { :index => @rip.navi_actions.size } %>
-	</div>
+	<%= render :partial => 'navi_action/remove_link', :locals => { :index => @rip.navi_actions.size - 1 } %>
+	</tr></table>
 	
 	<h2 class="header">Bits</h2>
 	
@@ -47,6 +47,7 @@
 
 <div id="rightform">
 	<%= submit_to_target 'Preview', {:action => 'preview_temp'}, 'preview' %>
+	<input type="reset" />
 	<%= submit_to_target 'Save', action, '_self' %>
 	<br/>
 	<br/>

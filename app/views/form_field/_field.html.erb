@@ -1,0 +1,13 @@
+<% fields_for("fields[#{index}][#{field_counter}]", field) do |f| -%>
+<tr>
+	<td>
+	<%= field.name %> 
+	<%= f.hidden_field :name %>
+	<%= f.hidden_field :type %>
+	</td>
+	<% # TODO: appropriate control for field.type -%>
+	<td><%= f.text_field :value, :size => '30' %> </td>
+	<td>*<%= f.check_box :required  %></td>
+	<td>C<%= f.check_box :constant  %></td>
+</tr>    
+<% end -%>

@@ -21,7 +21,8 @@ class RipController < ApplicationController
       raise ActiveRecord::RecordNotFound, "No rip named '#{params[:id]}' found"
     end
     
-    render_rip
+    fill_params
+    @rip.all_required_set? ? render_rip : query
   end
   
   def edit
@@ -56,12 +57,25 @@ class RipController < ApplicationController
     end  
   end
   
+  def query
+    @rip ||= Rip.find params[:id]
+    render :action => 'query', :layout => 'showrip'
+  end
+  
   
 private
 
   def render_rip
     @output = Scrubator.new(@rip).ripit 
     render :action => 'show', :layout => 'showrip'
+  end
+  
+  def fill_params
+    @rip.navi_actions.each do |navi|
+      navi.form_fields.each do |field|
+        field.value = params[field.name] if params[field.name]
+      end
+    end
   end
 
 end

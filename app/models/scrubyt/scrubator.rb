@@ -31,6 +31,7 @@ class Scrubator
     form_fields = []
     fields.each do |f|
       type = f[:field_type].downcase.to_sym
+      type = :text if type.nil?
       if FormField::TYPES.include? type
         field = FormField.new :name => f[:name]
         field.type = type
@@ -93,20 +94,19 @@ class Scrubator
     rip.navi_actions.each do |navi|
       case navi.type
         when :form then
-          puts navi.form_fields.inspect
           navi.form_fields.each do |field|
           begin  
             case field.type
               when :text, :password, :hidden then 
-                extractor.fill_textfield field.name, field.value
+                handle_field extractor, :fill_textfield, field
               when :textarea then
-                extractor.fill_textarea field.name, field.value
+                handle_field extractor, :fill_textarea, field
               when :select then
-                extractor.select_option field.name, field.value
+                handle_field extractor, :select_option, field
               when :checkbox then
                 extractor.check_checkbox field.name if field.value
               when :radio then
-                extractor.check_radiobutton field.name, field.value
+                handle_field extractor, :check_radiobutton, field
             end
           rescue RuntimeError => ex
             #TODO: raise meaningful exception
@@ -120,7 +120,14 @@ class Scrubator
     end 
   end
   
+  def handle_field(extractor, method, field)
+    unless field.value.nil? || field.value.empty?
+      extractor.send method, field.name, field.value
+    end  
+  end
+  
   def generate_html(snippets)
+    puts snippets.inspect
     html = ''
     @rip.bits.each do |bit|
       html += "<p>\n"

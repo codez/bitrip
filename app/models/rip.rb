@@ -4,15 +4,24 @@ class Rip < ActiveRecord::Base
   has_many :bits, :order => 'position', :dependent => :destroy
   
   validates_uniqueness_of :name
-  validates_format_of :start_page, :with => /^https?:\/\/.+/
+  validates_exclusion_of :name, :in => ['rip', 'bit', 'navi_action', 'form_field']
+  validates_format_of :start_page, :with => /^https?:\/\/.+/, :message => 'Please enter a HTTP address'
   
  
   def bit_order
     (0..(bits.size - 1)).to_a
   end
   
-  def requires_input?
-    navi_actions.any? { |navi| navi.requires_input? }
+  def all_required_set?
+    navi_actions.all? { |navi| navi.all_required_set? }
+  end
+  
+  def has_fields?
+    navi_actions.any? { |navi| navi.type == :form }
+  end
+  
+  def page_info
+    start_page.size > 40 ? start_page[0..40] + '...' : start_page
   end
   
   def build_from(params)

@@ -1,0 +1,8 @@
+<tr>
+	<td><%= query.name %></td>
+	<td>
+		<% # TODO: show appropriate input field %>
+		<%= text_field_tag query.name, query.value, :size => 30 %>
+		<%= '*' if query.required %>
+	</td>
+</tr>

@@ -7,22 +7,14 @@
   <% if navi.type %>
 	<%= f.hidden_field :type %>
   <% else -%>
-	<div>	
-	Type <%= f.collection_select :type,
-								  NaviAction::TYPES, 
-								  :to_s, 
-								  :to_s, 
-								  {:include_blank => true}  %>		  							  				  
+	<div class="indent">
+	Type
+	<%= f.radio_button :type, :form %>Form  	
+	<%= f.radio_button :type, :link %>Link					  				  
 	&nbsp; 
 	<span id="notify_<%= index %>"></span>
-	
-	<%= observe_field "navi_#{index}_type", 
-					  # TODO: confirm, check if not first selection, if start_url empty, ..
-				      :url => { :controller => :navi_action, :action => :add_type_fields, :index => index },
-					  :with => "Form.serialize('ripform')",  #"'type=' + value",
-					  :update => "navi_fields_#{index}",
-					  :after => "$('notify_#{index}').update('loading elements ...')",
-					  :loaded => "$('notify_#{index}').update('')" %>
+	<%= observe_type_field :form, index %>
+	<%= observe_type_field :link, index %>
 	</div>
 	<br/>
   <% end  # if navi.type -%>

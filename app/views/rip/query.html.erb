@@ -1,0 +1,18 @@
+<% @title = @rip.name %>
+
+<h1><%= @rip.description %></h1>
+
+<div>Please enter the following parameters:</div>
+<br/>
+<% form_tag({:action => :show, :id => @rip.name}, {:method => :get}) do -%>
+<table>
+<%= render :partial => 'navi_action/query', :collection => @rip.navi_actions %>
+<tr>
+	<td></td>
+	<td>
+		<input type="submit">
+		<input type="reset"/>
+	</td>
+</tr>
+</table>
+<% end %>

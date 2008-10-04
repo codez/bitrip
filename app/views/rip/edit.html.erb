@@ -1,6 +1,3 @@
-<% 
-@title = "edit #{@rip.name} bitRip" 
--%>
-
-            
+<% @title = "edit #{@rip.name}" -%>
+        
 <%= render :partial => 'form', :locals => { :action => {:action => 'update', :id => @rip} }%>

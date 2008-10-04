@@ -4,6 +4,8 @@ class FormField < ActiveRecord::Base
   
   self.inheritance_column = nil
   
+  belongs_to :navi_action
+  
   validates_inclusion_of :type, :in => TYPES
   validates_presence_of :name
   

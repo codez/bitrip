@@ -4,6 +4,7 @@ class NaviAction < ActiveRecord::Base
 
   self.inheritance_column = nil
   
+  belongs_to :rip
   has_many :form_fields, :dependent => :destroy
   
   validates_presence_of :type
@@ -21,8 +22,8 @@ class NaviAction < ActiveRecord::Base
     write_attribute 'type', value
   end
   
-  def requires_input?
-    form_fields.any? { |field| not field.constant }
+  def all_required_set?
+    form_fields.all? { |field| !field.required || (field.value && !field.value.empty?) }
   end
   
 end

@@ -1,7 +1,11 @@
 <div id="ripinfo">
 <% if @rip -%>	
-	<h3><%= link_to @rip.name, :action => 'edit', :id => @rip %></h3>
-	(<%= @rip.start_page %>)<br/>
-	direct link: <%= link_to "#{url_for :controller => @rip.name, :only_path => false}", :only_path => false, :controller => @rip.name %><br/>
+	<h3><%= @rip.name%> <%= link_to "[edit]", :action => :edit, :id => @rip %></h3>
+	
+	(<%= @rip.page_info %>)
+	<br/>
+	direct link: <%= link_to "#{url_for :controller => @rip.name, :only_path => false}", :only_path => false, :controller => @rip.name %>
+	<%= link_to("[change params]", {:action => :query, :id => @rip}, :target => 'preview' ) if @rip.has_fields? %>
+	<br/>
 <% end -%>
 </div>

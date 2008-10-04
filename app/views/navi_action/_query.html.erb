@@ -1,0 +1,8 @@
+<% if not query.form_fields.empty? -%>
+	<% if query.rip.navi_actions.select{ |navi| navi.type == :form }.size > 1 -%>
+	<tr>
+		<td colspan="2">Form #<%= query.position %>:</td>
+	</tr>
+	<% end -%>
+	<%= render :partial => 'form_field/query', :collection => query.form_fields %>
+<% end -%>

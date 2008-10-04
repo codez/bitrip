@@ -10,6 +10,17 @@ module ApplicationHelper
       render :text => ''
     end
   end
+  
+  def observe_type_field(type, index)
+    observe_field "navi_#{index}_type_#{type}", 
+        :url => { :controller => :navi_action, 
+                  :action => :add_type_fields, 
+                  :index => index },
+        :with => "Form.serialize('ripform')",  
+        :update => "navi_fields_#{index}",
+        :after => "$('notify_#{index}').update('loading elements ...')",
+        :loaded => "$('notify_#{index}').update('')"
+  end
  
 private  
   
