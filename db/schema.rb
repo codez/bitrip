@@ -29,6 +29,11 @@ ActiveRecord::Schema.define(:version => 2) do
     t.boolean "constant",       :default => false
   end
 
+  create_table "messages", :force => true do |t|
+    t.string "key",     :null => false
+    t.text   "content"
+  end
+
   create_table "navi_actions", :force => true do |t|
     t.string  "type"
     t.integer "rip_id",    :null => false
@@ -37,9 +42,13 @@ ActiveRecord::Schema.define(:version => 2) do
   end
 
   create_table "rips", :force => true do |t|
-    t.string "name",        :null => false
-    t.text   "description"
-    t.string "start_page",  :null => false
+    t.string  "name",        :null => false
+    t.text    "description"
+    t.string  "start_page",  :null => false
+    t.integer "parent_id"
+    t.boolean "current"
+    t.integer "revision"
+    t.date    "created_at"
   end
 
 end

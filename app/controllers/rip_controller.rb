@@ -2,7 +2,7 @@ class RipController < ApplicationController
   
   def index
     @list = Rip.find :all, :order => 'name'
-    @rip = Rip.find params[:id] if params[:id]
+    @rip = Rip.find params[:id].to_i if params[:id].to_i > 0
   end
   
   def preview
@@ -18,6 +18,7 @@ class RipController < ApplicationController
   def show
     @rip = Rip.find_by_name params[:id]
     if @rip.nil?
+      return redirect_to :action => :index if params[:id] == controller_name
       raise ActiveRecord::RecordNotFound, "No rip named '#{params[:id]}' found"
     end
     

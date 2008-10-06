@@ -4,10 +4,10 @@
 
 <%= render :partial => 'bit/show', :collection => @rip.bits %>
 
-<% if @rip.has_fields? && 
+<% if request.env["QUERY_STRING"] && 
 	  request.env["HTTP_REFERER"].include?(request.env["SERVER_NAME"]) -%>
-<div class="small">
-direct link
-<a href="<%= request.env['REQUEST_URI'] %>"><%= request.env['REQUEST_URI'] %></a>
-</div>
+	<div class="small">
+	direct link
+	<a href="<%= request.env['REQUEST_URI'] %>"><%= request.env['REQUEST_URI'] %></a>
+	</div>
 <% end -%>
