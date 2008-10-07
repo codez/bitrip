@@ -31,7 +31,7 @@ class ApplicationController < ActionController::Base
       else
         render(:file => "#{RAILS_ROOT}/public/500.html",
                :status => "500 Error")
-        #SystemNotifier.deliver_exception_notification(self, request, exception)
+        SystemNotifier.deliver_exception_notification(self, request, exception)
     end                    
   end
 end

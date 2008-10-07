@@ -1,9 +1,5 @@
 index = params[:index].to_i
 
-if index > 0
-  page.show "navi_#{index - 1}_type"
-end 
-
 page["navi_#{index}"].remove 
 
 page.replace :add_navi_link, :partial => 'add_link', :locals => { :index => index }

@@ -1,9 +1,5 @@
 index = params[:index].to_i
 
-if index > 0
-  page.hide "navi_#{index - 1}_type"
-end 
-
 page.insert_html :bottom, :navis, :partial => 'navi',
                  :locals => { :navi => @navi_action, :index => params[:index] }
  
