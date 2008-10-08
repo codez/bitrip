@@ -47,8 +47,9 @@ Rails::Initializer.run do |config|
   # If you change this key, all old sessions will become invalid!
   # Make sure the secret is at least 30 characters and all random, 
   # no regular words or you'll be exposed to dictionary attacks.
+  config.action_controller.session_store = :mem_cache_store
   config.action_controller.session = {
-    :session_key => '_test_session',
+    :session_key => '_bitrip_session',
     :secret      => '55073ffedcae5eb0a7654d771c2dd106b35dfb55cb7876be923744ed5d9205bd27c53fd1347a897922594121ab0c082debbcff208e2898e88122734232c4f0f3'
   }
 
@@ -66,7 +67,12 @@ Rails::Initializer.run do |config|
   # config.active_record.observers = :cacher, :garbage_collector
 end
 
+ActionMailer::Base.delivery_method = :sendmail
+
+require 'memcache_settings'
+
 unless ENV['RAILS_ENV'] == 'test'
   gem "RubyInline", "= 3.6.3"
   require 'scrubyt'
 end
+

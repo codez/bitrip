@@ -21,6 +21,12 @@ module ApplicationHelper
         :after => "$('type_#{index}').update('loading elements ...')",
         :loaded => "$('type_#{index}').update('<input type=\"hidden\" name=\"navi[#{index}][type]\" value=\"#{type}\" />')"
   end
+  
+  def t(message_key)
+    message = Message.find :first, :conditions => ['key = ?', message_key]
+    text = message ? message.content : message_key
+    "<a class=\"help\">[?]<span>#{h text}</span></a>"
+  end
  
 private  
   

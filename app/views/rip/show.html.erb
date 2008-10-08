@@ -1,13 +1,13 @@
 <% @title = @rip.name %>
 
-<h1><%= @rip.description %></h1>
+<h1><%= h @rip.description %></h1>
 
 <%= render :partial => 'bit/show', :collection => @rip.bits %>
 
-<% if request.env["QUERY_STRING"] && 
-	  request.env["HTTP_REFERER"].include?(request.env["SERVER_NAME"]) -%>
+<% if params_submitted? -%>
 	<div class="small">
 	direct link
 	<a href="<%= request.env['REQUEST_URI'] %>"><%= request.env['REQUEST_URI'] %></a>
 	</div>
 <% end -%>
+

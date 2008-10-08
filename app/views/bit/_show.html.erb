@@ -1,5 +1,5 @@
 <p>
-<%= show.label unless show.label.nil? || show.label.empty? %>
+<%= h show.label unless show.label.nil? || show.label.empty? %>
 <b>
 <% if show.snippets.empty? -%>
 	not found
