@@ -13,8 +13,8 @@ class Scrubator
     fix_href_urls!(snippets, host_url, base_url)
    
     assign_snippets(snippets)
-  #rescue Exception => ex
-  #  ex.message
+  rescue Exception => ex
+    ex.message
   end
  
   def extract_links
@@ -144,7 +144,6 @@ class Scrubator
     @rip.bits.each do |bit|
       snips = snippets.select { |s| s[:bit] == bit.position.to_s }
       bit.snippets = snips.collect{ |s| s[:html] }
-      puts bit.snippets.inspect
     end
   end
   

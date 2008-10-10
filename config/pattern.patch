@@ -1,0 +1,13 @@
+246a247
+> if filter_results.is_a? Array
+252a254,259
+> else
+> 	# pz: added if filter_results is String
+> 	result = filter_results
+> 	all_filter_results << result if all_filter_results.index(result).nil?
+> 	(indices_mapping[result] ||= []) << filter_index
+> end
+254c261
+< 
+---
+>       
