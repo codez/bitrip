@@ -30,3 +30,7 @@ INPUT
 .small {
 	font-size: small;
 }
+
+.plain {
+	margin: 4pt;
+}

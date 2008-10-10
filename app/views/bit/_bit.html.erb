@@ -5,26 +5,27 @@
 <table>
   <tr>
   	<td>Label: </td>
-	<td colspan="2"><%= f.text_field :label, :size => '25' %></td>
-	<td class="help"><%= t 'bit_label' %></td>
+	<td><%= f.text_field :label, :size => '25' %></td>
+	<td><%= t 'bit_label' %></td>
   </tr>
   <tr>
   	<td>XPath: </td>
-	<td colspan="2"><%= f.text_field :xpath, :size => '50' %></td>
-	<td class="help"><%= t 'bit_xpath' %></td>
+	<td><%= f.text_field :xpath, :size => '50' %></td>
+	<td><%= t 'bit_xpath' %></td>
   </tr>
   <tr>
   	<td>Generalize: </td>
-	<td>
-		<span style="float: left;"><%= f.check_box :generalize %></span>
-	 	<span class="help"><%= t 'bit_generalize' %></span>
-	</td>
-	<td> </td>
-	<td class="right">
-	<%= link_to_remote '[-]', :url => { :controller => :bit,  
-									   :action => :remove, 
-									   :index => index } %>
-	</td>
+	<td><%= f.check_box :generalize %></td>
+	<td><%= t 'bit_generalize' %></td>
+  </tr>
+  <tr>
+  	<td colspan="3">
+	<%= link_to_remote '[-] <span>Remove this bit</span>', 
+					   :url => { :controller => :bit,  
+							     :action => :remove, 
+							     :index => index }, 
+				       :html => { :class => 'help' } %>
+  	</td>
   </tr>
 </table>
 <% end -%>

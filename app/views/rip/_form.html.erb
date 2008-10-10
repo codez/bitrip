@@ -7,17 +7,17 @@
 	<tr>
 	  <td>Name </td>
 	  <td><%= text_field 'rip', 'name',  :size => '25' %></td>
-	  <td class="help"><%= t 'rip_name' %></td>
+	  <td><%= t 'rip_name' %></td>
 	</tr>
 	<tr>
 	  <td>Title </td>
 	  <td><%= text_field 'rip', 'description',  :size => '50' %></td>
-	  <td class="help"><%= t 'rip_title' %></td>
+	  <td><%= t 'rip_title' %></td>
 	</tr>
 	<tr>
 	  <td>Start Page </td>
 	  <td><%= text_field 'rip', 'start_page', :size => '50' %></td>
-	  <td class="help"><%= t 'rip_start_page' %></td>
+	  <td><%= t 'rip_start_page' %></td>
 	</tr>
 	</table>
 	
@@ -27,7 +27,7 @@
 	<%= render :partial => 'navi_action/navi', :collection => @rip.navi_actions %>
 	</div>
 	
-	<table><tr>
+	<table width="100%"><tr>
 	<%= render :partial => 'navi_action/add_link', :locals => { :index => @rip.navi_actions.size } %>
 	<%= render :partial => 'navi_action/remove_link', :locals => { :index => @rip.navi_actions.size - 1 } %>
 	</tr></table>

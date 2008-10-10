@@ -1,6 +1,6 @@
 BODY {
-    background-color: white;
-    color: 			black;
+    background:     black url('../images/bitleaves.gif') repeat-x;
+    color: 			white;
     padding:        0px;
     margin:         0px;
     text-align:     center;   /* centered content in IE */
@@ -14,6 +14,7 @@ BODY, P, DIV, TD  {
 
 H1  {
 	font-size : 15pt;
+	color: 	    #00cc00;
 }
 
 H2  {
@@ -29,15 +30,15 @@ H3  {
 A  {
 	text-decoration: none;
 	font-weight: 	 bold;
-	color: 			 #505050;
+	color: 			 #00cc00;
 }
 
 A:hover  {
-	color: 	#88CCFF;
+	color: 	#33FF33;
 }
 
 A:visited {
-	color : #666666;
+	/*color : #666666;*/
 }
 
 A IMG {
@@ -61,25 +62,36 @@ TR {
 
 HR {
 	margin-left: 5px;
+	color: #00DD00;
+	background-color: #00DD00;
 }
 
 #canvas {
 	display: 		table;
 	margin:         auto;
     padding:        0px 0px 0px 0px;
-	background: 	#dddddd;
-	border-left:	1px solid #aaaaaa;
-	border-right:	1px solid #aaaaaa;
-	border-bottom:	1px solid #aaaaaa;
+	background: 	black;
+	border-left:	1px solid #004400;
+	border-right:	1px solid #004400;
+	border-bottom:	1px solid #004400;
 }
 
 #title  {
 	font-size : 	30pt;
-	color: 			white;
+	color:      black;
 }
 
 #title:Hover  {
 	text-decoration : none;
+}
+
+.header {
+	margin-top: 	5pt;
+	border-top:		1px outset #004400;
+	border-bottom:	1px outset #004400;
+	background: 	#11AA11;
+	color: 			black;
+	text-align: 	center;
 }
 
 #content {
@@ -92,13 +104,7 @@ HR {
 	color: 		   #aa0000;
 }
 
-.header {
-	margin-top: 	5pt;
-	border-top:		1px outset #aaaaaa;
-	border-bottom:	1px outset #aaaaaa;
-	background: 	#444444;
-	color: 			white;
-	text-align: 	center;
+#ripinfo {
 }
 
 .riplist {
@@ -108,7 +114,6 @@ HR {
 
 .right {
 	text-align: right;
-	width:      100%;
 }
 
 .indent {
@@ -118,8 +123,8 @@ HR {
 #preview {
 	width: 			200pt;
 	height: 		300pt;
-	border-left: 	1px solid gray;
-	border-top: 	1px solid gray;
+	border-left: 	1px solid #004400;
+	border-top: 	1px solid #004400;
 	margin-bottom: 	6pt;
 }
 
@@ -158,38 +163,39 @@ div.dialog {
 	border-bottom-color: #999;
 }
 
-.help {
-	text-align: 	right;
+.quickinfo {
+	font-size: smaller;
 }
 
-.help a {
+.quickinfo span {
+	font-size: larger;
+}
+
+a.help {
 	position: 		 relative;
-	display: 		 block;
-	font-size: 		 smaller;
+	/*display: 		 block;*/
 }
 
-.help a span {
+a.help span {
 	display: none;
 }
 
-.help a:hover {
+a.help:hover {
 	border: 0;  /* for IE bug */
 }
 
-.help a:hover span {
+a.help:hover span {
 	display: 		block;
 	position: 		absolute;
 	top: 			10px;
-	left: 			10px;
+	left: 			20px;
 	z-index: 		3;
 	color: 			#000;
-	background: 	#ffffdd;
+	background: 	#eeffdd;
 	padding:		1pt;
-	border:			1px solid #ddd;
-	font-size: 		larger;
+	border:			1px solid #363;
 	font-weight:	normal;
 	text-align: 	left;
 	white-space:	nowrap;
 }
-
 

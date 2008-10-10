@@ -1,6 +1,7 @@
 <div id="add_bit_link" class="indent">
-	<%= link_to_remote '[+]', 
+	<%= link_to_remote '[+] <span>Add a new bit</span>', 
 					   :url => { :controller => :bit, 
 								 :action => :add, 
-								 :index => index } %>
+								 :index => index }, 
+				       :html => { :class => 'help' } %>
 </div>

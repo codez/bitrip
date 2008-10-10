@@ -8,6 +8,12 @@ module RipHelper
     submit_tag label, 
                :onclick => "submit_form('#{url_for(action)}', '#{target}'); return false;"
   end
+  
+  def frame_url(rip_name)
+    rip_name ?
+      url_for(:action => :show, :id => rip_name) : 
+      url_for(:controller => :message, :action => :plain, :id => "frame_#{params[:action]}")
+  end
 
   def params_submitted?
     request.env["QUERY_STRING"] && 

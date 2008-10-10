@@ -23,9 +23,7 @@ module ApplicationHelper
   end
   
   def t(message_key)
-    message = Message.find :first, :conditions => ['key = ?', message_key]
-    text = message ? message.content : message_key
-    "<a class=\"help\">[?]<span>#{h text}</span></a>"
+    "<span class=\"quickinfo\"><a class=\"help\">[?]<span>#{msg message_key}</span></a></span>"
   end
  
 private  

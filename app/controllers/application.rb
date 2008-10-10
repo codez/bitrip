@@ -4,6 +4,7 @@
 class ApplicationController < ActionController::Base
   
   helper :all # include all helpers, all the time
+  helper_method :msg
 
   # See ActionController::RequestForgeryProtection for details
   # Uncomment the :secret if you're not using the cookie session store
@@ -15,6 +16,11 @@ class ApplicationController < ActionController::Base
   filter_parameter_logging :password, :pwd
   
   after_filter :set_charset
+
+  def msg(key)
+    message = Message.find :first, :conditions => ['key = ?', key]
+    message ? message.content : key
+  end
 
   def set_charset
     content_type = headers["Content-Type"] || 'text/html'

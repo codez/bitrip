@@ -98,7 +98,7 @@ class Scrubator
   
   def navigate_to_dest(extractor)
     extractor.fetch rip.start_page
-    puts rip.navi_actions.inspect
+    
     rip.navi_actions.each do |navi|
       case navi.type
         when :form then
@@ -144,13 +144,15 @@ class Scrubator
     @rip.bits.each do |bit|
       snips = snippets.select { |s| s[:bit] == bit.position.to_s }
       bit.snippets = snips.collect{ |s| s[:html] }
+      puts bit.snippets.inspect
     end
   end
   
   def fix_href_urls!(snippets, host_url, base_url)
     snippets.each do |snip|
-      snip[:html].gsub!(/ (href|src)\=\"([^\/][^:]+)\"/i, " \\1=\"#{base_url}\\2\"")
-      snip[:html].gsub!(/ (href|src)\=\"(\/[^:]+)\"/i, " \\1=\"#{host_url}\\2\"")
+      snip[:html].gsub!(/>,</, ">\n<")
+      snip[:html].gsub!(/ (href|src)\=\"([^\/][^:\"]+)\"/i, " \\1=\"#{base_url}\\2\"")
+      snip[:html].gsub!(/ (href|src)\=\"(\/[^:\"]+)\"/i, " \\1=\"#{host_url}\\2\"")
     end
   end
 

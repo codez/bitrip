@@ -1,5 +1,7 @@
 <td id="add_navi_link">
-	<%= link_to_remote '[+]', :url => { :controller => :navi_action, 
-										:action => :add, 
-										:index => index } %>
+	<%= link_to_remote '[+] <span>Add a navigation action</span>', 
+				   :url => { :controller => :navi_action, 
+							 :action => :add, 
+						     :index => index }, 
+				   :html => { :class => 'help' } %>
 </td>

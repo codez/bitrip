@@ -19,7 +19,7 @@
 	<div id="content">
 <% unless controller.action_name == 'index' -%>
 	<div class="right">
-		<%= link_to '[&lt;-]', :action => :index, :id => @rip %>
+		<%= link_to '<span>back to the overview (without saving)</span> [&lt;-]', {:action => :index, :id => @rip}, :class => 'help' %>
 	</div>
 <% end -%>
 
