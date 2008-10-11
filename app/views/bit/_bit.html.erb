@@ -19,12 +19,13 @@
 	<td><%= t 'bit_generalize' %></td>
   </tr>
   <tr>
-  	<td colspan="3">
-	<%= link_to_remote '[-] <span>Remove this bit</span>', 
+  	<td colspan="3" class="right">
+	<%= link_to_remote '<span>Remove this bit</span>[-]', 
 					   :url => { :controller => :bit,  
 							     :action => :remove, 
 							     :index => index }, 
 				       :html => { :class => 'help' } %>
+	&nbsp;&nbsp;			   
   	</td>
   </tr>
 </table>

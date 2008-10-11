@@ -101,7 +101,7 @@ HR {
 
 #notice {
     margin-bottom: 10px;
-	color: 		   #aa0000;
+	color: 		   #dd6600;
 }
 
 #ripinfo {
@@ -191,7 +191,7 @@ a.help:hover span {
 	left: 			20px;
 	z-index: 		3;
 	color: 			#000;
-	background: 	#eeffdd;
+	background: 	#ddffdd;
 	padding:		1pt;
 	border:			1px solid #363;
 	font-weight:	normal;

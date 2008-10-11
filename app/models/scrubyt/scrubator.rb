@@ -56,7 +56,7 @@ class Scrubator
       scrubator.navigate_to_dest self
       
       scrubator.rip.bits.each do |bit|
-        send("bit_#{bit.position}",  bit.xpath, :generalize => bit.generalize) do
+        send("bit_#{bit.position}", bit.xpath_scrubyt, :generalize => bit.generalize) do
           html :type => :html_subtree  
           bit bit.position.to_s, :type => :constant
         end
@@ -144,6 +144,7 @@ class Scrubator
     @rip.bits.each do |bit|
       snips = snippets.select { |s| s[:bit] == bit.position.to_s }
       bit.snippets = snips.collect{ |s| s[:html] }
+      extract_img bit if bit.img?
     end
   end
   
@@ -170,6 +171,55 @@ class Scrubator
     base_url += '/' if base_url[-1] != $/
     [host_url, base_url]
   end
+  
+  def extract_img(bit)
+    snip_imgs = []
+    img_xpath = bit.xpath[(bit.xpath.rindex('/') + 4)..-1]
+    index = nil
+    if img_xpath.size > 0
+      index = img_xpath[1..(img_xpath.rindex(']'))].to_i - 1
+      index = 0 if index < 0
+    end  
+    bit.snippets.collect! do |snip|
+      tag_depth = 0
+      imgs = []
+      img = nil
+      snip.each_char do |c|
+        case c
+          when '<'  
+            tag_depth += 1
+            img = '<' if tag_depth == 1
+          when '>'  
+            tag_depth -= 1
+            if img && img.size >= 4
+              imgs << img + '>' 
+              img = nil
+            end
+          when 'i', 'm', 'g', ' '  
+            if img
+              size = img.size
+              if size >= 4 || '<img '.index(c) == size
+                img += c
+              else
+                img = nil
+              end
+            end
+          else
+            if img && img.size > 4
+              img +=c 
+            else
+              img = nil
+            end 
+          end
+      end
+      if index
+         snip_imgs << imgs[index] if imgs[index]
+      else 
+         snip_imgs.concat imgs
+      end
+    end
+    bit.snippets = snip_imgs
+  end
 
 private
 
@@ -188,7 +238,7 @@ private
       else
         l
       end 
-   end
+    end
   end
   
 end

@@ -45,7 +45,7 @@ class RipController < ApplicationController
   
   def add
     @rip = Rip.new
-    @rip.bits.build :xpath => '/'
+    @rip.bits.build :xpath => '/', :generalize => false
   end
   
   def create

@@ -1,5 +1,3 @@
 <% fields_for "navi[#{index}]", navi do |f| -%>
-
-Click on <%= f.collection_select :link_text, @links || [navi.link_text], :to_s, :to_s  %>	
-							  
-<% end %>
+Click on <%= f.collection_select :link_text, @links || [navi.link_text], :to_s, :to_s  %>	
+<% end -%>

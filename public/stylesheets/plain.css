@@ -1,0 +1,32 @@
+BODY {
+    background-color: black;
+    color: white;
+}
+
+BODY, P, DIV, TD  {
+	font-family : Courier New, monospace;
+	font-size: 		10pt;
+}
+
+A  {
+	text-decoration : none;
+	font-weight : bold;
+}
+
+A:Hover  {
+	text-decoration : underline;
+}
+
+A IMG {
+	border: none;
+}
+
+.errorExplanation {
+	color:  		#dd6600;
+	float:			left;
+}
+
+.errorExplanation h2 {
+	margin-top: 0px;
+	font-size: 12pt;
+}

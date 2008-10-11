@@ -3,10 +3,11 @@ class Rip < ActiveRecord::Base
   has_many :navi_actions, :order => 'position', :dependent => :destroy
   has_many :bits, :order => 'position', :dependent => :destroy
   
-  validates_uniqueness_of :name
+  validates_presence_of :name
+  validates_uniqueness_of :name, :unless => :parent_id
   validates_exclusion_of :name, :in => ['rip', 'bit', 'navi_action', 'form_field']
-  validates_format_of :start_page, :with => /^https?:\/\/.+/, :message => 'Please enter a HTTP address'
-  
+  validates_format_of :start_page, :with => /^https?:\/\/.+/, :message => 'should be a valid HTTP address'
+  validates_presence_of :bits
  
   def bit_order
     (0..(bits.size - 1)).to_a
@@ -21,7 +22,12 @@ class Rip < ActiveRecord::Base
   end
   
   def page_info
-    start_page.size > 40 ? start_page[0..40] + '...' : start_page
+    start_page.size > 30 ? start_page[0..30] + '...' : start_page
+  end
+  
+  def validate
+    navi_actions.each { |navi| navi.validate }
+    bits.each { |bit| bit.validate }
   end
   
   def build_from(params)

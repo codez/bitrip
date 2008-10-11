@@ -1,14 +1,17 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 	<head>
-		<title>bitRip</title>
+		<title>bitRip errors</title>
 		
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<meta http-equiv="pragma" content="no-cache" />
+		<meta http-equiv="cache-control" content="no-cache" />
 		<link rel="shortcut icon" href="<%= image_path '/favicon.ico' %>" />
 		
 		<%= stylesheet_link_tag 'plain', :media => 'all' %>
 	</head>
 	<body>
-    <div class="plain"><%= @message %></div>    
+    <%= error_messages_for 'bitRip',
+						   :object => [@rip] + @rip.navi_actions + @rip.bits  %>
 	</body>
 </html>

@@ -1,5 +1,5 @@
 
 page.replace :ripinfo, :partial => 'info'
 
-page << "parent.preview.location.href = '/#{@rip.name}';"
+page << "parent.preview.location.href = '#{url_for :action => :show, :id => @rip.name}';"
  

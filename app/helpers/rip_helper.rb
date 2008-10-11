@@ -10,13 +10,14 @@ module RipHelper
   end
   
   def frame_url(rip_name)
-    rip_name ?
+    rip_name && !rip_name.empty? ?
       url_for(:action => :show, :id => rip_name) : 
       url_for(:controller => :message, :action => :plain, :id => "frame_#{params[:action]}")
   end
 
   def params_submitted?
     request.env["QUERY_STRING"] && 
-    request.env["HTTP_REFERER"].include?(request.env["SERVER_NAME"]) 
+    (request.env["HTTP_REFERER"].include?(request.env["SERVER_NAME"]) ||          # local
+     request.env["HTTP_REFERER"].include?(request.env["HTTP_X_FORWARDED_HOST"]) ) # production
   end
 end
