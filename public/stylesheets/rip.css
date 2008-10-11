@@ -5,6 +5,7 @@ BODY {
 
 BODY, P, DIV, TD  {
 	font-family : Courier New, monospace;
+	font-size: 10pt;
 }
 
 A  {
@@ -20,11 +21,14 @@ A IMG {
 	border: none;
 }
 
-INPUT
-{
+INPUT {
 	color: Black;
 	font-weight: bold;
 	font-family: Courier New, monospace;
+}
+
+H1 {
+	font-size: 14pt;
 }
 
 .small {
