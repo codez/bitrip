@@ -9,14 +9,15 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 2) do
+ActiveRecord::Schema.define(:version => 3) do
 
   create_table "bits", :force => true do |t|
     t.string  "label"
-    t.string  "xpath",                        :null => false
-    t.boolean "generalize", :default => true
-    t.integer "rip_id",                       :null => false
+    t.string  "xpath",                            :null => false
+    t.boolean "generalize",     :default => true
+    t.integer "rip_id",                           :null => false
     t.integer "position"
+    t.string  "select_indizes"
   end
 
   create_table "form_fields", :force => true do |t|
@@ -49,6 +50,8 @@ ActiveRecord::Schema.define(:version => 2) do
     t.boolean "current"
     t.integer "revision"
     t.date    "created_at"
+    t.integer "next_pages"
+    t.string  "next_link"
   end
 
 end

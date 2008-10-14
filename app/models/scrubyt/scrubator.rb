@@ -14,6 +14,7 @@ class Scrubator
    
     assign_snippets(snippets)
   rescue Exception => ex
+    puts 'Exception occured: ' + ex.message
     ex.message
   end
  
@@ -56,13 +57,19 @@ class Scrubator
       scrubator.navigate_to_dest self
       
       scrubator.rip.bits.each do |bit|
-        send("bit_#{bit.position}", bit.xpath_scrubyt, :generalize => bit.generalize) do
+        pattern = send("bit_#{bit.position}", bit.xpath_scrubyt, :generalize => bit.generalize) do
           html :type => :html_subtree  
           bit bit.position.to_s, :type => :constant
         end
+        
+        puts bit.select_indizes_array.inspect  
+        pattern.select_indices(bit.select_indizes_array) unless bit.select_indizes.strip.empty?
       end
+      
+      scrubator.next_pages self
     end
   end
+  
   
   def scrub_links
     scrubator = self
@@ -138,6 +145,16 @@ class Scrubator
   def handle_radio(extractor, field)
     field.value = field.options_arr.index(field.value) if field.value
     handle_field extractor, :check_radiobutton, field
+  end
+  
+  def next_pages(extractor)
+    unless rip.next_link.strip.empty?
+      if rip.next_pages
+        extractor.next_page rip.next_link, :limit => rip.next_pages
+      else
+        extractor.next_page rip.next_link
+      end
+    end
   end
   
   def assign_snippets(snippets)

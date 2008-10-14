@@ -16,6 +16,19 @@ class Bit < ActiveRecord::Base
     img? ? xpath[0,last_slash_xpath] : xpath
   end
   
+  def select_indizes_array
+    parts = select_indizes.split(',')
+    parts.collect! do |p|
+      case p.strip
+        when /(\d+)/          then Integer($1)
+        when /(\d+)\.\.(\d+)/ then Integer($1)..Integer($2)
+        when /([A-Za-z]\w*)/  then $1.to_sym
+        else nil
+      end    
+    end
+    parts.select { |p| not p.nil? }
+  end
+  
 private
 
   def last_slash_xpath

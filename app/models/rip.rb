@@ -44,7 +44,6 @@ class Rip < ActiveRecord::Base
       if fields
         fields.each_value do |field|
           form_field = navi_action.form_fields.build field
-          puts field[:value]
           form_field.type = field[:type]
         end
       end

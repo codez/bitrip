@@ -7,14 +7,18 @@ class ScrubytTest < Test::Unit::TestCase
   
   def test_scrubyt
     pattern = Scrubyt::Extractor.define do
-      fetch 'http://www.bewegungsmelder.ch/bmonline.php?mtask=1&stask=19&task=result&date=today&subRegionID=1'
+      fetch 'http://www.google.com/ncr'
       
-      alles '/html/body/div[3]/table/tr/td/table/tr[2]/td[2]/table/tr[2]/td' do
+      fill_textfield 'q', 'pascal'
+      submit
+      
+      alles '/body/div[3]/div/ol/li/h3' do
          nichts '/', :type => :html_subtree
       end
+      next_page "Next", {:limit => 2}
     end
     
-    puts pattern.to_hash.inspect
+    puts pattern.to_hash.size
   end
   
 end
