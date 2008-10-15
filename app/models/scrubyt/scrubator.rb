@@ -62,8 +62,7 @@ class Scrubator
           bit bit.position.to_s, :type => :constant
         end
         
-        puts bit.select_indizes_array.inspect  
-        pattern.select_indices(bit.select_indizes_array) unless bit.select_indizes.strip.empty?
+        pattern.select_indices(bit.select_indizes_array) unless bit.select_indizes.nil? || bit.select_indizes.strip.empty?
       end
       
       scrubator.next_pages self
@@ -148,7 +147,7 @@ class Scrubator
   end
   
   def next_pages(extractor)
-    unless rip.next_link.strip.empty?
+    unless rip.next_link.nil? || rip.next_link.strip.empty?
       if rip.next_pages
         extractor.next_page rip.next_link, :limit => rip.next_pages
       else
