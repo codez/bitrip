@@ -1,8 +1,16 @@
 index = params[:index].to_i
+id_suffix, field_suffix = sub_suffixes params['index'], params['subrip_index']
+sub_suffix = sub_suffix params['subrip_index']
 
-page["navi_#{index}"].remove 
+page["navi_#{id_suffix}"].remove 
 
-page.replace :add_navi_link, :partial => 'add_link', :locals => { :index => index }
+page.replace "add_navi_link#{sub_suffix}",
+             :partial => 'add_link', 
+             :locals => { :index => index,
+                          :subrip_index => params['subrip_index'] }
 
-page.replace :remove_navi_link, :partial => 'remove_link', :locals => { :index => (index - 1) }
+page.replace "remove_navi_link#{sub_suffix}", 
+             :partial => 'remove_link', 
+             :locals => { :index => (index - 1),
+                          :subrip_index => params['subrip_index'] }
   

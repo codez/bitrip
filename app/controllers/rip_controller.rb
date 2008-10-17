@@ -45,7 +45,10 @@ class RipController < ApplicationController
   
   def add
     @rip = Rip.new
-    @rip.bits.build :xpath => '/', :generalize => false
+    bitRip = @rip
+    bitRip = @rip.children.build :position => 1 if params['multi'] || params['common']
+    @rip.start_page = 'http://' if params['common'] || !params['multi']
+    bitRip.bits.build :xpath => '/', :generalize => false 
   end
   
   def create

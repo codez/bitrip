@@ -52,6 +52,7 @@ ActiveRecord::Schema.define(:version => 3) do
     t.date    "created_at"
     t.integer "next_pages"
     t.string  "next_link"
+    t.integer "position"
   end
 
 end

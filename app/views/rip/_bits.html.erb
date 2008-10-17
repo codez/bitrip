@@ -1,0 +1,20 @@
+<h2 class="header">Bits</h2>
+
+<% id_suffix = sub_suffix subrip_index -%>
+
+<ul id="bits<%= id_suffix %>">
+<%= render :partial => 'bit/bit', 
+		   :collection => @rip.bits, 
+  	  	   :locals => { :subrip_index => subrip_index } %>
+</ul>
+
+<%= hidden_field_tag "bit_order#{id_suffix}", bit_order %>
+
+<%= render :partial => 'bit/add_link', 
+		   :locals => { :index => @rip.bits.size ,
+						:subrip_index => subrip_index} %>
+
+<%= sortable_element "bits#{id_suffix}", 
+		:onUpdate => "function(){$(\"bit_order#{id_suffix}\").value = Sortable.sequence(\"bits#{id_suffix}\");}", 
+		:tag => 'li', 
+		:constraint => :vertical %>

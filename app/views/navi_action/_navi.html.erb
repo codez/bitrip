@@ -1,27 +1,30 @@
-<% index ||= navi_counter -%>
+<% 
+index ||= navi_counter 
+id_suffix, field_suffix = sub_suffixes index, subrip_index
+-%>
 
-<div id="navi_<%= index %>">
+<div id="navi_<%= id_suffix %>">
 	
-<% fields_for "navi[#{index}]", navi do |f| -%>
+<% fields_for "navi#{field_suffix}", navi do |f| -%>
   <%= f.hidden_field :position %>
   <% if navi.type %>
 	<%= f.hidden_field :type %>
   <% else -%>
-	<div id="type_<%= index %>" class="indent">
+	<div id="type_<%= id_suffix %>" class="indent">
 	Type
 	<%= f.radio_button :type, :form %>Form  	
 	<%= f.radio_button :type, :link %>Link	
 	
-	<%= observe_type_field :form, index %>
-	<%= observe_type_field :link, index %>
+	<%= observe_type_field :form, index, subrip_index %>
+	<%= observe_type_field :link, index, subrip_index %>
 	</div>
 	<br/>
   <% end  # if navi.type -%>
 
 <% end  # fields_for -%>
 
-<div id="navi_fields_<%= index %>">
-	<%= render_type_partial navi, index %>	
+<div id="navi_fields_<%= id_suffix %>">
+	<%= render_type_partial navi, index, subrip_index %>	
 </div>
 
 <hr/>

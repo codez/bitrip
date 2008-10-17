@@ -1,9 +1,19 @@
-index = params[:index].to_i
+index = params['index'].to_i
+id_suffix = sub_suffix params['subrip_index']
 
-page.insert_html :bottom, :navis, :partial => 'navi',
-                 :locals => { :navi => @navi_action, :index => params[:index] }
+page.insert_html :bottom, "navis#{id_suffix}", 
+                 :partial => 'navi',
+                 :locals => { :navi => @navi_action, 
+                              :index => params['index'],
+                              :subrip_index => params['subrip_index'] }
  
-page.replace :add_navi_link, :partial => 'add_link', :locals => { :index => (index + 1) }
+page.replace "add_navi_link#{id_suffix}", 
+             :partial => 'add_link', 
+             :locals => { :index => (index + 1),
+                          :subrip_index => params['subrip_index'] }
 
-page.replace :remove_navi_link, :partial => 'remove_link', :locals => { :index => index }
+page.replace "remove_navi_link#{id_suffix}", 
+             :partial => 'remove_link', 
+             :locals => { :index => index,
+                          :subrip_index => params['subrip_index'] }
                     

@@ -1,0 +1,13 @@
+<script type="text/javascript">
+function submit_form(url, target) {
+	form = document.forms[0];
+	form.action = url;
+	form.target = target;
+	return form.submit();
+}
+
+<% if not @rip.errors.empty? -%>
+	write_frame("<%= escape_javascript(render :partial => 'errors') %>");
+<% end -%>
+
+</script>

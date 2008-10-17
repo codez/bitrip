@@ -1,4 +1,5 @@
-<% fields_for("fields[#{index}][#{field_counter}]", field) do |f| -%>
+<% id_suffix, field_suffix = sub_suffixes index, subrip_index %>
+<% fields_for("fields#{field_suffix}[#{field_counter}]", field) do |f| -%>
 <tr>
 	<td>
 	<%= field.name %> 

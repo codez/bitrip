@@ -1,7 +1,10 @@
-<% index ||= bit_counter -%>
+<% 
+index ||= bit_counter
+id_suffix, field_suffix = sub_suffixes index, subrip_index
+-%>
 
-<li id="bit_<%= index %>">
-<% fields_for "bits[#{index}]", bit do |f| -%>
+<li id="bit_<%= id_suffix %>">
+<% fields_for "bits#{field_suffix}", bit do |f| -%>
 <table width="100%">
   <tr>
   	<td>Label </td>
@@ -27,6 +30,7 @@
 	<%= link_to_remote '<span>Remove this bit</span>[-]', 
 					   :url => { :controller => :bit,  
 							     :action => :remove, 
+							     :subrip => subrip_index,
 							     :index => index }, 
 				       :html => { :class => 'help' } %>
 	&nbsp;&nbsp;			   

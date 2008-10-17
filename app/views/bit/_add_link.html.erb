@@ -1,7 +1,9 @@
-<div id="add_bit_link" class="indent">
+<% id_suffix = sub_suffix subrip_index -%>
+<div id="add_bit_link<%= id_suffix %>" class="indent">
 	<%= link_to_remote '[+] <span>Add a new bit</span>', 
 					   :url => { :controller => :bit, 
 								 :action => :add, 
-								 :index => index }, 
+								 :index => index,
+							     :subrip_index => subrip_index }, 
 				       :html => { :class => 'help' } %>
 </div>

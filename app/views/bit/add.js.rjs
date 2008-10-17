@@ -1,11 +1,19 @@
-page.insert_html :bottom, :bits, :partial => 'bit',
-                 :locals => { :bit => @bit, :index => params[:index] }
- 
-page.replace :add_bit_link, :partial => 'add_link', :locals => { :index => (params[:index].to_i + 1) }
+id_suffix = sub_suffix params['subrip_index']
 
-page.sortable("bits", 
-            :onUpdate => 'function(){$("bit_order").value = Sortable.sequence("bits");}', 
-            :tag => 'li', 
-            :constraint => :vertical)
+page.insert_html :bottom, "bits#{id_suffix}", 
+                 :partial => 'bit',
+                 :locals => { :bit => @bit, 
+                              :index => params['index'],
+                              :subrip_index => params['subrip_index'] }
+ 
+page.replace "add_bit_link#{id_suffix}", 
+             :partial => 'add_link', 
+             :locals => { :index => (params['index'].to_i + 1),
+                          :subrip_index => params['subrip_index'] }
+
+page.sortable "bits#{id_suffix}", 
+              :onUpdate => "function(){$(\"bit_order#{id_suffix}\").value = Sortable.sequence(\"bits#{id_suffix}\");}", 
+              :tag => 'li', 
+              :constraint => :vertical
                     
-page  << "$('bit_order').value += ',#{params[:index]}';"
+page << "$('bit_order#{id_suffix}').value += ',#{params['index']}';"

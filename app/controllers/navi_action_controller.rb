@@ -56,7 +56,9 @@ private
   
   def render_type_partial(type_partial, navi, index)
     render :partial => type_partial, 
-           :locals => {:navi => navi, :index => index}
+           :locals => {:navi => navi, 
+                       :index => index, 
+                       :subrip_index => params['subrip_index']}
   end
          
   def render_no_possibilities_found(desc)

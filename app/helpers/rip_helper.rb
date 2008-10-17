@@ -19,5 +19,9 @@ module RipHelper
     request.env["QUERY_STRING"] && 
     (request.env["HTTP_REFERER"].include?(request.env["SERVER_NAME"]) ||          # local
      request.env["HTTP_REFERER"].include?(request.env["HTTP_X_FORWARDED_HOST"]) ) # production
-  end
+ end
+ 
+ def render_form(rip, action)
+   render :partial => 'form', :locals => { :action => action }
+ end
 end

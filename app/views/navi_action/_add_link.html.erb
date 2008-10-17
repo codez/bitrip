@@ -1,7 +1,9 @@
-<td id="add_navi_link">
+<% id_suffix = sub_suffix params['subrip_index'] -%>
+<td id="add_navi_link<%= id_suffix %>">
 	<%= link_to_remote '[+] <span>Add a navigation action</span>', 
 				   :url => { :controller => :navi_action, 
 							 :action => :add, 
-						     :index => index }, 
+						     :index => index,
+							 :subrip_index => subrip_index }, 
 				   :html => { :class => 'help' } %>
 </td>

@@ -1,2 +1,4 @@
-page["bit_#{params[:index]}"].remove 
+id_suffix, field_suffix = sub_suffixes params['index'], params['subrip_index']
+
+page["bit_#{id_suffix}"].remove 
 

@@ -1,3 +1,9 @@
 <% @title = "Create new bitRip "%>
 
-<%= render :partial => 'form', :locals => { :action => {:action => 'create'} } %>
+<p>
+<%= link_to '[Single page]', :action => :add %>
+<%= link_to '[Multi page]', :action => :add, :multi => true %>
+<%= link_to '[Multi page w/ common navigation]', :action => :add, :common =>true %>
+</p>
+
+<%= render_form @rip, :action => 'create' %>

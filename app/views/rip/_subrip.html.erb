@@ -1,0 +1,33 @@
+<h2 class="header">=== Page Rip #<%= subrip.position %> ===</h2>
+
+<% fields_for "subrip[#{subrip_counter}]", subrip do |f| -%>
+<table>
+<tr>
+  <td>Title </td>
+  <td><%= f.text_field 'description',  :size => '50' %></td>
+  <td><%= t 'rip_title' %></td>
+</tr>
+<% if start_page -%>
+<tr>
+  <td>Start Page </td>
+  <td><%= f.text_field 'start_page', :size => '50' %></td>
+  <td><%= t 'rip_start_page' %></td>
+</tr>
+<% end -%>
+<tr>
+  <td>Next Link </td>
+  <td>
+  	<%= f.text_field 'next_link', :size => '30' %>
+  	<%= f.text_field 'next_pages', :size => '2' %>
+	# pages
+  </td>
+  <td><%= t 'rip_next_link' %></td>
+</tr>
+</table>
+<% end -%>
+
+<%= render :partial => 'navigation', :locals => {:subrip_index => subrip_counter} %>
+
+<%= render :partial => 'bits', :locals => {:subrip_index => subrip_counter} %>
+
+

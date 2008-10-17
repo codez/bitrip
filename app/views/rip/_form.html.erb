@@ -1,22 +1,9 @@
-
 <% form_tag action do -%>
+
 <div id="ripform">
-	<table id="rip">
-	<tr>
-	  <td>Name </td>
-	  <td><%= text_field 'rip', 'name',  :size => '25' %></td>
-	  <td><%= t 'rip_name' %></td>
-	</tr>
-	<tr>
-	  <td>Title </td>
-	  <td><%= text_field 'rip', 'description',  :size => '50' %></td>
-	  <td><%= t 'rip_title' %></td>
-	</tr>
-	<tr>
-	  <td>Start Page </td>
-	  <td><%= text_field 'rip', 'start_page', :size => '50' %></td>
-	  <td><%= t 'rip_start_page' %></td>
-	</tr>
+	<table>
+	<%= render :partial => 'mainrip', :locals => {:start_page => @rip.main_navi?} %>
+<% if not @rip.multi? %>
 	<tr>
 	  <td>Next Link </td>
 	  <td>
@@ -26,56 +13,27 @@
 	  </td>
 	  <td><%= t 'rip_next_link' %></td>
 	</tr>
+<% end -%>	
 	</table>
 	
-	<h2 class="header">Navigate</h2>
-	
-	<div id="navis">
-	<%= render :partial => 'navi_action/navi', :collection => @rip.navi_actions %>
+<% if @rip.main_navi? %>	
+	<%= render :partial => 'navigation',  :locals => {:subrip_index => nil} %>
+<% end -%>
+
+<% if @rip.multi? %>
+	<div id="subrips">
+	<%= render :partial => 'subrip', 
+			   :collection => @rip.children, 
+	   	       :locals => {:start_page => !@rip.main_navi?} %>
 	</div>
+<% else -%>	
+	<%= render :partial => 'bits', :locals => {:subrip_index => nil} %>
+<% end -%>	
 	
-	<table width="100%"><tr>
-	<%= render :partial => 'navi_action/add_link', :locals => { :index => @rip.navi_actions.size } %>
-	<%= render :partial => 'navi_action/remove_link', :locals => { :index => @rip.navi_actions.size - 1 } %>
-	</tr></table>
-	
-	<h2 class="header">Bits</h2>
-	
-	<ul id="bits">
-	<%= render :partial => 'bit/bit', :collection => @rip.bits %>
-	</ul>
-	
-	<%= hidden_field_tag 'bit_order', bit_order %>
-	
-	<%= render :partial => 'bit/add_link', :locals => { :index => @rip.bits.size } %>
-	
-	<%= sortable_element "bits", 
-			:onUpdate => 'function(){$("bit_order").value = Sortable.sequence("bits");}', 
-			:tag => 'li', 
-			:constraint => :vertical %>
 </div>
 
-<div id="rightform">
-	<%= submit_to_target 'Preview', {:action => 'preview_temp'}, 'preview' %>
-	<input type="reset" />
-	<%= submit_to_target 'Save', action, '_self' %>
-	<br/>
-	<br/>
-	<%= render :partial => 'iframe' %>
-</div>
+<%= render :partial => 'right', :locals => {:action => action} %>
 
 <% end  # form -%>
 
-<script type="text/javascript">
-function submit_form(url, target) {
-	form = document.forms[0];
-	form.action = url;
-	form.target = target;
-	return form.submit();
-}
-
-<% if not @rip.errors.empty? -%>
-	write_frame("<%= escape_javascript(render :partial => 'errors') %>");
-<% end -%>
-
-</script>
+<%= render :partial => 'submit_js' %>
