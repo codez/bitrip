@@ -1,8 +1,14 @@
 <% @title = @rip.name %>
 
 <h1><%= h @rip.description %></h1>
-
 <%= render :partial => 'bit/show', :collection => @rip.bits %>
+
+<% @rip.children.each do |subrip| -%>
+	<% if subrip.description -%>
+		<h2><%= h subrip.description %></h2>
+	<% end %>
+	<%= render :partial => 'bit/show', :collection => subrip.bits %>
+<% end -%>
 
 <% if params_submitted? -%>
 	<div class="small">
@@ -11,3 +17,7 @@
 	</div>
 <% end -%>
 
+<div class="sources">
+all data by
+<%= @rip.sources.collect {|s| "<a href=\"#{s}\">#{s}</a>"}.join(",") %>
+</div>

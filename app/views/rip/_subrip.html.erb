@@ -1,6 +1,17 @@
-<h2 class="header">=== Page Rip #<%= subrip.position %> ===</h2>
+<% subrip_index ||= subrip_counter -%>
+<div id="subrip_<%= subrip_index %>">
 
-<% fields_for "subrip[#{subrip_counter}]", subrip do |f| -%>
+<h2 class="header">=== Page Rip ===</h2>
+
+<div class="right">
+<%= link_to_remote '<span>Remove this page</span>[-]', 
+			   :url => { :controller => :rip,  
+					     :action => :remove_subrip, 
+					     :subrip_index => subrip_index }, 
+		       :html => { :class => 'help' } %>
+</div>
+
+<% fields_for "subrip[#{subrip_index}]", subrip do |f| -%>
 <table>
 <tr>
   <td>Title </td>
@@ -26,8 +37,12 @@
 </table>
 <% end -%>
 
-<%= render :partial => 'navigation', :locals => {:subrip_index => subrip_counter} %>
+<%= render :partial => 'navi_action/form', 
+		   :locals => {:rip => subrip, 
+					   :subrip_index => subrip_index} %>
 
-<%= render :partial => 'bits', :locals => {:subrip_index => subrip_counter} %>
+<%= render :partial => 'bit/form', 
+		   :locals => {:rip => subrip,
+					   :subrip_index => subrip_index} %>
 
-
+</div>

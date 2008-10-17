@@ -17,7 +17,9 @@
 	</table>
 	
 <% if @rip.main_navi? %>	
-	<%= render :partial => 'navigation',  :locals => {:subrip_index => nil} %>
+	<%= render :partial => 'navi_action/form',  
+			   :locals => { :rip => @rip,
+						    :subrip_index => nil } %>
 <% end -%>
 
 <% if @rip.multi? %>
@@ -26,8 +28,17 @@
 			   :collection => @rip.children, 
 	   	       :locals => {:start_page => !@rip.main_navi?} %>
 	</div>
+	
+	<br/>
+	<hr/>
+	
+	<%= render :partial => 'add_subrip_link', 
+			   :locals => { :subrip_index => @rip.children.size ,
+							:start_page => !@rip.main_navi? } %>
 <% else -%>	
-	<%= render :partial => 'bits', :locals => {:subrip_index => nil} %>
+	<%= render :partial => 'bit/form', 
+			   :locals => { :rip => @rip,
+						    :subrip_index => nil } %>
 <% end -%>	
 	
 </div>

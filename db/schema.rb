@@ -45,7 +45,7 @@ ActiveRecord::Schema.define(:version => 3) do
   create_table "rips", :force => true do |t|
     t.string  "name",        :null => false
     t.text    "description"
-    t.string  "start_page",  :null => false
+    t.string  "start_page"
     t.integer "parent_id"
     t.boolean "current"
     t.integer "revision"

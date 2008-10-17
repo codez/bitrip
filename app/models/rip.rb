@@ -5,11 +5,15 @@ class Rip < ActiveRecord::Base
   
   acts_as_tree :order => 'position'
   
-  validates_presence_of :name
-  validates_uniqueness_of :name, :unless => :parent_id
-  validates_exclusion_of :name, :in => ['rip', 'bit', 'navi_action', 'form_field']
-  validates_format_of :start_page, :with => /^https?:\/\/.+/, :message => 'should be a valid HTTP address'
+  before_validation :set_subrip_names
+  
+  validates_presence_of :name  
   validates_presence_of :bits, :unless => :multi?
+  validates_presence_of :start_page, :unless => :multi?
+  validates_uniqueness_of :name, :scope => :current, :unless => :parent_id
+  validates_exclusion_of :name, :in => ['rip', 'bit', 'navi_action', 'form_field']
+  validates_format_of :start_page, :with => /^https?:\/\/.+/, :allow_nil => true, :message => 'should be a valid HTTP address'
+
  
   def bit_order
     (0..(bits.size - 1)).to_a
@@ -27,9 +31,21 @@ class Rip < ActiveRecord::Base
     start_page.size > 30 ? start_page[0..30] + '...' : start_page
   end
   
+  def sources
+    pages = main_navi? ? [start_page] : children.collect { |c| c.start_page }
+    pages.collect! do |page|
+      protocol_slash = page.index('//')
+      root_slash = page.index('/', protocol_slash + 2)
+      root_slash = page.size if root_slash.nil?
+      page[0..root_slash]
+    end
+    pages.uniq
+  end
+  
   def validate
     navi_actions.each { |navi| navi.validate }
     bits.each { |bit| bit.validate }
+    children.each { |subrip| subrip.validate }
   end
   
   def multi?
@@ -38,6 +54,21 @@ class Rip < ActiveRecord::Base
   
   def main_navi?
     !(start_page.nil? || start_page.empty?)
+  end
+  
+  def complete_navi
+    parent_id ? parent.navi_actions + navi_actions : navi_actions
+  end
+  
+  def start_url
+    parent_id && parent.start_page ? parent.start_page : start_page
+  end
+  
+  def set_subrip_names
+    self.current = true
+    children.each do |subrip|
+      subrip.name = name
+    end
   end
   
   def build_from(params)
@@ -83,7 +114,7 @@ class Rip < ActiveRecord::Base
   def build_bits(rip, bits_param, bit_order)
     pos = 1
     bit_order.split(',').each do |index|
-      bit_attrs =bits_param[index]
+      bit_attrs = bits_param[index]
       if bit_attrs
         bit_attrs['position'] = pos
         rip.bits.build(bit_attrs)

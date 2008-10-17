@@ -14,8 +14,8 @@ class SystemNotifier < ActionMailer::Base
               "host"       => request.env["HTTP_HOST"],
               "rails_root" => rails_root }
     @sent_on    = Time.now
-    @from       = 'bitrip@codez.ch'
-    @recipients = 'bitrip@codez.ch'
+    @from       = 'webmaster@codez.ch'
+    @recipients = 'webmaster@codez.ch'
     @headers    = {}            
   end
   

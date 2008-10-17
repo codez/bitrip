@@ -1,21 +1,23 @@
 class Scrubator
   
-  attr_reader :rip
-  
   def initialize(rip)
     @rip = rip
   end
   
   # input rip, output html fragment
   def ripit
-    snippets = scrubyt.to_hash
-    host_url, base_url = extract_base_url(Scrubyt::FetchAction.get_current_doc_url)
-    fix_href_urls!(snippets, host_url, base_url)
-   
-    assign_snippets(snippets)
-  rescue Exception => ex
-    puts 'Exception occured: ' + ex.message
-    ex.message
+    rips = @rip.multi? ? @rip.children : [@rip]
+    rips.each do |rip|
+      snippets = scrubyt(rip).to_hash
+      host_url, base_url = extract_base_url(Scrubyt::FetchAction.get_current_doc_url)
+      fix_href_urls!(snippets, host_url, base_url)
+     
+      assign_snippets(snippets, rip)
+    end  
+    nil
+  #rescue Exception => ex
+  #  puts 'Exception occured: ' + ex.message
+  #  ex.message
   end
  
   def extract_links
@@ -50,13 +52,13 @@ class Scrubator
     form_fields
   end
   
-  def scrubyt   # requires paramter instead of instvar because of class-eval
+  def scrubyt(rip)   # requires paramter instead of instvar because of class-eval
     scrubator = self
     
     Scrubyt::Extractor.define do
-      scrubator.navigate_to_dest self
+      scrubator.navigate_to_dest self, rip
       
-      scrubator.rip.bits.each do |bit|
+      rip.bits.each do |bit|
         pattern = send("bit_#{bit.position}", bit.xpath_scrubyt, :generalize => bit.generalize) do
           html :type => :html_subtree  
           bit bit.position.to_s, :type => :constant
@@ -65,10 +67,9 @@ class Scrubator
         pattern.select_indices(bit.select_indizes_array) unless bit.select_indizes.nil? || bit.select_indizes.strip.empty?
       end
       
-      scrubator.next_pages self
+      scrubator.next_pages self, rip
     end
   end
-  
   
   def scrub_links
     scrubator = self
@@ -102,10 +103,10 @@ class Scrubator
     end  
   end
   
-  def navigate_to_dest(extractor)
-    extractor.fetch rip.start_page
+  def navigate_to_dest(extractor, rip)
+    extractor.fetch rip.start_url
     
-    rip.navi_actions.each do |navi|
+    rip.complete_navi.each do |navi|
       case navi.type
         when :form then
           navi.form_fields.each do |field|
@@ -146,7 +147,7 @@ class Scrubator
     handle_field extractor, :check_radiobutton, field
   end
   
-  def next_pages(extractor)
+  def next_pages(extractor, rip)
     unless rip.next_link.nil? || rip.next_link.strip.empty?
       if rip.next_pages
         extractor.next_page rip.next_link, :limit => rip.next_pages
@@ -156,8 +157,8 @@ class Scrubator
     end
   end
   
-  def assign_snippets(snippets)
-    @rip.bits.each do |bit|
+  def assign_snippets(snippets, rip)
+    rip.bits.each do |bit|
       snips = snippets.select { |s| s[:bit] == bit.position.to_s }
       bit.snippets = snips.collect{ |s| s[:html] }
       extract_img bit if bit.img?
@@ -166,7 +167,6 @@ class Scrubator
   
   def fix_href_urls!(snippets, host_url, base_url)
     snippets.each do |snip|
-      snip[:html].gsub!(/>,</, ">\n<")
       snip[:html].gsub!(/ (href|src)\=\"([^\/][^:\"]+)\"/i, " \\1=\"#{base_url}\\2\"")
       snip[:html].gsub!(/ (href|src)\=\"(\/[^:\"]+)\"/i, " \\1=\"#{host_url}\\2\"")
     end

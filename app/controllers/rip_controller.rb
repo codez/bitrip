@@ -1,7 +1,7 @@
 class RipController < ApplicationController
   
   def index
-    @list = Rip.find :all, :order => 'name'
+    @list = Rip.find :all, :order => 'name', :conditions => ['parent_id IS NULL']
     @rip = Rip.find params[:id].to_i if params[:id].to_i > 0
   end
   
@@ -12,6 +12,8 @@ class RipController < ApplicationController
   def preview_temp
     @rip = Rip.new
     @rip.build_from params
+    puts @rip.inspect
+    puts @rip.children.inspect
     render_rip
   end
   
@@ -67,12 +69,23 @@ class RipController < ApplicationController
     render :action => 'query', :layout => 'showrip'
   end
   
+  def add_subrip
+    @rip = Rip.new :position => params['subrip_index'].to_i + 1
+    @rip.bits.build :xpath => '/', :generalize => false 
+  end
+  
+  def remove_subrip
+  end
   
 private
 
   def render_rip
-    Scrubator.new(@rip).ripit 
-    render :action => 'show', :layout => 'showrip'
+    message = Scrubator.new(@rip).ripit 
+    if message.nil?
+      render :action => :show, :layout => 'showrip'
+    else 
+      render :controller => :message, :action => :plain, :id => message
+    end
   end
   
   def fill_params

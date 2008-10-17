@@ -1,21 +1,21 @@
-<h2 class="header">Navigate</h2>
+<h4 class="header">Navigate</h4>
 
 <% id_suffix = sub_suffix subrip_index -%>
 
 <div id="navis<%= id_suffix %>">
 <%= render :partial => 'navi_action/navi', 
-		   :collection => @rip.navi_actions, 
+		   :collection => rip.navi_actions, 
 		   :locals => { :subrip_index => subrip_index }  %>
 </div>
 
 <table width="100%">
 <tr>
 <%= render :partial => 'navi_action/add_link', 
-		   :locals => { :index => @rip.navi_actions.size, 
+		   :locals => { :index => rip.navi_actions.size, 
 						:subrip_index => subrip_index  } %>
 						
 <%= render :partial => 'navi_action/remove_link', 
-	       :locals => { :index => @rip.navi_actions.size - 1, 
+	       :locals => { :index => rip.navi_actions.size - 1, 
 						:subrip_index => subrip_index  } %>
 </tr>
 </table>

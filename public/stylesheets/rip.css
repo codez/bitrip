@@ -31,10 +31,18 @@ H1 {
 	font-size: 14pt;
 }
 
+H2 {
+	font-size: 11pt;
+}
+
 .small {
 	font-size: small;
 }
 
 .plain {
 	margin: 4pt;
+}
+
+.sources {
+	font-size: 	x-small;
 }

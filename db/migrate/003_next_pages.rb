@@ -3,7 +3,10 @@ class NextPages < ActiveRecord::Migration
     add_column :rips, :next_pages, :int
     add_column :rips, :next_link, :string
     add_column :rips, :position, :int
+    
     add_column :bits, :select_indizes, :string
+    
+    change_column :rips, :start_page, :string, :null => true
   end
 
   def self.down

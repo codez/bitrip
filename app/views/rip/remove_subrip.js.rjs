@@ -1,0 +1,1 @@
+page["subrip_#{params['subrip_index']}"].remove 

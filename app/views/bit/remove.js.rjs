@@ -1,4 +1,4 @@
-id_suffix, field_suffix = sub_suffixes params['index'], params['subrip_index']
+bit_suffix = params['subrip_index'] ? "sub#{params['subrip_index']}" : "" # no _ for sortable_element
 
-page["bit_#{id_suffix}"].remove 
+page["bit#{bit_suffix}_#{params['index']}"].remove 
 
