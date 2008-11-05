@@ -12,6 +12,6 @@
 	</head>
 	<body>
     <%= error_messages_for 'bitRip',
-						   :object => [@rip] + @rip.navi_actions + @rip.bits  %>
+						   :object => [@rip] + @rip.navi_actions + @rip.bits + @rip.children  %>
 	</body>
 </html>

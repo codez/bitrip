@@ -1,11 +1,21 @@
 <div id="ripinfo">
 <% if @rip -%>	
-	<h3><%= @rip.name%> <%= link_to '[..] <span style="font-size: smaller;">Edit this bitRip</span>', {:action => :edit, :id => @rip}, :class => 'help' %></h3>
+	<h3>
+		<%= @rip.name%> 
+		<%= link_to '[..] <span style="font-size: smaller;">Edit this bitRip</span>', 
+					id_action(:edit, @rip), 
+					:class => 'help' %>
+	</h3>
 	
 	(<%= @rip.sources.join(',') %>)
 	<br/>
-	direct link: <%= link_to "#{url_for :controller => @rip.name, :only_path => false}", :only_path => false, :controller => @rip.name %>
-	<%= link_to("[..] <span>Change parameters of this bitRip</span>", {:action => :query, :id => @rip}, :target => 'preview', :class => 'help' ) if @rip.has_fields? %>
+	direct link: <%= link_to "#{url_for :controller => @rip.name, :only_path => false}", 
+							  :only_path => false, :controller => @rip.name %>
+	<%= link_to("[..] <span>Change parameters of this bitRip</span>", 
+				id_action(:query, @rip), 
+				:target => 'preview', 
+				:class => 'help' ) if @rip.has_fields? %>
 	<br/>
+	<%= link_to "history", :action => :history, :id => @rip.name %>
 <% end -%>
 </div>

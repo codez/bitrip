@@ -1,2 +1,4 @@
-
-<%= link_to_remote link.name, :url => { :action => 'preview', :id => link } %><br/>
+<%= label = @use_id ? "#{link.name} \##{link.revision}" : link.name
+	link_to_remote label, :url => id_action(:preview, link)
+%>
+<br/>

@@ -4,7 +4,7 @@
 
 <div>Please enter the following parameters:</div>
 <br/>
-<% form_tag({:action => :show, :id => @rip.name}, {:method => :get}) do -%>
+<% form_tag(id_action(:show, @rip), {:method => :get}) do -%>
 <table>
 <%= render :partial => 'navi_action/query', :collection => @rip.navi_actions %>
 <tr>

@@ -117,6 +117,7 @@ HR {
 .riplist {
 	float: 			left;
 	margin-right:   6pt;
+	min-width:		300pt;
 }
 
 .right {
@@ -202,5 +203,10 @@ a.help:hover span {
 	font-weight:	normal;
 	text-align: 	left;
 	white-space:	nowrap;
+}
+
+.quickinfo a.help:hover span {
+	white-space:	normal;
+	width:			250px;
 }
 

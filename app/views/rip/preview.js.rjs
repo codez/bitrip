@@ -3,5 +3,5 @@ page.replace :ripinfo, :partial => 'info'
 
 page << "write_frame('#{escape_javascript(render :partial => 'spinner')}');"
 
-page << "parent.preview.location.href = '#{url_for :action => :show, :id => @rip.name}';"
+page << "parent.preview.location.href = '#{url_for id_action(:show, @rip)}';"
  

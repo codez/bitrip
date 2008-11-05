@@ -1,24 +1,28 @@
 class RipController < ApplicationController
   
   def index
-    @list = Rip.find :all, :order => 'name', :conditions => ['parent_id IS NULL']
-    @rip = Rip.find params[:id].to_i if params[:id].to_i > 0
+    @list = Rip.find :all, :order => 'name', :conditions => ['parent_id IS NULL AND current'] 
+    @rip = current 
   end
   
   def preview
+    @rip = current
+  end
+  
+  def preview_id
     @rip = Rip.find params[:id]
+    @use_id = true
+    render :action => :preview
   end
   
   def preview_temp
     @rip = Rip.new
     @rip.build_from params
-    puts @rip.inspect
-    puts @rip.children.inspect
     render_rip
   end
   
   def show
-    @rip = Rip.find_by_name params[:id]
+    @rip = current
     if @rip.nil?
       return redirect_to :action => :index if params[:id] == controller_name
       raise ActiveRecord::RecordNotFound, "No rip named '#{params[:id]}' found"
@@ -28,21 +32,53 @@ class RipController < ApplicationController
     @rip.all_required_set? ? render_rip : query
   end
   
+  def show_id
+    @rip = Rip.find params[:id]
+    fill_params
+    @rip.all_required_set? ? render_rip : query_id
+  end
+    
+  # query for params before show
+  def query
+    @rip ||= current
+    render :action => :query, :layout => 'showrip'
+  end
+  
+  def query_id
+    @rip = Rip.find params[:id]
+    @use_id = true
+    render :action => :query, :layout => 'showrip'
+  end
+  
+  def history
+    @list = Rip.find :all, :order => 'revision', :conditions => ['parent_id IS NULL AND name = ?', params[:id]]
+    @rip = Rip.find params[:i].to_i if params[:i].to_i > 0
+    @title = "History of #{params[:id]}"
+    @use_id = true
+    render :action => :index
+  end
+  
   def edit
+    @rip = current
+    @form_action = 'update'
+  end
+  
+  def edit_id
     @rip = Rip.find params[:id]
     @form_action = 'update'
+    render :action => :edit
   end
 
   def update
-    @rip = Rip.find params[:id]
+    @rip = Rip.new
     @rip.build_from params
-    # TODO: should validate all first?
-    if @rip.save
+    if @rip.save_revision params[:id]     
       flash[:notice] = "#{@rip.name} bitRip was saved successfully"
-      redirect_to :action => 'index', :id => @rip
+      redirect_to :action => 'index', :id => @rip.name
     else
+      @rip.id = params[:id]   # set id because @rip is new
       render :action => 'edit'
-    end  
+    end 
   end
   
   def add
@@ -54,19 +90,15 @@ class RipController < ApplicationController
   end
   
   def create
-    @rip = Rip.new 
+    @rip = Rip.new :revision => 1, :current => true
     @rip.build_from params
+    @rip.validate_uniqueness_of_name
     if @rip.save
       flash[:notice] = "#{@rip.name} bitRip was added successfully"
-      redirect_to :action => 'index', :id => @rip
+      redirect_to :action => 'index', :id => @rip.name
     else
       render :action => 'add'
     end  
-  end
-  
-  def query
-    @rip ||= Rip.find params[:id]
-    render :action => 'query', :layout => 'showrip'
   end
   
   def add_subrip
@@ -76,8 +108,13 @@ class RipController < ApplicationController
   
   def remove_subrip
   end
-  
+
+
 private
+
+  def current
+    Rip.find :first, :conditions => ['name = ? AND current', params[:id]]
+  end
 
   def render_rip
     message = Scrubator.new(@rip).ripit 

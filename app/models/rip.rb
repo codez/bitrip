@@ -10,8 +10,7 @@ class Rip < ActiveRecord::Base
   validates_presence_of :name  
   validates_presence_of :bits, :unless => :multi?
   validates_presence_of :start_page, :unless => :multi?
-  validates_uniqueness_of :name, :scope => :current, :unless => :parent_id
-  validates_exclusion_of :name, :in => ['rip', 'bit', 'navi_action', 'form_field']
+  validates_exclusion_of :name, :in => ['rip', 'bit', 'navi_action', 'form_field', 'message']
   validates_format_of :start_page, :with => /^https?:\/\/.+/, :allow_nil => true, :message => 'should be a valid HTTP address'
 
  
@@ -46,6 +45,29 @@ class Rip < ActiveRecord::Base
     navi_actions.each { |navi| navi.validate }
     bits.each { |bit| bit.validate }
     children.each { |subrip| subrip.validate }
+  end
+  
+  def save_revision(prev_id)
+    self.current = true
+    Rip.transaction do
+      prev_rip = Rip.find prev_id
+      self.revision = Rip.maximum(:revision) + 1
+      validate_uniqueness_of_name unless prev_rip.name == name
+      # TODO: should validate all first?
+      if save
+        if prev_rip.name != name
+          Rip.update_all "name = #{quote(name, column_for_attribute(:name))}", ['name = ?', prev_rip.name]
+        end
+        Rip.update_all "current = FALSE", ['name = ? AND id <> ?', name, id]
+        return true
+      end 
+    end
+    false
+  end
+  
+  def validate_uniqueness_of_name
+    result = Rip.find :first, :conditions => ['name = ?', name]
+    errors.add(:name, ActiveRecord::Errors.default_error_messages[:taken]) unless result.nil?
   end
   
   def multi?
