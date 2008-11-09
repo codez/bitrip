@@ -6,7 +6,7 @@ class MessageController < ApplicationController
   
   def plain
     @message = msg params[:id]
-    render :action => :plain, :layout => nil
+    render :action => :plain, :layout => false
   end
   
   def faq
