@@ -1,17 +1,14 @@
 class RipController < ApplicationController
   
+  ID_METHODS = ['preview', 'show', 'query', 'edit']
+  
   def index
     @list = Rip.find :all, :order => 'name', :conditions => ['parent_id IS NULL AND current'] 
     @rip = current 
   end
   
   def preview
-    @rip = current
-  end
-  
-  def preview_id
-    @rip = Rip.find params[:id]
-    @use_id = true
+    @rip ||= current
     render :action => :preview
   end
   
@@ -22,7 +19,7 @@ class RipController < ApplicationController
   end
   
   def show
-    @rip = current
+    @rip ||= current
     if @rip.nil?
       return redirect_to :action => :index if params[:id] == controller_name
       raise ActiveRecord::RecordNotFound, "No rip named '#{params[:id]}' found"
@@ -31,12 +28,6 @@ class RipController < ApplicationController
     fill_params
     @rip.all_required_set? ? render_rip : query
   end
-  
-  def show_id
-    @rip = Rip.find params[:id]
-    fill_params
-    @rip.all_required_set? ? render_rip : query_id
-  end
     
   # query for params before show
   def query
@@ -44,14 +35,10 @@ class RipController < ApplicationController
     render :action => :query, :layout => 'showrip'
   end
   
-  def query_id
-    @rip = Rip.find params[:id]
-    @use_id = true
-    render :action => :query, :layout => 'showrip'
-  end
-  
   def history
-    @list = Rip.find :all, :order => 'revision', :conditions => ['parent_id IS NULL AND name = ?', params[:id]]
+    @list = Rip.find :all, 
+                     :order => 'revision DESC', 
+                     :conditions => ['parent_id IS NULL AND name = ?', params[:id]]
     @rip = Rip.find params[:i].to_i if params[:i].to_i > 0
     @title = "History of #{params[:id]}"
     @use_id = true
@@ -59,18 +46,13 @@ class RipController < ApplicationController
   end
   
   def edit
-    @rip = current
-    @form_action = 'update'
-  end
-  
-  def edit_id
-    @rip = Rip.find params[:id]
+    @rip ||= current
     @form_action = 'update'
     render :action => :edit
   end
 
   def update
-    @rip = Rip.new
+    @rip = new_unless_sandbox
     @rip.build_from params
     if @rip.save_revision params[:id]     
       flash[:notice] = "#{@rip.name} bitRip was saved successfully"
@@ -84,8 +66,8 @@ class RipController < ApplicationController
   def add
     @rip = Rip.new
     bitRip = @rip
-    bitRip = @rip.children.build :position => 1 if params['multi'] || params['common']
-    @rip.start_page = 'http://' if params['common'] || !params['multi']
+    bitRip = @rip.children.build :position => 1 if params['style'] != 'single'
+    @rip.start_page = 'http://' if params['style'] != 'multi'
     bitRip.bits.build :xpath => '/', :generalize => false 
   end
   
@@ -101,12 +83,36 @@ class RipController < ApplicationController
     end  
   end
   
+  def sandbox
+    params[:id] = Rip::SANDBOX_NAME
+    @rip = current
+    if params['style']
+      add   
+      @rip.name = Rip::SANDBOX_NAME
+    end
+  end
+  
   def add_subrip
     @rip = Rip.new :position => params['subrip_index'].to_i + 1
     @rip.bits.build :xpath => '/', :generalize => false 
   end
   
   def remove_subrip
+  end
+
+  def method_missing(symbol, *args)
+    if method = id_method?(symbol)
+      p method
+      @rip = Rip.find params[:id]
+      @use_id = true
+      self.send method
+    else
+      super(symbol, args)
+    end
+  end
+  
+  def respond_to?(symbol, include_private = false)
+    super(symbol, include_private) || id_method(symbol)
   end
 
 
@@ -132,5 +138,13 @@ private
       end
     end
   end
+  
+  def id_method?(symbol)
+    (symbol =~ /^(.*)_id$/ && ID_METHODS.include?($1)) ? $1 : nil
+  end
 
+  def new_unless_sandbox
+    prev = Rip.find(params[:id])
+    (prev && prev.name == 'sandbox') ? prev : Rip.new
+  end
 end

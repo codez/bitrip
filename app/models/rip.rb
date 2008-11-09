@@ -13,9 +13,10 @@ class Rip < ActiveRecord::Base
   validates_exclusion_of :name, :in => ['rip', 'bit', 'navi_action', 'form_field', 'message']
   validates_format_of :start_page, :with => /^https?:\/\/.+/, :allow_nil => true, :message => 'should be a valid HTTP address'
 
+  SANDBOX_NAME = 'sandbox'
  
   def bit_order
-    (0..(bits.size - 1)).to_a
+    (0..(bits.size - 1)).to_a.join(',')
   end
   
   def all_required_set?
@@ -35,7 +36,7 @@ class Rip < ActiveRecord::Base
     pages.collect! do |page|
       protocol_slash = page.index('//')
       root_slash = page.index('/', protocol_slash + 2)
-      root_slash = page.size if root_slash.nil?
+      root_slash = root_slash.nil? ? page.size : root_slash - 1
       page[0..root_slash]
     end
     pages.uniq
@@ -56,7 +57,7 @@ class Rip < ActiveRecord::Base
       # TODO: should validate all first?
       if save
         if prev_rip.name != name
-          Rip.update_all "name = #{quote(name, column_for_attribute(:name))}", ['name = ?', prev_rip.name]
+          Rip.update_all "name = #{connection.quote(name, column_for_attribute(:name))}", ['name = ?', prev_rip.name]
         end
         Rip.update_all "current = FALSE", ['name = ? AND id <> ?', name, id]
         return true
@@ -94,7 +95,8 @@ class Rip < ActiveRecord::Base
   end
   
   def build_from(params)
-    self.attributes = params['rip']
+    self.attributes = params['rip'].reject{|key, val| key == 'name' }
+    self.name = params['rip']['name'] unless self.name == SANDBOX_NAME
     
     # build navi actions
     self.navi_actions.clear

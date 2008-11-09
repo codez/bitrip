@@ -21,7 +21,7 @@ class Scrubator
   end
  
   def extract_links
-    links = non_empty scrub_links
+    links = non_empty scrub_links(@rip)
     links.collect! { |l| l[:links] }
     
     # add index to multiple labels
@@ -29,7 +29,7 @@ class Scrubator
   end
   
   def extract_fields
-    fields = non_empty scrub_fields
+    fields = non_empty scrub_fields(@rip)
     
     form_fields = []
     fields.each do |f|
@@ -71,19 +71,19 @@ class Scrubator
     end
   end
   
-  def scrub_links
+  def scrub_links(rip)
     scrubator = self
     Scrubyt::Extractor.define do
-      scrubator.navigate_to_dest self
+      scrubator.navigate_to_dest self, rip
       
       links '//a'
     end  
   end
   
-  def scrub_fields
+  def scrub_fields(rip)
     scrubator = self
     Scrubyt::Extractor.define do
-      scrubator.navigate_to_dest self
+      scrubator.navigate_to_dest self, rip
       
       inputs '//input' do
         name '//@name'

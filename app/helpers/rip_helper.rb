@@ -9,9 +9,9 @@ module RipHelper
                :onclick => "submit_form('#{url_for(action)}', '#{target}'); return false;"
   end
   
-  def frame_url(rip_name)
-    rip_name && !rip_name.empty? ?
-      url_for(:action => :show, :id => rip_name) : 
+  def frame_url(rip)
+    (rip.name && !rip.name.empty?) ?
+      url_for(id_action(:show, rip)) : 
       url_for(:controller => :message, :action => :plain, :id => "frame_#{params[:action]}")
   end
 

@@ -1,9 +1,9 @@
-<% @title = "Create new bitRip "%>
+<% @title = "Create new bitRip" %>
 
 <p>
-<%= link_to '[Single page]', :action => :add %>
-<%= link_to '[Multi page]', :action => :add, :multi => true %>
-<%= link_to '[Multi page w/ common navigation]', :action => :add, :common =>true %>
+<%= link_to '[Single page]', :action => :add, :style => :single %>
+<%= link_to '[Multi page]', :action => :add, :style => :multi %>
+<%= link_to '[Multi page w/ common navigation]', :action => :add, :style => :common %>
 </p>
 
 <%= render_form @rip, :action => 'create' %>

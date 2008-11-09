@@ -1,8 +1,12 @@
+<% if @rip.name != Rip::SANDBOX_NAME -%>
 <tr>
   <td>Name </td>
   <td><%= text_field 'rip', 'name',  :size => '25' %></td>
   <td><%= t 'rip_name' %></td>
 </tr>
+<% else -%>
+  <%= hidden_field 'rip', 'name' %>
+<% end -%>
 <tr>
   <td>Title </td>
   <td><%= text_field 'rip', 'description',  :size => '50' %></td>

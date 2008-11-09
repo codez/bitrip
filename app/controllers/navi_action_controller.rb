@@ -11,7 +11,8 @@ class NaviActionController < ApplicationController
     rip = Rip.new
     rip.build_from params
     #TODO check index == rip.navi_actions.size - 1
-    populate_type_fields rip
+    subrip = params['subrip_index'] ? rip.children[params['subrip_index']] : rip
+    populate_type_fields subrip
   end
 
 private
@@ -19,7 +20,7 @@ private
   def populate_type_fields(rip)
     return if start_page_missing?(rip)
     
-    navi = rip.navi_actions.last
+    navi = rip.complete_navi.last
     if navi.type.nil? || navi.type.to_s.empty?
        render :text => ''
        return

@@ -1,4 +1,5 @@
 <%= label = @use_id ? "#{link.name} \##{link.revision}" : link.name
 	link_to_remote label, :url => id_action(:preview, link)
 %>
+<%= "(#{link.created_at})" if @use_id %>
 <br/>
