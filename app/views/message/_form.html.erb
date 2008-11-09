@@ -1,0 +1,15 @@
+<%= hidden_field 'message', 'context' %>
+<table>
+<tr>
+	<td>Key</td>
+	<td><%= text_field 'message', 'key' %></td>
+</tr>	
+<tr>
+	<td>Content</td>
+	<td><%= text_area 'message', 'content' %></td>
+</tr>
+<tr>
+	<td></td>
+	<td><%= submit_tag %> <input type="reset" /></td>
+</tr>
+</table>

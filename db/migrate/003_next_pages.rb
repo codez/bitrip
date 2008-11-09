@@ -7,9 +7,16 @@ class NextPages < ActiveRecord::Migration
     add_column :bits, :select_indizes, :string
     
     change_column :rips, :start_page, :string, :null => true
+    
+    add_column :messages, :context, :string
+    add_column :messages, :position, :int
+    
+    Message.update_all "context = 'help'"
   end
 
   def self.down
+    remove_column :messages, :position
+    remove_column :messages, :context
     remove_column :bits, :select_indizes
     remove_column :rips, :position
     remove_column :rips, :next_link

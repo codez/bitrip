@@ -1,0 +1,30 @@
+<% @title = "Manage #{params['context']} messages" -%>
+
+<% Message::CONTEXTS.each do |context| -%>
+	<%= link_to "[#{context}]", :action => :manage, :context => context %>
+<% end -%>
+
+<br/>
+
+<table>
+<tbody id="messages">
+<% @list.each do |message| -%>
+	<tr id="message_<%= message.id %>">
+	<td><%= message.key %></td>
+	<td><%= link_to '[..]', :action => :edit, :id => message %></td>
+	<td>
+	<%= link_to '[-]', {:action => :delete, :id => message}, 
+			:confirm => 'Do you really want to delete this message?', 
+			:method => :post %>
+	</td>
+	</tr>
+<% end -%>
+</tbody>
+</table>
+
+<%= sortable_element 'messages', :url => {:action => :order}, :tag => 'tr' %>
+
+<% if params['context'] -%>
+	<br/>
+	<%= link_to '[+]', :action => :add, :context => params['context'] %>
+<% end -%>

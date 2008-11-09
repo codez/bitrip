@@ -190,6 +190,10 @@ div.dialog {
 	font-size: larger;
 }
 
+a.nolink {
+	 color: 			white;
+}
+
 a.help {
 	position: 		 relative;
 	/*display: 		 block;*/

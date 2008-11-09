@@ -1,0 +1,20 @@
+<% @title = "Frequently Asked Questions" %>
+
+<h2>Overview</h2>
+
+<ul>
+<% @list.each do |entry| -%>
+	<li><%= link_to entry.key, :anchor => entry.id %></li>
+<% end -%>
+</ul>
+
+<% @list.each do |entry| -%>
+	<a name="<%= entry.id %>" class="nolink"><h3>
+		<%= entry.key %>
+	</h3></a>
+	<div><%= entry.content %></div>
+<% end -%>
+
+<br>
+
+<a href="#top">Top</a>

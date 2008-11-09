@@ -31,8 +31,10 @@ ActiveRecord::Schema.define(:version => 3) do
   end
 
   create_table "messages", :force => true do |t|
-    t.string "key",     :null => false
-    t.text   "content"
+    t.string  "key",      :null => false
+    t.text    "content"
+    t.string  "context"
+    t.integer "position"
   end
 
   create_table "navi_actions", :force => true do |t|
