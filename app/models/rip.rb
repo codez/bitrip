@@ -14,21 +14,38 @@ class Rip < ActiveRecord::Base
   validates_format_of :start_page, :with => /^https?:\/\/.+/, :allow_nil => true, :message => 'should be a valid HTTP address'
 
   SANDBOX_NAME = 'sandbox'
- 
-  def bit_order
-    (0..(bits.size - 1)).to_a.join(',')
+
+
+  def has_fields?
+    navi_actions.any? { |navi| navi.type == :form }
   end
   
   def all_required_set?
     navi_actions.all? { |navi| navi.all_required_set? }
   end
   
-  def has_fields?
-    navi_actions.any? { |navi| navi.type == :form }
+  def multi?
+    not children.empty?
   end
   
+  def main_navi?
+    !(start_page.nil? || start_page.empty?)
+  end
+   
+  def bit_order
+    (0..(bits.size - 1)).to_a.join(',')
+  end
+    
   def page_info
     start_page.size > 30 ? start_page[0..30] + '...' : start_page
+  end
+  
+  def start_url
+    parent_id && parent.start_page ? parent.start_page : start_page
+  end
+  
+  def complete_navi
+    parent_id ? parent.navi_actions + navi_actions : navi_actions
   end
   
   def sources
@@ -40,12 +57,6 @@ class Rip < ActiveRecord::Base
       page[0..root_slash]
     end
     pages.uniq
-  end
-  
-  def validate
-    navi_actions.each { |navi| navi.validate }
-    bits.each { |bit| bit.validate }
-    children.each { |subrip| subrip.validate }
   end
   
   def save_revision(prev_id)
@@ -66,26 +77,16 @@ class Rip < ActiveRecord::Base
     end
     false
   end
+ 
+  def validate
+    navi_actions.each { |navi| navi.validate }
+    bits.each { |bit| bit.validate }
+    children.each { |subrip| subrip.validate }
+  end
   
   def validate_uniqueness_of_name
     result = Rip.find :first, :conditions => ['name = ?', name]
     errors.add(:name, ActiveRecord::Errors.default_error_messages[:taken]) unless result.nil?
-  end
-  
-  def multi?
-    not children.empty?
-  end
-  
-  def main_navi?
-    !(start_page.nil? || start_page.empty?)
-  end
-  
-  def complete_navi
-    parent_id ? parent.navi_actions + navi_actions : navi_actions
-  end
-  
-  def start_url
-    parent_id && parent.start_page ? parent.start_page : start_page
   end
   
   def set_subrip_names
@@ -93,6 +94,77 @@ class Rip < ActiveRecord::Base
     children.each do |subrip|
       subrip.name = name
     end
+  end
+  
+  def self.build_type(type = :single)
+    type = :single if type.nil?
+    rip = Rip.new
+    rip.children.build :position => 1 if type != :single
+    rip.start_page = 'http://' if type != :multi
+    (rip.children.empty? ? rip : rip.children.first).bits.build :xpath => '/'
+    rip
+  end
+
+  def to_type(type = :single)
+    clone = Rip.new
+    clone.id = id
+    clone.name = name
+    clone.description = description
+    case type.to_sym
+      when :single then
+        return self unless multi?
+        child = children.first
+        clone.start_page = child.start_page unless main_navi?
+        clone.next_link = child.next_link
+        clone.next_pages = child.next_pages
+        navi_actions.each do |navi|
+          clone.navi_actions << navi
+        end
+        child.navi_actions.each do |navi|
+          navi.position = navi_actions.empty? ? 1 : navi_actions.last.position + 1
+          clone.navi_actions << navi 
+        end
+        child.bits.each do |bit| 
+          clone.bits << bit 
+        end  
+      when :multi then
+        return self unless main_navi?
+        if multi?
+          pos = navi_actions.last.position
+          children.each do |child|
+            clone << child
+            child.navi_actions.each { |navi| navi.position += pos }
+            copy_attrs child
+          end          
+        else  
+          child = clone.children.build :position => 1 
+          copy_attrs child
+          bits.each do |bit|
+            child.bits << bit
+          end
+        end
+      when :common then
+        return self if multi? && main_navi?
+        if multi?
+          clone.start_page = children.empty? ? 'http://' : children.first.start_page
+          children.each do |child|
+            clone.children << child
+            child.start_page = nil
+          end 
+        else  
+          clone.start_page = start_page
+          child = clone.children.build :position => 1
+          child.next_link = next_link
+          child.next_pages = next_pages
+          bits.each do |bit|
+            child.bits << bit
+          end
+          navi_actions.each do |navi|
+            clone.navi_actions << navi
+          end
+        end
+    end
+    clone
   end
   
   def build_from(params)
@@ -147,4 +219,16 @@ class Rip < ActiveRecord::Base
       end  
     end
   end
+  
+private
+
+  def copy_attrs(child)
+    child.start_page = start_page
+    child.next_link = next_link
+    child.next_pages = next_pages
+    navi_actions.each do |navi|
+      child.navi_actions << navi
+    end
+  end
+  
 end

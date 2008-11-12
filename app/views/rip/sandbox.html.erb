@@ -1,9 +1,5 @@
 <% @title = "Edit Sandbox" %>
 
-<p>
-<%= link_to '[Single page]', :action => :sandbox, :style => :single %>
-<%= link_to '[Multi page]', :action => :sandbox, :style => :multi %>
-<%= link_to '[Multi page w/ common navigation]', :action => :sandbox, :style => :common %>
-</p>
+<%= render :partial => 'type' %>
 
 <%= render_form @rip, :action => 'update', :id => @rip %>

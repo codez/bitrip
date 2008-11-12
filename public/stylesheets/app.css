@@ -221,6 +221,8 @@ a.help:hover span {
 	color: 			#000;
 	background: 	#ddffdd;
 	padding:		1pt;
+	padding-left:	2pt;
+	padding-right:  2pt;
 	border:			1px solid #363;
 	font-weight:	normal;
 	text-align: 	left;

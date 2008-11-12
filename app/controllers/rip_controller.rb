@@ -49,8 +49,25 @@ class RipController < ApplicationController
     render :action => :index
   end
   
+  def add
+    @rip = Rip.build_type params['type']
+  end
+  
+  def create
+    @rip = Rip.new :revision => 1, :current => true
+    @rip.build_from params
+    @rip.validate_uniqueness_of_name
+    if @rip.save
+      flash[:notice] = "#{@rip.name} bitRip was added successfully"
+      redirect_to :action => 'index', :id => @rip.name
+    else
+      render :action => 'add'
+    end  
+  end
+  
   def edit
     @rip ||= current
+    @rip = @rip.to_type(params['type']) if params['type']
     @form_action = 'update'
     render :action => :edit
   end
@@ -67,33 +84,14 @@ class RipController < ApplicationController
     end 
   end
   
-  def add
-    @rip = Rip.new
-    bitRip = @rip
-    bitRip = @rip.children.build :position => 1 if params['style'] != 'single'
-    @rip.start_page = 'http://' if params['style'] != 'multi'
-    bitRip.bits.build :xpath => '/', :generalize => false 
-  end
-  
-  def create
-    @rip = Rip.new :revision => 1, :current => true
-    @rip.build_from params
-    @rip.validate_uniqueness_of_name
-    if @rip.save
-      flash[:notice] = "#{@rip.name} bitRip was added successfully"
-      redirect_to :action => 'index', :id => @rip.name
-    else
-      render :action => 'add'
-    end  
+  def cancel
+    redirect_to :action => 'index', :id => params['rip']['name']
   end
   
   def sandbox
     params[:id] = Rip::SANDBOX_NAME
     @rip = current
-    if params['style']
-      add   
-      @rip.name = Rip::SANDBOX_NAME
-    end
+    @rip = @rip.to_type(params['type']) if params['type']
   end
   
   def add_subrip
