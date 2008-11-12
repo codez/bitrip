@@ -14,7 +14,7 @@ BODY, P, DIV, TD  {
 
 H1  {
 	font-size : 15pt;
-	color: 	    #00cc00;
+	color: 	    white;
 }
 
 H2  {
@@ -49,6 +49,7 @@ A:hover  {
 A:visited {
 	/*color : #666666;*/
 }
+
 
 A IMG {
 	border: none;
@@ -205,6 +206,10 @@ a.help span {
 
 a.help:hover {
 	border: 0;  /* for IE bug */
+}
+
+a.help:focus {
+	outline: 0;
 }
 
 a.help:hover span {

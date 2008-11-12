@@ -1,5 +1,9 @@
-<%= label = @use_id ? "#{link.name} \##{link.revision}" : link.name
-	link_to_remote label, :url => id_action(:preview, link)
+<%= label = link.name
+	label += " \##{link.revision}" if @use_id
+	link_to_remote label, {:url => id_action(:preview, link), 
+						   :before => "parent.preview.location.href = '#{url_for(:controller => :message, :action => :loading)}';",
+						   :type => :synchronous}, 
+						  {:href => url_for(:action => :index, :id => link.name)}
 %>
 <%= "(#{link.created_at})" if @use_id %>
 <br/>

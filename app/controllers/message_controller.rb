@@ -14,6 +14,10 @@ class MessageController < ApplicationController
     render :action => :faq, :layout => 'application'
   end
   
+  def loading
+    render :action => :loading, :layout => false
+  end
+  
   def manage
     set_list params['context']
   end
