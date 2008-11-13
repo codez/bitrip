@@ -41,7 +41,7 @@ class Rip < ActiveRecord::Base
   end
   
   def start_url
-    parent_id && parent.start_page ? parent.start_page : start_page
+    parent && parent.start_page ? parent.start_page : start_page
   end
   
   def complete_navi
@@ -186,6 +186,7 @@ class Rip < ActiveRecord::Base
       sub_rip = self.children.build subrip
       sub_rip.name = self.name
       sub_rip.position = pos
+      sub_rip.parent = self
       build_navi sub_rip, params['navi_sub'][index.to_s], params['fields_sub'][index.to_s]
       build_bits sub_rip, params['bits_sub'][index.to_s], params['bit_order_sub'][index.to_s]
       pos += 1

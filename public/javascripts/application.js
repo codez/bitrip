@@ -12,3 +12,10 @@ function write_frame(content) {
 	doc.writeln(content);
 	doc.close();
 }
+
+function submit_form(url, target) {
+	form = document.forms[0];
+	form.action = url;
+	form.target = target;
+	return form.submit();
+}

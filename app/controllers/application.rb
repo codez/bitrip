@@ -15,11 +15,16 @@ class ApplicationController < ActionController::Base
   # from your application log (in this case, all fields with names like "password"). 
   filter_parameter_logging :password, :pwd
   
+  before_filter :init_vars
   after_filter :set_charset
 
   def msg(key)
     message = Message.find :first, :conditions => ['key = ?', key]
     message ? message.content : key
+  end
+
+  def init_vars
+    @bottom_js = ""
   end
 
   def set_charset

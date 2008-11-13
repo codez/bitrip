@@ -22,9 +22,9 @@
 </tbody>
 </table>
 
-<%= sortable_element 'messages', :url => {:action => :order}, :tag => 'tr' %>
-
 <% if params['context'] -%>
 	<br/>
 	<%= link_to '[+]', :action => :add, :context => params['context'] %>
 <% end -%>
+
+<% @bottom_js += sortable_element 'messages', :url => {:action => :order}, :tag => 'tr' %>

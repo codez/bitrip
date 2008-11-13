@@ -30,5 +30,12 @@ module RipHelper
         { :action => "#{action.to_s}_id".to_sym, :id => rip.id } : 
         { :action => action, :id => rip.name }
   end
+  
+  def change_type_link(label, type)
+    options = {:action => controller.action_name, :type => type}
+    confirm = {}
+    confirm[:confirm] = "You might lose some of the currently entered\ninformation if you change the type of the rip." if options[:action] != 'add'
+    link_to label, options, confirm
+  end
  
 end

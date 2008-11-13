@@ -27,16 +27,13 @@ bit_suffix = subrip_index ? "sub#{subrip_index}" : ""	# no _ for sortable_elemen
   	<td> Generalize <%= f.check_box :generalize %></td>
 	<td><%= t 'bit_generalize' %></td>
 	--->
-  </tr>
-  <tr>
-  	<td colspan="4" class="right">
+	<td colspan="2" style="vertical-align: bottom;">
 	<%= link_to_remote '<span>Remove this bit</span>[-]', 
 					   :url => { :controller => :bit,  
 							     :action => :remove, 
 							     :subrip_index => subrip_index,
 							     :index => index }, 
-				       :html => { :class => 'help' } %>
-	&nbsp;			   
+				       :html => { :class => 'help' } %>			   
   	</td>
   </tr>
 </table>

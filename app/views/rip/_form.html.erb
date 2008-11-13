@@ -28,10 +28,8 @@
 			   :collection => @rip.children, 
 	   	       :locals => {:start_page => !@rip.main_navi?} %>
 	</div>
-	
 	<br/>
 	<hr/>
-	
 	<%= render :partial => 'add_subrip_link', 
 			   :locals => { :subrip_index => @rip.children.size ,
 							:start_page => !@rip.main_navi? } %>
@@ -47,4 +45,4 @@
 
 <% end  # form -%>
 
-<%= render :partial => 'submit_js' %>
+<% @bottom_js += render :partial => 'errors_js' %>
