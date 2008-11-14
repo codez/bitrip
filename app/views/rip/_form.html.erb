@@ -2,7 +2,7 @@
 
 <div id="ripform">
 	<%= render :partial => 'type' %>
-	<table>
+	<table class="fullwidth">
 	<%= render :partial => 'mainrip', :locals => {:start_page => @rip.main_navi?} %>
 <% if not @rip.multi? %>
 	<tr>

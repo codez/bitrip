@@ -6,7 +6,7 @@ bit_suffix = subrip_index ? "sub#{subrip_index}" : ""	# no _ for sortable_elemen
 
 <li id="bit<%= "#{bit_suffix}_#{index}" %>">
 <% fields_for "bits#{field_suffix}", bit do |f| -%>
-<table width="100%">
+<table class="fullwidth">
   <tr>
   	<td>Label </td>
 	<td colspan="2"><%= f.text_field :label, :size => '25' %></td>

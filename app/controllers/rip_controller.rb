@@ -7,7 +7,9 @@ class RipController < ApplicationController
   ID_METHODS = ['preview', 'show', 'query', 'edit']
   
   def index
-    @list = Rip.find :all, :order => 'name', :conditions => ['parent_id IS NULL AND current'] 
+    @list = Rip.paginate :per_page => 100, :page => params[:page],
+                         :conditions => ['parent_id IS NULL AND current'] , 
+                         :order => 'name'
     @rip = current 
   end
   

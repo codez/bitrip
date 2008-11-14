@@ -97,7 +97,7 @@ class Rip < ActiveRecord::Base
   end
   
   def self.build_type(type = :single)
-    type = :single if type.nil?
+    type = :single unless [:single, :multi, :common].include?(type)
     rip = Rip.new
     rip.children.build :position => 1 if type != :single
     rip.start_page = 'http://' if type != :multi

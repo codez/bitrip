@@ -1,15 +1,18 @@
-<div id="rightform">
+<div id="rightindex">
 <%= render :partial => 'info' %>	
 
 <%= render :partial => 'iframe' %>
 </div>
 
-<div class="riplist">
-	<div class="column">
+<table id="riplist">
+<tr>
+	<td>
 	<%= render :partial => 'link', :collection => @list %>
-	</div>	 
-</div>
+	</td>
+</tr>	 
+</table>
 
 <div id="addrip">
 <%= link_to '[+] <span>Create a new bitRip</span>', {:action => 'add'}, :class => 'help' %>
 </div>
+<%= will_paginate @list, :inner_window => 10, :outer_window => 2 %>

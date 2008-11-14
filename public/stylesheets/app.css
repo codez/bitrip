@@ -1,4 +1,4 @@
-BODY {
+	BODY {
     background:     black url('../images/bitleaves.gif') repeat-x;
     color: 			white;
     padding:        0px;
@@ -132,29 +132,16 @@ HR {
 	max-width:		200pt;
 }
 
-#riplist {
-	margin-right:   6pt;
-	max-width:			380pt;
-}
-
-.column {
-	float: left;
-}
-
 .right {
 	text-align: right;
 }
 
-.indent {
-	margin-left:   5px;
+.fullwidth {
+	width:		100%;
 }
 
-#preview {
-	width: 			200pt;
-	height: 		300pt;
-	border-left: 	1px solid #004400;
-	border-top: 	1px solid #004400;
-	margin-bottom: 	6pt;
+.indent {
+	margin-left:   5px;
 }
 
 #ripform {
@@ -167,8 +154,37 @@ HR {
 	float:			right;
 }
 
+#rightindex {
+	float:			right;
+}
+
+#preview {
+	height: 		300pt;
+	border-left: 	1px solid #004400;
+	border-top: 	1px solid #004400;
+	margin-bottom: 	6pt;
+}
+
+#rightform #preview {
+	width:			300pt;
+}
+
+#rightindex #preview {
+	width:			200pt;
+}
+
+#riplist {
+	margin-right:   6pt;
+	width:			480pt;
+	margin-bottom:	15pt;
+}
+
+#riplist td {
+	width: 25%;
+}
+
 #addrip {
-	margin-top:		15pt;
+	float:			left;
 	font-size:		larger;
 }
 
@@ -208,7 +224,6 @@ a.nolink {
 
 a.help {
 	position: 		 relative;
-	/*display: 		 block;*/
 }
 
 a.help span {
@@ -243,5 +258,14 @@ a.help:hover span {
 .quickinfo a.help:hover span {
 	white-space:	normal;
 	width:			250px;
+}
+
+.pagination {
+	text-align: center;
+	width:		400pt;
+}
+
+.pagination .disabled {
+	visibility: hidden;
 }
 
