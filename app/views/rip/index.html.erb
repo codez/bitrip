@@ -1,12 +1,14 @@
-<div class="riplist">
-	<%= render :partial => 'link', :collection => @list %>	 
-</div>
+<div id="rightform">
+<%= render :partial => 'info' %>	
 
 <%= render :partial => 'iframe' %>
+</div>
 
-<br/>
-
-<%= render :partial => 'info' %>	 
+<div class="riplist">
+	<div class="column">
+	<%= render :partial => 'link', :collection => @list %>
+	</div>	 
+</div>
 
 <div id="addrip">
 <%= link_to '[+] <span>Create a new bitRip</span>', {:action => 'add'}, :class => 'help' %>

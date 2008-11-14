@@ -26,6 +26,7 @@ H2  {
 H3  {
 	font-size : 12pt;
 	font-weight: bold;
+	margin-top:   0px;
 	margin-bottom: 0px;
 }
 
@@ -80,6 +81,7 @@ HR {
 	display: 		table;
 	margin:         auto;
     padding:        0px 0px 0px 0px;
+	width:			700pt;
 	background: 	black;
 	border-left:	1px solid #004400;
 	border-right:	1px solid #004400;
@@ -127,12 +129,16 @@ HR {
 }
 
 #ripinfo {
+	max-width:		200pt;
 }
 
-.riplist {
-	float: 			left;
+#riplist {
 	margin-right:   6pt;
-	min-width:		300pt;
+	max-width:			380pt;
+}
+
+.column {
+	float: left;
 }
 
 .right {
@@ -158,12 +164,16 @@ HR {
 }
 
 #rightform {
-	float:			left;
+	float:			right;
 }
 
 #addrip {
-	clear: 			both;
 	margin-top:		15pt;
+	font-size:		larger;
+}
+
+#addrip a.help span {
+	font-size:		smaller;
 }
 
 ul.sortable {

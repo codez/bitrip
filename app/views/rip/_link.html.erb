@@ -7,3 +7,7 @@
 %>
 <%= "(#{link.created_at})" if @use_id %>
 <br/>
+<% if link_counter % 20 == 0 -%>
+</div>
+<div class="column">
+<% end -%>

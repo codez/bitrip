@@ -16,11 +16,6 @@
 		<%= link_to '&lt;bitRip&gt;', { :controller => 'rip', :action => 'index' } %>
 	</div>
 	<div id="content">
-<% unless controller.controller_name != 'rip' || controller.action_name == 'index' -%>
-	<div id="backlink">
-		<%= link_to '<span>Back to the overview (without saving)</span> [&lt;-]', {:action => :index, :id => @rip}, :class => 'help' %>
-	</div>
-<% end -%>
 	<div id="menu">
 	<%= link_to '[Home]', :controller => 'rip', :action => 'index' %>
 	<%= link_to '[FAQ]', :controller => 'message', :action => 'faq' %>

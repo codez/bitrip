@@ -6,9 +6,10 @@
 					id_action(:edit, @rip), 
 					:class => 'help' %>
 	</h3>
-	
-	direct link: <%= link_to "#{url_for :controller => @rip.name, :only_path => false}", 
-							  :only_path => false, :controller => @rip.name %>
+
+	<%= link_to "direct link", 
+				:only_path => false, 
+				:controller => @rip.name %>
 	<%= link_to("[..] <span>Change parameters of this bitRip</span>", 
 				id_action(:query, @rip), 
 				:target => 'preview', 
@@ -20,5 +21,7 @@
 	Revision #<%= @rip.revision %> 
 	<%= link_to "[history]", :action => :history, :id => @rip.name %> 
 	</div>
+	
+	<br/>
 <% end -%>
 </div>
