@@ -3,6 +3,8 @@ class MessageController < ApplicationController
   # GETs should be safe (see http://www.w3.org/2001/tag/doc/whenToUseGet.html)
   verify :method => :post, :only => [ :create, :update, :delete ],
          :redirect_to => { :action => :manage }
+         
+  before_filter :authenticate, :except => [:plain, :faq, :loading]
   
   def plain
     @message = msg params[:id]
@@ -67,8 +69,29 @@ class MessageController < ApplicationController
     end
   end
   
-private
+  def login
+    if check_login params['login']
+      session[:loggedin] = true
+      redirect_to :action => :manage
+    end
+  end
   
+private
+
+  #Filter for check if user is logged in or not
+  def authenticate
+    unless session[:loggedin]
+      redirect_to :action => 'login'
+      return false
+    end
+    return true
+  end 
+  
+  def check_login(login)
+    #TODO sha1
+    1 == Message.count(:conditions => ["context = 'login' AND key = 'login' AND content = ?", login])
+  end
+
   def set_list(context)
     @list = Message.find :all, 
                          :conditions => ['context = ?', context], 

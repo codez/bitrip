@@ -59,6 +59,7 @@ A IMG {
 INPUT {
 	color: Black;
 	font-family: Courier New, monospace;
+	margin: 0pt;
 }
 
 TD {
@@ -173,9 +174,12 @@ HR {
 	width:			200pt;
 }
 
+.indexleft {
+	width:			480pt;
+}
+
 #riplist {
 	margin-right:   6pt;
-	width:			480pt;
 	margin-bottom:	15pt;
 }
 
@@ -184,7 +188,6 @@ HR {
 }
 
 #addrip {
-	float:			left;
 	font-size:		larger;
 }
 
@@ -262,7 +265,7 @@ a.help:hover span {
 
 .pagination {
 	text-align: center;
-	width:		400pt;
+	width:		300pt;
 }
 
 .pagination .disabled {

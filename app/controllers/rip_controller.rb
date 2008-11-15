@@ -1,7 +1,7 @@
 class RipController < ApplicationController
   
   # GETs should be safe (see http://www.w3.org/2001/tag/doc/whenToUseGet.html)
-  verify :method => :post, :only => [ :create, :update ],
+  verify :method => :post, :only => [ :create, :update, :delete ],
          :redirect_to => { :action => :index }
          
   ID_METHODS = ['preview', 'show', 'query', 'edit']
@@ -42,7 +42,7 @@ class RipController < ApplicationController
   end
   
   def history
-    @list = Rip.find :all, 
+    @list = Rip.paginate :per_page => 1000, :page => params[:page],
                      :order => 'revision DESC', 
                      :conditions => ['parent_id IS NULL AND name = ?', params[:id]]
     @rip = Rip.find params[:i].to_i if params[:i].to_i > 0
@@ -96,6 +96,30 @@ class RipController < ApplicationController
     @rip = @rip.to_type(params['type']) if params['type']
   end
   
+  def trash
+    trash_query = "SELECT * FROM rips AS pri " +
+                  "WHERE parent_id IS NULL AND NOT current AND revision = (" +
+                  " SELECT MAX(revision) FROM rips " +
+                  " WHERE name = pri.name)"
+    @list = Rip.paginate_by_sql trash_query, 
+                                :per_page => 100, :page => params[:page]
+    @rip = Rip.find_by_sql([trash_query + ' AND name = ?', params[:id]]).first if params[:id]
+    @title = "Trash"
+    @use_id = true
+    render :action => :index
+  end
+  
+  def delete
+    rip = Rip.find params[:id]
+    rip.current = false
+    if rip.save
+      flash[:notice] = "Rip was moved to trash"
+    else
+      flash[:notice] = "Rip could not be deleted: #{rip.errors.full_messages.join(", ")}"
+    end  
+    redirect_to :action => :index
+  end
+  
   def add_subrip
     @rip = Rip.new :position => params['subrip_index'].to_i + 1
     @rip.bits.build :xpath => '/', :generalize => false 
@@ -106,7 +130,6 @@ class RipController < ApplicationController
 
   def method_missing(symbol, *args)
     if method = id_method?(symbol)
-      p method
       @rip = Rip.find params[:id]
       @use_id = true
       self.send method

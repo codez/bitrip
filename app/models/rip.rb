@@ -68,7 +68,6 @@ class Rip < ActiveRecord::Base
       # TODO: should validate all first?
       if save
         if prev_rip.name != name
-          #Rip.update_all "name = #{connection.quote(name, column_for_attribute(:name))}", ['name = ?', prev_rip.name]
           Rip.update_all({:name => name}, ['name = ?', prev_rip.name])
         end
         Rip.update_all "current = FALSE", ['name = ? AND id <> ?', name, id]
@@ -90,7 +89,6 @@ class Rip < ActiveRecord::Base
   end
   
   def set_subrip_names
-    self.current = true
     children.each do |subrip|
       subrip.name = name
     end

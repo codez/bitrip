@@ -4,7 +4,7 @@
 <%= render :partial => 'iframe' %>
 </div>
 
-<table id="riplist">
+<table id="riplist" class="indexleft">
 <tr>
 	<td>
 	<%= render :partial => 'link', :collection => @list %>
@@ -12,7 +12,20 @@
 </tr>	 
 </table>
 
-<div id="addrip">
-<%= link_to '[+] <span>Create a new bitRip</span>', {:action => 'add'}, :class => 'help' %>
-</div>
-<%= will_paginate @list, :inner_window => 10, :outer_window => 2 %>
+<table class="indexleft">
+<tr>
+	<% unless @use_id -%>
+	<td id="addrip">
+	<%= link_to '[+] <span>Create a new bitRip</span>', {:action => 'add'}, :class => 'help' %>
+	</td>
+	<% end -%>
+	<td>
+	<%= will_paginate @list, :inner_window => 10, :outer_window => 2 %>
+	</td>
+	<% unless @use_id -%>
+	<td>
+	<%= link_to '[Trash] <span>View trash</span>', {:action => 'trash'}, :class => 'help' %>
+	</td>
+	<% end -%>
+</tr>
+</table>
