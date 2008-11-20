@@ -23,7 +23,7 @@
 	<%= will_paginate @list, :inner_window => 10, :outer_window => 2 %>
 	</td>
 	<% unless @use_id -%>
-	<td>
+	<td class="right">
 	<%= link_to '[Trash] <span>View trash</span>', {:action => 'trash'}, :class => 'help' %>
 	</td>
 	<% end -%>
