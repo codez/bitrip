@@ -1,4 +1,4 @@
-	BODY {
+BODY {
     background:     black url('../images/bitleaves.gif') repeat-x;
     color: 			white;
     padding:        0px;
@@ -56,10 +56,11 @@ A IMG {
 	border: none;
 }
 
-INPUT {
-	color: Black;
-	font-family: Courier New, monospace;
-	margin: 0pt;
+INPUT, textarea {
+	color: 			Black;
+	font-family: 	Courier New, monospace;
+	font-size: 		9.5pt;
+	margin: 		0pt;
 }
 
 TD {
@@ -167,7 +168,7 @@ HR {
 }
 
 #rightform #preview {
-	width:			300pt;
+	width:			280pt;
 }
 
 #rightindex #preview {
@@ -272,3 +273,15 @@ a.help:hover span {
 	visibility: hidden;
 }
 
+.messages {
+	width: 600pt;	
+}
+
+.messages h3 {
+	margin-top: 16pt;
+	margin-bottom: 4pt;
+}
+
+.messages td {
+	vertical-align: bottom;
+}

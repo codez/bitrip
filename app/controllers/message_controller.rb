@@ -4,7 +4,8 @@ class MessageController < ApplicationController
   verify :method => :post, :only => [ :create, :update, :delete ],
          :redirect_to => { :action => :manage }
          
-  before_filter :authenticate, :except => [:plain, :faq, :loading]
+  before_filter :authenticate, :except => [:plain, :faq, :loading, :login]
+  
   
   def plain
     @message = msg params[:id]
@@ -70,7 +71,7 @@ class MessageController < ApplicationController
   end
   
   def login
-    if check_login params['login']
+    if params['login'] && Message.check_login(params['login'])
       session[:loggedin] = true
       redirect_to :action => :manage
     end
@@ -86,11 +87,6 @@ private
     end
     return true
   end 
-  
-  def check_login(login)
-    #TODO sha1
-    1 == Message.count(:conditions => ["context = 'login' AND key = 'login' AND content = ?", login])
-  end
 
   def set_list(context)
     @list = Message.find :all, 

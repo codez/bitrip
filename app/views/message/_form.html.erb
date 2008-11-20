@@ -6,10 +6,14 @@
 </tr>	
 <tr>
 	<td>Content</td>
-	<td><%= text_area 'message', 'content' %></td>
+	<td><%= text_area 'message', 'content', :size => '80x20' %></td>
 </tr>
 <tr>
 	<td></td>
 	<td><%= submit_tag %> <input type="reset" /></td>
 </tr>
 </table>
+
+<br/>
+
+<%= link_to '[&lt;-]', :action => :manage, :context => @message.context %>

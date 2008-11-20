@@ -1,12 +1,12 @@
 <% @title = "Manage #{params['context']} messages" -%>
 
+<p>
 <% Message::CONTEXTS.each do |context| -%>
 	<%= link_to "[#{context}]", :action => :manage, :context => context %>
 <% end -%>
+</p>
 
-<br/>
-
-<table>
+<table class="messages">
 <tbody id="messages">
 <% @list.each do |message| -%>
 	<tr id="message_<%= message.id %>">

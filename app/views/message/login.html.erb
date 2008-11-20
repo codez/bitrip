@@ -1,6 +1,10 @@
 <% @title = "Say, watcha want?" -%>
 
-<% form_tag 'login' %>
-<input type="text" name="login">
+<% form_tag 'login', :class => 'center' do -%>
+&nbsp;
+<input type="password" name="login">
 
-<%= submit_tag %>
+<%= submit_tag 'Getit!' %>
+<% end -%>
+<br/>
+<br/>
