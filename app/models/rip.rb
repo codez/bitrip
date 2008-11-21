@@ -99,9 +99,9 @@ class Rip < ActiveRecord::Base
     type = type.to_sym
     type = :single unless [:single, :multi, :common].include?(type)
     rip = Rip.new
-    rip.children.build :position => 1 if type != :single
-    rip.start_page = 'http://' if type != :multi
-    (rip.children.empty? ? rip : rip.children.first).bits.build :xpath => '/'
+    child = rip.children.build :position => 1 if type != :single
+    (type == :multi ? child : rip).start_page = 'http://'
+    (child ? child : rip).bits.build :xpath => '/'
     rip
   end
 
