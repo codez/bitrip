@@ -11,7 +11,18 @@
 		<%= stylesheet_link_tag 'plain', :media => 'all' %>
 	</head>
 	<body>
+	<div class="errorExplanation" id="errorExplanation">
+	<% @attempted_action ||= 'saved' %>
+	<h2>This bitRip cannot be <%= @attempted_action %></h2>
+	<% if @message -%>
+		<p><%= @message %></p>
+	<% else -%>
     <%= error_messages_for 'bitRip',
-						   :object => [@rip] + @rip.navi_actions + @rip.bits + @rip.children  %>
+						   :object => [@rip] + @rip.navi_actions + @rip.bits + @rip.children,
+						   :header_message => nil,
+						   :class => nil, 
+						   :id => nil  %>
+	<% end -%>
+	</div>
 	</body>
 </html>

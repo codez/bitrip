@@ -21,7 +21,12 @@ class RipController < ApplicationController
   def preview_temp
     @rip = Rip.new
     @rip.build_from params
-    render_rip
+    if @rip.valid?
+      render_rip
+    else
+      @attempted_action = 'previewed'
+      render :partial => 'errors'
+    end  
   end
   
   def show
@@ -70,7 +75,7 @@ class RipController < ApplicationController
   def edit
     @rip ||= current
     @rip = @rip.to_type(params['type']) if params['type']
-    @form_action = 'update'
+    # required if called by edit_id
     render :action => :edit
   end
 
@@ -150,11 +155,12 @@ private
   end
 
   def render_rip
-    message = Scrubator.new(@rip).ripit 
-    if message.nil?
+    @message = Scrubator.new(@rip).ripit 
+    if @message.nil?
       render :action => :show, :layout => 'showrip'
     else 
-      render :controller => :message, :action => :plain, :id => message
+      @attempted_action = 'viewed'
+      render :partial => 'errors'
     end
   end
   

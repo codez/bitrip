@@ -1,8 +1,11 @@
 <% subrip_index ||= subrip_counter -%>
 <div id="subrip_<%= subrip_index %>">
 
-<h2 class="header">=== Page Rip ===</h2>
+<%= link_to_function "<h2 class=\"header\">=== Page Rip ===</h2>",
+					 visual_effect(:toggle_slide, "toggle_subrip_#{subrip_index}", :duration => 0.25) %>
 
+<div id="toggle_subrip_<%= subrip_index %>">
+	
 <div class="right">
 <%= link_to_remote '<span>Remove this page</span>[-]', 
 			   :url => { :controller => :rip,  
@@ -45,5 +48,5 @@
 <%= render :partial => 'bit/form', 
 		   :locals => {:rip => subrip,
 					   :subrip_index => subrip_index} %>
-
+</div>
 </div>

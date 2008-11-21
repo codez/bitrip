@@ -5,13 +5,14 @@ class Rip < ActiveRecord::Base
   
   acts_as_tree :order => 'position'
   
-  before_validation :set_subrip_names
+  before_save :set_subrip_names
   
-  validates_presence_of :name  
+  validates_presence_of :name, :unless => :parent
+  validates_format_of :name, :with => /^[A-Za-z0-9\-_\.]*$/, :unless => :parent, :message => "may only contain letters, numbers or one of '._-'"
+  validates_exclusion_of :name, :in => ['rip', 'bit', 'navi_action', 'form_field', 'message']
   validates_presence_of :bits, :unless => :multi?
   validates_presence_of :start_page, :unless => :multi?
-  validates_exclusion_of :name, :in => ['rip', 'bit', 'navi_action', 'form_field', 'message']
-  validates_format_of :start_page, :with => /^https?:\/\/.+/, :allow_nil => true, :message => 'should be a valid HTTP address'
+  validates_format_of :start_page, :with => /^https?:\/\/.+/, :allow_nil => true, :message => 'must be a valid HTTP address'
 
   SANDBOX_NAME = 'sandbox'
 
@@ -89,13 +90,13 @@ class Rip < ActiveRecord::Base
   end
   
   def set_subrip_names
-    self.name = name.delete ' ' if name
     children.each do |subrip|
       subrip.name = name
     end
   end
   
   def self.build_type(type = :single)
+    type = type.to_sym
     type = :single unless [:single, :multi, :common].include?(type)
     rip = Rip.new
     rip.children.build :position => 1 if type != :single

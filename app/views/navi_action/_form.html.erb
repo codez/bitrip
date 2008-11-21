@@ -1,6 +1,11 @@
-<h4 class="header">Navigate</h4>
-
 <% id_suffix = sub_suffix subrip_index -%>
+
+<%= link_to_function "<h4 class=\"header\">Navigate</h4>",
+					 visual_effect(:toggle_slide, 
+								   "toggle_navis#{id_suffix}", 
+								   :duration => 0.25) %>
+
+<div id="toggle_navis<%= id_suffix %>">
 
 <div id="navis<%= id_suffix %>">
 <%= render :partial => 'navi_action/navi', 
@@ -19,3 +24,5 @@
 						:subrip_index => subrip_index  } %>
 </tr>
 </table>
+
+</div>

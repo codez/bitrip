@@ -15,9 +15,8 @@ class Scrubator
       assign_snippets(snippets, rip)
     end  
     nil
-  #rescue Exception => ex
-  #  puts 'Exception occured: ' + ex.message
-  #  ex.message
+  rescue Exception => ex
+    ex.message
   end
  
   def extract_links

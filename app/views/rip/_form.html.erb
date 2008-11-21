@@ -3,7 +3,8 @@
 <div id="ripform">
 	<%= render :partial => 'type' %>
 	<table class="fullwidth">
-	<%= render :partial => 'mainrip', :locals => {:start_page => @rip.main_navi?} %>
+	<%= render :partial => 'mainrip', 
+			   :locals => {:start_page => @rip.main_navi?} %>
 <% if not @rip.multi? %>
 	<tr>
 	  <td>Next Link </td>
