@@ -20,9 +20,10 @@
 	<br/>
 	Revision #<%= @rip.revision %> 
 	<%= link_to "[history]", :action => :history, :id => @rip.name %> 
-	<%= link_to "[-]", {:action => :delete, :id => @rip.id},
+	<%= link_to "[-] <span>Delete this bitRip</span>", {:action => :delete, :id => @rip.id},
 				:method => :post,
-				:confirm => 'Do you want to move this rip to the trash?' %>	
+				:confirm => 'Do you want to move this rip to the trash?',
+				:class => 'help' %>	
 	</div>
 	
 	<br/>

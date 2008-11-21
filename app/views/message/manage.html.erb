@@ -6,13 +6,14 @@
 <% end -%>
 </p>
 
-<table class="messages">
+<div class="messages">
+<table>
 <tbody id="messages">
 <% @list.each do |message| -%>
 	<tr id="message_<%= message.id %>">
 	<td><%= message.key %></td>
-	<td><%= link_to '[..]', :action => :edit, :id => message %></td>
-	<td>
+	<td nowrap="nowrap"><%= link_to '[..]', :action => :edit, :id => message %></td>
+	<td nowrap="nowrap">
 	<%= link_to '[-]', {:action => :delete, :id => message}, 
 			:confirm => 'Do you really want to delete this message?', 
 			:method => :post %>
@@ -21,6 +22,7 @@
 <% end -%>
 </tbody>
 </table>
+</div>
 
 <% if params['context'] -%>
 	<br/>

@@ -39,7 +39,6 @@ H4 {
 
 A  {
 	text-decoration: none;
-	font-weight: 	 bold;
 	color: 			 #00cc00;
 }
 
@@ -93,6 +92,7 @@ HR {
 #title  {
 	font-size : 	30pt;
 	margin-top:		5px;
+	font-weight: 	 bold;
 }
 
 #title a {
@@ -118,6 +118,7 @@ HR {
 
 #menu {
 	font-size:	    larger;
+	font-weight: 	 bold;
 }
 
 #backlink {
@@ -229,6 +230,7 @@ a.nolink {
 
 a.help {
 	position: 		 relative;
+	font-weight: 	 bold;
 }
 
 a.help span {
@@ -275,7 +277,7 @@ a.help:hover span {
 }
 
 .messages {
-	width: 600pt;	
+	width: 600pt;
 }
 
 .messages h3 {
