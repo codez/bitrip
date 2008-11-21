@@ -7,15 +7,20 @@ BODY, P, DIV, TD  {
 	font-family : Courier New, monospace;
 	font-size: 		10pt;
 }
-
 A  {
-	text-decoration : none;
-	font-weight : bold;
+	text-decoration: none;
+	font-weight: 	 bold;
+	color: 			 #00cc00;
 }
 
-A:Hover  {
-	text-decoration : underline;
+A:hover  {
+	color: 	#33FF33;
 }
+
+A:visited {
+	/*color : #666666;*/
+}
+
 
 A IMG {
 	border: none;

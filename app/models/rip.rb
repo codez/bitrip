@@ -89,6 +89,7 @@ class Rip < ActiveRecord::Base
   end
   
   def set_subrip_names
+    self.name = name.delete ' ' if name
     children.each do |subrip|
       subrip.name = name
     end
