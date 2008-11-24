@@ -14,11 +14,13 @@
 
 <table class="indexleft">
 <tr>
-	<% unless @use_id -%>
-	<td id="addrip">
+	<td class="control">
+	<% if @use_id -%>
+	<%= link_to '[&lt;-] <span>Back to overview</span>', {:action => 'index'}, :class => 'help' %>	
+	<% else -%>
 	<%= link_to '[+] <span>Create a new bitRip</span>', {:action => 'add'}, :class => 'help' %>
-	</td>
 	<% end -%>
+	</td>
 	<td>
 	<%= will_paginate @list, :inner_window => 10, :outer_window => 2 %>
 	</td>

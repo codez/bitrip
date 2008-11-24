@@ -15,17 +15,23 @@
 				:target => 'preview', 
 				:class => 'help' ) if @rip.has_fields? %>
 	<br/>
-	<div style="font-size: smaller;">
+	<div class="small">
 	Data by <%= @rip.sources.join(',') %>
-	<br/>
-	Revision #<%= @rip.revision %> 
-	<%= link_to "[history]", :action => :history, :id => @rip.name %> 
-	<%= link_to "[-] <span>Delete this bitRip</span>", {:action => :delete, :id => @rip.id},
+	</div>
+	<div class="small" style="float: right;">
+	<%= link_to "[+] <span style=>Clone this bitRip</span>", 
+				id_action(:copy, @rip),
+				:class => 'help' %>	
+	<%= link_to "[-] <span>Delete this bitRip</span>", 
+				{:action => :delete, :id => @rip.id},
 				:method => :post,
 				:confirm => 'Do you want to move this rip to the trash?',
 				:class => 'help' %>	
 	</div>
-	
+	<div class="small">
+	Revision #<%= @rip.revision %> 
+	<%= link_to "[history]", :action => :history, :id => @rip.name %> 
+	</div>
 	<br/>
 <% end -%>
 </div>

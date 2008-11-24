@@ -7,31 +7,31 @@ BODY {
 }
 
 BODY, P, DIV, TD  {
-	font-family: 	Courier New, monospace ;
-	font-size: 		10pt;
+	font-family: 	Courier New, monospace;
+	font-size: 		11pt;
 	text-align: 	justify;
 }
 
 H1  {
-	font-size : 15pt;
+	font-size : 16pt;
 	color: 	    white;
 }
 
 H2  {
-	font-size : 	13pt;
+	font-size : 	14pt;
 	margin-top:		15pt;
 	margin-bottom:	0pt;
 }
 
 H3  {
-	font-size : 12pt;
+	font-size : 13pt;
 	font-weight: bold;
 	margin-top:   0px;
 	margin-bottom: 0px;
 }
 
 H4 {
-	font-size : 10.5pt;
+	font-size : 11.5pt;
 	font-weight: bold;
 	margin-top: 10px;
 	margin-bottom: 4px;
@@ -131,6 +131,15 @@ HR {
 	text-align:	   center;
 }
 
+#notice a {
+	font-weight:	bold;
+	color:			#dd6600;
+}
+
+#notice a:hover {
+	color:			#ff6600;
+}
+
 #ripinfo {
 	max-width:		200pt;
 }
@@ -190,12 +199,20 @@ HR {
 	width: 25%;
 }
 
-#addrip {
+.control {
 	font-size:		larger;
 }
 
-#addrip a.help span {
+.control a.help span {
 	font-size:		smaller;
+}
+
+.small {
+	font-size:		smaller;
+}
+
+.small a.help span {
+	font-size:		larger;
 }
 
 ul.sortable {
@@ -277,7 +294,7 @@ a.help:hover span {
 }
 
 .messages {
-	width: 600pt;
+	width: 500pt;
 }
 
 .messages h3 {

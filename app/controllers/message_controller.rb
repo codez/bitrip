@@ -6,6 +6,7 @@ class MessageController < ApplicationController
          
   before_filter :authenticate, :except => [:plain, :faq, :loading, :login]
   
+  caches_page :faq, :loading
   
   def plain
     @message = msg params[:id]
@@ -34,6 +35,7 @@ class MessageController < ApplicationController
     @message = Message.new params['message']
     @message.position = Message.maximum(:position, :conditions => ['context = ?', @message.context]) + 1
     if @message.save
+      expire_page :action => :faq if @message.context == Message::CONTEXT_FAQ
       flash[:notice] = 'The message has been created.'
       redirect_to :action => :manage, :context => @message.context
     else  
@@ -48,6 +50,7 @@ class MessageController < ApplicationController
   def update
     @message = Message.find params['id']
     if @message.update_attributes params['message']
+      expire_page :action => :faq if @message.context == Message::CONTEXT_FAQ
       flash[:notice] = 'The message has been saved.'
       redirect_to :action => :manage, :context => @message.context
     else  
@@ -58,6 +61,7 @@ class MessageController < ApplicationController
   def delete
     @message = Message.find params['id']
     @message.destroy
+    expire_page :action => :faq if @message.context == Message::CONTEXT_FAQ
     flash[:notice] = 'The message has been deleted.'
     redirect_to :action => :manage, :context => @message.context
   end

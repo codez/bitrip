@@ -4,7 +4,7 @@ class RipController < ApplicationController
   verify :method => :post, :only => [ :create, :update, :delete ],
          :redirect_to => { :action => :index }
          
-  ID_METHODS = ['preview', 'show', 'query', 'edit']
+  ID_METHODS = ['preview', 'show', 'query', 'edit', 'copy']
   
   def index
     @list = Rip.paginate :per_page => 100, :page => params[:page],
@@ -63,13 +63,21 @@ class RipController < ApplicationController
   def create
     @rip = Rip.new :revision => 1, :current => true
     @rip.build_from params
-    @rip.validate_uniqueness_of_name
     if @rip.save
       flash[:notice] = "#{@rip.name} bitRip was added successfully"
       redirect_to :action => 'index', :id => @rip.name
     else
       render :action => 'add'
     end  
+  end
+  
+  def copy
+    @rip ||= current
+    # preload dependent objects before resetting id
+    @rip.children; @rip.navi_actions; @rip.bits
+    @rip.id = nil
+    @rip.name += '_copy'
+    render :action => :add
   end
   
   def edit

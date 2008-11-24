@@ -63,13 +63,12 @@ class Rip < ActiveRecord::Base
   def save_revision(prev_id)
     self.current = true
     Rip.transaction do
-      prev_rip = Rip.find prev_id
-      self.revision = Rip.maximum(:revision, :conditions => ['name = ?', prev_rip.name]) + 1
-      validate_uniqueness_of_name unless prev_rip.name == name
+      @prev_rip = Rip.find prev_id
+      self.revision = Rip.maximum(:revision, :conditions => ['name = ?', @prev_rip.name]) + 1
       # TODO: should validate all first?
       if save
-        if prev_rip.name != name
-          Rip.update_all({:name => name}, ['name = ?', prev_rip.name])
+        if @prev_rip.name != name
+          Rip.update_all({:name => name}, ['name = ?', @prev_rip.name])
         end
         Rip.update_all "current = FALSE", ['name = ? AND id <> ?', name, id]
         return true
@@ -84,9 +83,11 @@ class Rip < ActiveRecord::Base
     children.each { |subrip| subrip.validate }
   end
   
-  def validate_uniqueness_of_name
-    result = Rip.find :first, :conditions => ['name = ?', name]
-    errors.add(:name, ActiveRecord::Errors.default_error_messages[:taken]) unless result.nil?
+  def validate_on_create
+    unless @prev_rip && @prev_rip.name == name
+      result = Rip.find :first, :conditions => ['name = ?', name]
+      errors.add(:name, ActiveRecord::Errors.default_error_messages[:taken]) unless result.nil?
+    end
   end
   
   def set_subrip_names
