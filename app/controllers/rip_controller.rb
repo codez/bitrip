@@ -21,6 +21,7 @@ class RipController < ApplicationController
   def preview_temp
     @rip = Rip.new
     @rip.build_from params
+    @rip.ignore_name_validation = true
     if @rip.valid?
       render_rip
     else
@@ -63,6 +64,7 @@ class RipController < ApplicationController
   def create
     @rip = Rip.new :revision => 1, :current => true
     @rip.build_from params
+    @rip.ignore_name_validation = false
     if @rip.save
       flash[:notice] = "#{@rip.name} bitRip was added successfully"
       redirect_to :action => 'index', :id => @rip.name

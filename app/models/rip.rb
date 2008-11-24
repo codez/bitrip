@@ -15,6 +15,8 @@ class Rip < ActiveRecord::Base
   validates_format_of :start_page, :with => /^https?:\/\/.+/, :allow_nil => true, :message => 'must be a valid HTTP address'
 
   SANDBOX_NAME = 'sandbox'
+  
+  attr_writer :ignore_name_validation
 
 
   def has_fields?
@@ -63,12 +65,13 @@ class Rip < ActiveRecord::Base
   def save_revision(prev_id)
     self.current = true
     Rip.transaction do
-      @prev_rip = Rip.find prev_id
-      self.revision = Rip.maximum(:revision, :conditions => ['name = ?', @prev_rip.name]) + 1
+      prev_rip = Rip.find prev_id
+      self.ignore_name_validation = (prev_rip.name == name)
+      self.revision = Rip.maximum(:revision, :conditions => ['name = ?', prev_rip.name]) + 1
       # TODO: should validate all first?
       if save
-        if @prev_rip.name != name
-          Rip.update_all({:name => name}, ['name = ?', @prev_rip.name])
+        if prev_rip.name != name
+          Rip.update_all({:name => name}, ['name = ?', prev_rip.name])
         end
         Rip.update_all "current = FALSE", ['name = ? AND id <> ?', name, id]
         return true
@@ -84,7 +87,7 @@ class Rip < ActiveRecord::Base
   end
   
   def validate_on_create
-    unless @prev_rip && @prev_rip.name == name
+    unless @ignore_name_validation
       result = Rip.find :first, :conditions => ['name = ?', name]
       errors.add(:name, ActiveRecord::Errors.default_error_messages[:taken]) unless result.nil?
     end

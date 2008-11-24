@@ -166,8 +166,8 @@ class Scrubator
   
   def fix_href_urls!(snippets, host_url, base_url)
     snippets.each do |snip|
-      snip[:html].gsub!(/ (href|src)\=\"([^\/][^:\"]+)\"/i, " \\1=\"#{base_url}\\2\"")
-      snip[:html].gsub!(/ (href|src)\=\"(\/[^:\"]+)\"/i, " \\1=\"#{host_url}\\2\"")
+      snip[:html].gsub!(/ (href|src|action)\=\"([^\/][^:\"]+)\"/i, " \\1=\"#{base_url}\\2\"")
+      snip[:html].gsub!(/ (href|src|action)\=\"(\/[^:\"]+)\"/i, " \\1=\"#{host_url}\\2\"")
     end
   end
 
