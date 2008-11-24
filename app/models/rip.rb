@@ -117,56 +117,13 @@ class Rip < ActiveRecord::Base
     case type.to_sym
       when :single then
         return self unless multi?
-        child = children.first
-        clone.start_page = child.start_page unless main_navi?
-        clone.next_link = child.next_link
-        clone.next_pages = child.next_pages
-        navi_actions.each do |navi|
-          clone.navi_actions << navi
-        end
-        child.navi_actions.each do |navi|
-          navi.position = navi_actions.empty? ? 1 : navi_actions.last.position + 1
-          clone.navi_actions << navi 
-        end
-        child.bits.each do |bit| 
-          clone.bits << bit 
-        end  
+        to_single clone
       when :multi then
         return self unless main_navi?
-        if multi?
-          pos = navi_actions.last.position
-          children.each do |child|
-            clone << child
-            child.navi_actions.each { |navi| navi.position += pos }
-            copy_attrs child
-          end          
-        else  
-          child = clone.children.build :position => 1 
-          copy_attrs child
-          bits.each do |bit|
-            child.bits << bit
-          end
-        end
+        to_multi clone
       when :common then
         return self if multi? && main_navi?
-        if multi?
-          clone.start_page = children.empty? ? 'http://' : children.first.start_page
-          children.each do |child|
-            clone.children << child
-            child.start_page = nil
-          end 
-        else  
-          clone.start_page = start_page
-          child = clone.children.build :position => 1
-          child.next_link = next_link
-          child.next_pages = next_pages
-          bits.each do |bit|
-            child.bits << bit
-          end
-          navi_actions.each do |navi|
-            clone.navi_actions << navi
-          end
-        end
+        to_common clone
     end
     clone
   end
@@ -185,12 +142,19 @@ class Rip < ActiveRecord::Base
     
     # build sub rips
     self.children.clear
+    build_subrip
+  end
+  
+private
+
+  def build_subrip
     pos = 1
     params['subrip'].values.each_with_index do |subrip, index|
       sub_rip = self.children.build subrip
       sub_rip.name = self.name
       sub_rip.position = pos
       sub_rip.parent = self
+      sub_rip.ignore_name_validation = true
       build_navi sub_rip, params['navi_sub'][index.to_s], params['fields_sub'][index.to_s]
       build_bits sub_rip, params['bits_sub'][index.to_s], params['bit_order_sub'][index.to_s]
       pos += 1
@@ -225,7 +189,60 @@ class Rip < ActiveRecord::Base
     end
   end
   
-private
+  def to_multi(clone)
+    if multi?
+      pos = navi_actions.last.position
+      children.each do |child|
+        clone << child
+        child.navi_actions.each { |navi| navi.position += pos }
+        copy_attrs child
+      end          
+    else  
+      child = clone.children.build :position => 1 
+      copy_attrs child
+      bits.each do |bit|
+        child.bits << bit
+      end
+    end
+  end
+
+  def to_single(clone)
+    child = children.first
+    clone.start_page = child.start_page unless main_navi?
+    clone.next_link = child.next_link
+    clone.next_pages = child.next_pages
+    navi_actions.each do |navi|
+      clone.navi_actions << navi
+    end
+    child.navi_actions.each do |navi|
+      navi.position = navi_actions.empty? ? 1 : navi_actions.last.position + 1
+      clone.navi_actions << navi 
+    end
+    child.bits.each do |bit| 
+      clone.bits << bit 
+    end  
+  end
+  
+  def to_common(clone)
+    if multi?
+      clone.start_page = children.empty? ? 'http://' : children.first.start_page
+      children.each do |child|
+        clone.children << child
+        child.start_page = nil
+      end 
+    else  
+      clone.start_page = start_page
+      child = clone.children.build :position => 1
+      child.next_link = next_link
+      child.next_pages = next_pages
+      bits.each do |bit|
+        child.bits << bit
+      end
+      navi_actions.each do |navi|
+        clone.navi_actions << navi
+      end
+    end
+  end
 
   def copy_attrs(child)
     child.start_page = start_page
