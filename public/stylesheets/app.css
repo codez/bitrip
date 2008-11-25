@@ -200,15 +200,16 @@ HR {
 }
 
 .control {
-	font-size:		larger;
+	font-size:		12pt;
 }
 
 .control a.help span {
-	font-size:		smaller;
+	font-size:		11pt;
 }
 
 .small {
 	font-size:		9pt;
+	text-align:		left;
 }
 
 .small a.help span {
@@ -234,11 +235,11 @@ div.dialog {
 }
 
 .quickinfo {
-	font-size: smaller;
+	font-size: 9pt;
 }
 
 .quickinfo span {
-	font-size: larger;
+	font-size: 11pt;
 }
 
 a.nolink {
