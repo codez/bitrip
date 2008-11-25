@@ -1,4 +1,4 @@
-<div id="rightindex">
+<div id="indexright">
 <%= render :partial => 'info' %>	
 
 <%= render :partial => 'iframe' %>
@@ -7,7 +7,10 @@
 <table id="riplist" class="indexleft">
 <tr>
 	<td>
-	<%= render :partial => 'link', :collection => @list %>
+	<% per_column = ([@list.size, PER_PAGE].max / NO_OF_COLUMNS.to_f).ceil %>
+	<%= render :partial => 'link', 
+			   :collection => @list, 
+			   :locals =>  { :per_column => per_column }%>
 	</td>
 </tr>	 
 </table>

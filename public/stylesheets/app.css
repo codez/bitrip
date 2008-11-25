@@ -140,8 +140,51 @@ HR {
 	color:			#ff6600;
 }
 
+.indexleft {
+	width:			480pt;
+}
+
+#riplist {
+	margin-right:   6pt;
+	margin-bottom:	15pt;
+}
+
+#riplist td {
+	width: 33%;
+}
+
+#indexright {
+	float:			right;
+	width:			200pt;
+}
+
+#indexright #preview {
+	width:			200pt;
+}
+
 #ripinfo {
-	max-width:		200pt;
+}
+
+#preview {
+	height: 		300pt;
+	border-left: 	1px solid #004400;
+	border-top: 	1px solid #004400;
+	margin-bottom: 	6pt;
+}
+
+#ripform {
+	float:			left;
+	width:			420pt;
+	margin-right: 	6pt;
+	margin-bottom:  6pt;
+}
+
+#rightform {
+	float:			right;
+}
+
+#rightform #preview {
+	width:			260pt;
 }
 
 .right {
@@ -156,49 +199,6 @@ HR {
 	margin-left:   5px;
 }
 
-#ripform {
-	float:			left;
-	width:			400pt;
-	margin-right: 	6pt;
-	margin-bottom:  6pt;
-}
-
-#rightform {
-	float:			right;
-}
-
-#rightindex {
-	float:			right;
-}
-
-#preview {
-	height: 		300pt;
-	border-left: 	1px solid #004400;
-	border-top: 	1px solid #004400;
-	margin-bottom: 	6pt;
-}
-
-#rightform #preview {
-	width:			280pt;
-}
-
-#rightindex #preview {
-	width:			200pt;
-}
-
-.indexleft {
-	width:			480pt;
-}
-
-#riplist {
-	margin-right:   6pt;
-	margin-bottom:	15pt;
-}
-
-#riplist td {
-	width: 25%;
-}
-
 .control {
 	font-size:		larger;
 }
@@ -208,11 +208,11 @@ HR {
 }
 
 .small {
-	font-size:		smaller;
+	font-size:		9pt;
 }
 
 .small a.help span {
-	font-size:		larger;
+	font-size:		11pt;
 }
 
 ul.sortable {

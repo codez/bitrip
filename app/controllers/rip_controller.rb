@@ -3,11 +3,12 @@ class RipController < ApplicationController
   # GETs should be safe (see http://www.w3.org/2001/tag/doc/whenToUseGet.html)
   verify :method => :post, :only => [ :create, :update, :delete ],
          :redirect_to => { :action => :index }
-         
+            
   ID_METHODS = ['preview', 'show', 'query', 'edit', 'copy']
   
   def index
-    @list = Rip.paginate :per_page => 100, :page => params[:page],
+    @list = Rip.paginate :per_page => PER_PAGE, 
+                         :page => params[:page],
                          :conditions => ['parent_id IS NULL AND current'] , 
                          :order => 'name'
     @rip = current 
@@ -48,9 +49,11 @@ class RipController < ApplicationController
   end
   
   def history
-    @list = Rip.paginate :per_page => 1000, :page => params[:page],
-                     :order => 'revision DESC', 
-                     :conditions => ['parent_id IS NULL AND name = ?', params[:id]]
+    @list = Rip.paginate :per_page => 1000, 
+                         :page => params[:page],
+                         :order => 'revision DESC', 
+                         :conditions => ['parent_id IS NULL AND name = ?', 
+                                         params[:id]]
     @rip = Rip.find params[:i].to_i if params[:i].to_i > 0
     @title = "History of #{params[:id]}"
     @use_id = true
@@ -117,7 +120,8 @@ class RipController < ApplicationController
                   " SELECT MAX(revision) FROM rips " +
                   " WHERE name = pri.name)"
     @list = Rip.paginate_by_sql trash_query, 
-                                :per_page => 100, :page => params[:page]
+                                :per_page => PER_PAGE, 
+                                :page => params[:page]
     @rip = Rip.find_by_sql([trash_query + ' AND name = ?', params[:id]]).first if params[:id]
     @title = "Trash"
     @use_id = true

@@ -1,5 +1,5 @@
 <%= label = link.name
-	label += " \##{link.revision}" if action_name == 'history'
+	label = "\##{link.revision}" if action_name == 'history'
 	link_to_remote label, {:url => id_action(:preview, link), 
 						   :before => "parent.preview.location.href = '#{url_for(:controller => :message, :action => :loading)}';",
 						   :type => :synchronous}, 
@@ -9,7 +9,7 @@
 %>
 <%= "(#{link.created_at})" if action_name == 'history' %>
 <br/>
-<% if link_counter % 25 == 24 -%>
+<% if link_counter % per_column == per_column - 1 -%>
 </td>
 <td>
 <% end -%>

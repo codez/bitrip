@@ -142,12 +142,12 @@ class Rip < ActiveRecord::Base
     
     # build sub rips
     self.children.clear
-    build_subrip
+    build_subrip params
   end
   
 private
 
-  def build_subrip
+  def build_subrip(params)
     pos = 1
     params['subrip'].values.each_with_index do |subrip, index|
       sub_rip = self.children.build subrip

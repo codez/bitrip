@@ -34,7 +34,7 @@ module ApplicationHelper
   end
   
   def t(message_key)
-    "<span class=\"quickinfo\"><a class=\"help\">[?]<span>#{msg message_key}</span></a></span>"
+    "<span class=\"quickinfo\"><a href=\"#\" class=\"help\">[?]<span>#{msg message_key}</span></a></span>"
   end
  
 private  
