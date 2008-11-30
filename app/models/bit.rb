@@ -19,15 +19,13 @@ class Bit < ActiveRecord::Base
   def select_indizes_array
     parts = select_indizes.split(',')
     parts.collect! do |p|
-      puts p.strip
       case p.strip
-        when /^([0-9]+)$/             then Integer($1)
-        when /^([0-9]+)\.\.([0-9]+)$/ then puts $1; puts $2; (Integer($1)+1)..(Integer($2)+1)
+        when /^([0-9]+)$/             then Integer($1)-1
+        when /^([0-9]+)\.\.([0-9]+)$/ then (Integer($1)-1)..(Integer($2)-1)
         when /^([A-Za-z]\w*)$/        then $1.to_sym
         else nil
       end    
     end
-    p parts
     parts.select { |p| not p.nil? }
   end
   
