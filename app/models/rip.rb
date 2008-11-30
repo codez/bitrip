@@ -11,7 +11,6 @@ class Rip < ActiveRecord::Base
   validates_format_of :name, :with => /^[A-Za-z0-9\-_\.]*$/, :unless => :parent, :message => "may only contain letters, numbers or one of '._-'"
   validates_exclusion_of :name, :in => ['rip', 'bit', 'navi_action', 'form_field', 'message']
   validates_presence_of :bits, :unless => :multi?
-  validates_presence_of :start_page, :unless => :multi?
   validates_format_of :start_page, :with => /^https?:\/\/.+/, :allow_nil => true, :message => 'must be a valid HTTP address'
 
   SANDBOX_NAME = 'sandbox'
@@ -48,7 +47,7 @@ class Rip < ActiveRecord::Base
   end
   
   def complete_navi
-    parent_id ? parent.navi_actions + navi_actions : navi_actions
+    parent ? parent.navi_actions + navi_actions : navi_actions
   end
   
   def sources
@@ -145,18 +144,25 @@ class Rip < ActiveRecord::Base
     build_subrip params
   end
   
+  def inspect
+    "#{super}\n" +
+      navi_actions.collect {|n| "    #{n.inspect}\n"}.join("") +
+      bits.collect {|b| "    #{b.inspect}\n"}.join("") +
+      children.collect {|c| "- #{c.inspect}\n"}.join("") 
+  end
+  
 private
 
   def build_subrip(params)
     pos = 1
-    params['subrip'].values.each_with_index do |subrip, index|
+    params['subrip'].sort.each do |index, subrip|
       sub_rip = self.children.build subrip
       sub_rip.name = self.name
       sub_rip.position = pos
       sub_rip.parent = self
       sub_rip.ignore_name_validation = true
-      build_navi sub_rip, params['navi_sub'][index.to_s], params['fields_sub'][index.to_s]
-      build_bits sub_rip, params['bits_sub'][index.to_s], params['bit_order_sub'][index.to_s]
+      build_navi sub_rip, params['navi_sub'][index], params['fields_sub'][index]
+      build_bits sub_rip, params['bits_sub'][index], params['bit_order_sub'][index]
       pos += 1
     end
   end

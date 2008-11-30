@@ -1,4 +1,6 @@
 <% id_suffix, field_suffix = sub_suffixes index, subrip_index %>
+<div class="indent">
 <% fields_for "navi#{field_suffix}", navi do |f| -%>
 Click on <%= f.collection_select :link_text, @links || [navi.link_text], :to_s, :to_s  %>	
 <% end -%>
+</div>

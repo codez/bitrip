@@ -1,4 +1,32 @@
 
+function addSubrip(subrip_index, start_page) {
+	var id_suffix = idSuffix(0, subrip_index);
+	var field_suffix = fieldSuffix(0, subrip_index);
+	var sub_suffix = subSuffix(subrip_index);
+	
+	Element.insert("subrips", 
+				   { bottom: "<%= render_js :partial => 'subrip', :locals => { :subrip => Rip.new, :start_page => true }, :replace => [:subrip_index, :sub_suffix, :start_page] %>" });
+	
+	if (!start_page) {
+		$('start_page_' + subrip_index).remove();
+	}
+		
+	replaceAddSubripLink(subrip_index, start_page);	
+}
+
+function removeSubrip(subrip_index, start_page) {
+	if (window.confirm('You are about to remove this entire page rip.')) {
+		$("subrip_" + subrip_index).remove();
+		
+		replaceAddSubripLink(subrip_index - 1, start_page);	
+	}
+}
+
+function replaceAddSubripLink(subrip_index, start_page) {
+	Element.replace("add_subrip_link", 
+					"<%= render_js :partial => 'add_subrip_link', :replace => [:subrip_index, :start_page] %>");
+}
+
 function idSuffix(index, subrip_index) {
 	return (subrip_index > -1) ? "sub_" + subrip_index + "_" + index : index;
 }

@@ -1,9 +1,5 @@
 <div id="add_subrip_link" class="indent">
-	<%= link_to_remote '[+] <span>Add a new page</span>', 
-					   :url => { :controller => :rip, 
-								 :action => :add_subrip, 
-							     :subrip_index => subrip_index,
-								 :start_page => start_page }, 
-				   	   :after => "$('add_subrip_link').update('#{image_tag('spinner_small.gif')}')",
-				       :html => { :class => 'help' } %>
+	<%= link_to_function '[+] <span>Add a new page</span>', 
+						 "addSubrip(#{subrip_index} + 1, #{start_page})",
+					     :class => 'help'  %>
 </div>

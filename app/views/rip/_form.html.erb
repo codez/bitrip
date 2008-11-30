@@ -6,6 +6,7 @@
 
 <div id="ripform">
 	<%= render :partial => 'type' %>
+	
 	<table class="fullwidth">
 	<%= render :partial => 'mainrip', 
 			   :locals => {:start_page => @rip.main_navi?} %>
@@ -37,7 +38,7 @@
 	<br/>
 	<hr/>
 	<%= render :partial => 'add_subrip_link', 
-			   :locals => { :subrip_index => @rip.children.size ,
+			   :locals => { :subrip_index => @rip.children.size - 1,
 							:start_page => !@rip.main_navi? } %>
 <% else -%>	
 	<%= render :partial => 'bit/form', 
@@ -52,6 +53,4 @@
 <% end  # form -%>
 
 <% @bottom_js += render :partial => 'errors_js' %>
-<% @bottom_js += render :partial => 'js' %>
-<% @bottom_js += render :partial => 'navi_action/js' %>
-<% @bottom_js += render :partial => 'bit/js' %>
+<% @bottom_js += edit_js %>

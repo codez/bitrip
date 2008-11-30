@@ -1,24 +1,25 @@
-<% field_suffix = sub_suffix subrip_index -%>
+<% sub_suffix ||= sub_suffix subrip_index -%>
 
 <%= link_to_function "<h4 class=\"header\">Bits</h4>",
 					 visual_effect(:toggle_slide, 
-								   "toggle_bits#{field_suffix}", 
+								   "toggle_bits#{sub_suffix}", 
 								   :duration => 0.25) %>
 
-<div id="toggle_bits<%= field_suffix %>">
+<div id="toggle_bits<%= sub_suffix %>">
 
-<ul id="bits<%= field_suffix %>" class="sortable">
+<ul id="bits<%= sub_suffix %>" class="sortable">
 <%= render :partial => 'bit/bit', 
 		   :collection => rip.bits, 
   	  	   :locals => { :subrip_index => subrip_index } %>
 </ul>
 
-<%= hidden_field_tag "bit_order#{field_suffix}", rip.bit_order %>
+<%= hidden_field_tag "bit_order#{sub_suffix}", rip.bit_order %>
 
 <%= render :partial => 'bit/add_link', 
 		   :locals => { :index => rip.bits.size - 1 ,
-						:subrip_index => subrip_index} %>
+						:subrip_index => subrip_index,
+						:sub_suffix => sub_suffix } %>
 						
 </div>
 
-<% @bottom_js += "sortableBits('#{field_suffix}');" %>
+<% @bottom_js += "<script type=\"text/javascript\">sortableBits('#{sub_suffix}');</script>" %>

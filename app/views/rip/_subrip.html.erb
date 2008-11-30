@@ -1,4 +1,5 @@
 <% subrip_index ||= subrip_counter -%>
+
 <div id="subrip_<%= subrip_index %>">
 
 <%= link_to_function "<h2 class=\"header\">=== Page Rip ===</h2>",
@@ -7,12 +8,9 @@
 <div id="toggle_subrip_<%= subrip_index %>">
 	
 <div class="right">
-<%= link_to_remote '<span>Remove this page</span>[-]', 
-			   :url => { :controller => :rip,  
-					     :action => :remove_subrip, 
-					     :subrip_index => subrip_index }, 
-			   :confirm => 'You are about to remove this entire page rip.',
-		       :html => { :class => 'help' } %>
+<%= link_to_function '<span>Remove this page</span>[-]', 
+					 "removeSubrip(#{subrip_index}, #{start_page})",
+			   		 :class => 'help' %>
 </div>
 
 <% fields_for "subrip[#{subrip_index}]", subrip do |f| -%>
@@ -23,7 +21,7 @@
   <td><%= t 'rip_title' %></td>
 </tr>
 <% if start_page -%>
-<tr>
+<tr id="start_page_<%= subrip_index %>">
   <td>Start Page </td>
   <td><%= f.text_field 'start_page', :size => '50' %></td>
   <td><%= t 'rip_start_page' %></td>
@@ -43,10 +41,12 @@
 
 <%= render :partial => 'navi_action/form', 
 		   :locals => {:rip => subrip, 
-					   :subrip_index => subrip_index} %>
+					   :subrip_index => subrip_index,
+				       :sub_suffix => sub_suffix} %>
 
 <%= render :partial => 'bit/form', 
 		   :locals => {:rip => subrip,
-					   :subrip_index => subrip_index} %>
+					   :subrip_index => subrip_index,
+					   :sub_suffix => sub_suffix} %>
 </div>
 </div>

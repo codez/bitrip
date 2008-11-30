@@ -5,8 +5,10 @@ class NaviActionController < ApplicationController
     rip = Rip.new
     rip.build_from params
     #TODO check index == rip.navi_actions.size - 1
-    params['subrip_index'] = nil if params['subrip_index'].to_i == -1
-    subrip = params['subrip_index'] ? rip.children[params['subrip_index'].to_i] : rip
+    subrip_index = nil 
+    subrip_index = params['subrip'].keys.sort.index(params['subrip_index']) if params['subrip_index'] && params['subrip_index'].to_i != -1
+    puts subrip_index
+    subrip = subrip_index ? rip.children[subrip_index] : rip
     populate_type_fields subrip
   end
 
@@ -16,6 +18,7 @@ private
     return if start_page_missing?(rip)
     
     navi = rip.complete_navi.last
+    # check if navi type is defined. should not happen here
     if navi.type.nil? || navi.type.to_s.empty?
        render :text => ''
        return
@@ -35,7 +38,7 @@ private
   end
   
   def start_page_missing?(rip)
-    if rip.start_page.empty?
+    if rip.start_url.nil? || rip.start_url.empty?
       render_problem 'Please specify a start page before adding navigation'
       return true
     end

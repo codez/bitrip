@@ -1,13 +1,13 @@
-<% id_suffix = sub_suffix subrip_index -%>
+<% sub_suffix ||= sub_suffix subrip_index -%>
 
 <%= link_to_function "<h4 class=\"header\">Navigate</h4>",
 					 visual_effect(:toggle_slide, 
-								   "toggle_navis#{id_suffix}", 
+								   "toggle_navis#{sub_suffix}", 
 								   :duration => 0.25) %>
 
-<div id="toggle_navis<%= id_suffix %>">
+<div id="toggle_navis<%= sub_suffix %>">
 
-<div id="navis<%= id_suffix %>">
+<div id="navis<%= sub_suffix %>">
 <%= render :partial => 'navi_action/navi', 
 		   :collection => rip.navi_actions, 
 		   :locals => { :subrip_index => subrip_index }  %>
@@ -17,11 +17,13 @@
 <tr>
 <%= render :partial => 'navi_action/add_link', 
 		   :locals => { :index => rip.navi_actions.size - 1, 
-						:subrip_index => subrip_index  } %>
+						:subrip_index => subrip_index,
+						:sub_suffix => sub_suffix  } %>
 						
 <%= render :partial => 'navi_action/remove_link', 
 	       :locals => { :index => rip.navi_actions.size - 1, 
-						:subrip_index => subrip_index  } %>
+						:subrip_index => subrip_index,
+						:sub_suffix => sub_suffix  } %>
 </tr>
 </table>
 

@@ -34,8 +34,15 @@ module RipHelper
   def change_type_link(label, type)
     options = {:action => controller.action_name, :type => type}
     confirm = {}
-    confirm[:confirm] = "You might lose some of the currently entered\ninformation if you change the type of the rip." if options[:action] != 'add'
+    confirm[:confirm] = "You will lose some of the currently entered\ninformation if you change the type of this bitRip." if options[:action] != 'add'
     link_to label, options, confirm
   end
  
+  def edit_js
+    if ENV['RAILS_ENV'] == 'production'
+      javascript_include_tag 'edit'
+    else
+      javascript_include_tag '/rip/edit_js'
+    end  
+  end
 end

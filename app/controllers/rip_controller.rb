@@ -22,6 +22,7 @@ class RipController < ApplicationController
   def preview_temp
     @rip = Rip.new
     @rip.build_from params
+    puts @rip.inspect
     @rip.ignore_name_validation = true
     if @rip.valid?
       render_rip
@@ -139,12 +140,10 @@ class RipController < ApplicationController
     redirect_to :action => :index
   end
   
-  def add_subrip
-    @rip = Rip.new :position => params['subrip_index'].to_i + 1
-    @rip.bits.build :xpath => '/', :generalize => false 
-  end
-  
-  def remove_subrip
+  def edit_js
+    respond_to do |format|
+      format.js {render :action => :edit_js, :layout => false}
+    end    
   end
 
   def method_missing(symbol, *args)
