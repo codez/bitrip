@@ -10,14 +10,14 @@
 	<%= render :partial => 'bit/show', :collection => subrip.bits %>
 <% end -%>
 
-<% if params_submitted? -%>
-	<div class="small">
-	direct link
-	<a href="<%= request.env['REQUEST_URI'] %>"><%= request.env['REQUEST_URI'] %></a>
-	</div>
-<% end -%>
-
-<div class="sources">
+<p class="sources">
 all data by
 <%= @rip.sources.collect {|s| "<a href=\"#{s}\">#{s}</a>"}.join(",") %>
-</div>
+</p>
+
+<% if params_submitted? -%>
+	<p class="small">
+	direct link
+	<a href="<%= request.env['REQUEST_URI'] %>"><%= request.env['REQUEST_URI'] %></a>
+	</p>
+<% end -%>

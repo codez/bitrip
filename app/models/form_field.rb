@@ -11,19 +11,24 @@ class FormField < ActiveRecord::Base
   
   before_save :empty_non_constant
   
-  def type=(value)
-    value = value.to_s.downcase if value
-    value = 'text' if value == 'text' || 
-                     value == 'password'
-    value = nil if value == 'hidden' ||
-                   value == 'image'          
-    write_attribute 'type', value
+  def type=(val)
+    val = val.to_s.downcase if val
+    val = 'text' if val == 'text' || 
+                     val == 'password'
+    val = nil if val == 'hidden' ||
+                   val == 'image'          
+    write_attribute 'type', val
   end
   
   def type
-    value = read_attribute 'type'
-    value.to_sym if value
+    val = read_attribute 'type'
+    val.to_sym if val
   end  
+  
+  def value
+    val = read_attribute 'value'
+    val.nil? ? '' : val
+  end
   
   def options_arr
     options ? options.split('<,>') : []

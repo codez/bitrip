@@ -15,8 +15,8 @@ class Scrubator
       assign_snippets(snippets, rip)
     end  
     nil
-  rescue Exception => ex
-     ex.message
+  #rescue Exception => ex
+  #   ex.message
   end
  
   def extract_links
@@ -135,10 +135,8 @@ class Scrubator
   end
   
   def handle_field(extractor, method, field)
-    unless field.value.nil? || (field.kind_of?(String) && field.value.empty?)
-      #puts "send #{method} with #{field.name}=#{field.value}"
-      extractor.send method, field.name, field.value
-    end  
+    #puts "send #{method} with #{field.name}=#{field.value}"
+    extractor.send method, field.name, field.value
   end
   
   def handle_radio(extractor, field)
