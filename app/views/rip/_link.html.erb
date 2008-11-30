@@ -1,6 +1,6 @@
 <%= label = link.name
 	label = "\##{link.revision}" if action_name == 'history'
-	link_to_remote label, {:url => id_action(:preview, link), 
+	link_to_remote label, {:url => id_action(:preview, link).merge({:format => 'js'}), 
 						   :before => "parent.preview.location.href = '#{url_for(:controller => :message, :action => :loading)}';",
 						   :type => :synchronous,
 						   :method => :get}, 
