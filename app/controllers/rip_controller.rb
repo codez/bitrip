@@ -6,7 +6,11 @@ class RipController < ApplicationController
             
   ID_METHODS = ['preview', 'show', 'query', 'edit', 'copy']
   
+  caches_page :index, :if => Proc.new { |c| c.params[:id].nil? }
+  caches_page :preview
+
   def index
+    params[:page] ||= 1
     @list = Rip.paginate :per_page => PER_PAGE, 
                          :page => params[:page],
                          :conditions => ['parent_id IS NULL AND current'] , 
@@ -14,7 +18,7 @@ class RipController < ApplicationController
     @rip = current 
   end
   
-  def preview
+  def preview    # ajax action
     @rip ||= current
     render :action => :preview
   end
@@ -71,9 +75,11 @@ class RipController < ApplicationController
     @rip.ignore_name_validation = false
     if @rip.save
       flash[:notice] = "#{@rip.name} bitRip was added successfully"
-      redirect_to :action => 'index', :id => @rip.name
+      expire_page :action => :index
+      no_of_pages.times {|i| expire_page :action => :index, :page => i+1 }
+      redirect_to :action => :index, :id => @rip.name, :page => 1
     else
-      render :action => 'add'
+      render :action => :add
     end  
   end
   
@@ -96,9 +102,15 @@ class RipController < ApplicationController
   def update
     @rip = new_unless_sandbox
     @rip.build_from params
-    if @rip.save_revision params[:id]     
+    prev_rip = Rip.find params[:id] 
+    if @rip.save_revision params[:id] 
       flash[:notice] = "#{@rip.name} bitRip was saved successfully"
-      redirect_to :action => 'index', :id => @rip.name
+      expire_page :action => :preview, :id => prev_rip.name
+      if prev_rip.name != @rip.name
+        expire_page :action => :index
+        no_of_pages.times {|i| expire_page :action => :index, :page => i+1 }
+      end
+      redirect_to :action => 'index', :id => @rip.name, :page => 1
     else
       @rip.id = params[:id]   # set id because @rip is new
       render :action => 'edit'
@@ -106,7 +118,7 @@ class RipController < ApplicationController
   end
   
   def cancel
-    redirect_to :action => 'index', :id => params['rip']['name']
+    redirect_to :action => 'index', :id => params['rip']['name'], :page => 1
   end
   
   def sandbox
@@ -193,4 +205,9 @@ private
     prev = Rip.find(params[:id])
     (prev && prev.name == 'sandbox') ? prev : Rip.new
   end
+  
+  def no_of_pages
+    (Rip.count(:conditions => ['parent_id IS NULL AND current']) / PER_PAGE).ceil 
+  end
+  
 end

@@ -39,10 +39,22 @@ ActionController::Routing::Routes.draw do |map|
   # Note: These default routes make all actions in every controller accessible via GET requests. You should
   # consider removing the them or commenting them out if you're using named routes and resources.
   # entry page
-  map.connect '', :controller => 'rip', :action => 'index'
+  map.connect '', :controller => 'rip', :action => 'index', :page => 1
   
   map.connect ':id', :controller => 'rip', :action => 'show'
   
+  map.connect 'rip/index/:page',
+    :controller => 'rip',
+    :action => 'index',
+    :requirements => { :page => /\d+/},
+    :page => nil
+    
+  map.connect 'rip/index/:page/:id',
+    :controller => 'rip',
+    :action => 'index',
+    :requirements => { :page => /\d+/},
+    :page => nil
+    
   map.connect ':controller/:action.:format'
   map.connect ':controller/:action/:id'
   map.connect ':controller/:action/:id.:format'

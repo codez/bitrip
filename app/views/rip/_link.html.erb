@@ -2,9 +2,11 @@
 	label = "\##{link.revision}" if action_name == 'history'
 	link_to_remote label, {:url => id_action(:preview, link), 
 						   :before => "parent.preview.location.href = '#{url_for(:controller => :message, :action => :loading)}';",
-						   :type => :synchronous}, 
+						   :type => :synchronous,
+						   :method => :get}, 
 						  {:href => url_for(:action => controller.action_name, 
 											:id => link.name,
+											:page => params[:page],
 											:i => (action_name == 'history' ? link.id : nil))}
 %>
 <%= "(#{link.created_at})" if action_name == 'history' %>

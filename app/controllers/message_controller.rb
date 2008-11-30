@@ -6,7 +6,7 @@ class MessageController < ApplicationController
          
   before_filter :authenticate, :except => [:plain, :faq, :loading, :login]
   
-  caches_page :faq, :loading
+  caches_page :faq, :loading, :plain
   
   def plain
     @message = msg params[:id]
@@ -51,6 +51,7 @@ class MessageController < ApplicationController
     @message = Message.find params['id']
     if @message.update_attributes params['message']
       expire_page :action => :faq if @message.context == Message::CONTEXT_FAQ
+      expire_page :action => :plain, :id => @message.key if @message.context == Message::CONTEXT_HELP
       flash[:notice] = 'The message has been saved.'
       redirect_to :action => :manage, :context => @message.context
     else  

@@ -1,6 +1,8 @@
 <noscript id="notice">
 <p><%= msg 'starter_noscript' %></p><br/> 
 </noscript>
+<% @bottom_js += render :partial => 'errors_js' %>
+<% @bottom_js += edit_js %>
 
 <% form_tag action do -%>
 
@@ -51,6 +53,3 @@
 <%= render :partial => 'right', :locals => {:action => action} %>
 
 <% end  # form -%>
-
-<% @bottom_js += render :partial => 'errors_js' %>
-<% @bottom_js += edit_js %>
