@@ -4,5 +4,6 @@
 								 :action => :add_subrip, 
 							     :subrip_index => subrip_index,
 								 :start_page => start_page }, 
+				   	   :after => "$('add_subrip_link').update('#{image_tag('spinner_small.gif')}')",
 				       :html => { :class => 'help' } %>
 </div>

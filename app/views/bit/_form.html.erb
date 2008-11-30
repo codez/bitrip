@@ -16,12 +16,9 @@
 <%= hidden_field_tag "bit_order#{field_suffix}", rip.bit_order %>
 
 <%= render :partial => 'bit/add_link', 
-		   :locals => { :index => rip.bits.size ,
+		   :locals => { :index => rip.bits.size - 1 ,
 						:subrip_index => subrip_index} %>
 						
 </div>
 
-<% @bottom_js += sortable_element "bits#{field_suffix}", 
-		:onUpdate => "function(){$(\"bit_order#{field_suffix}\").value = Sortable.sequence(\"bits#{field_suffix}\");}", 
-		:tag => 'li',
-		:constraint => :vertical %>
+<% @bottom_js += "sortableBits('#{field_suffix}');" %>

@@ -1,12 +1,11 @@
-<% id_suffix = sub_suffix params['subrip_index'] -%>
-<td id="remove_navi_link<%= id_suffix %>" class="right" width="100%">
-<%= if index >= 0
-	link_to_remote '<span>Remove the last navigation action</span> [-]', 
-				   :url => { :controller => :navi_action, 
-							 :action => :remove, 
-							 :index => index,
-							 :subrip_index => subrip_index }, 
-				   :html => { :class => 'help' }
+<% sub_suffix ||= sub_suffix subrip_index 
+   subrip_index ||= -1  -%>
+
+<td id="remove_navi_link<%= sub_suffix %>" class="right" width="100%">
+<%= if index.kind_of?(String) || index >= 0
+	link_to_function '<span>Remove the last navigation action</span> [-]', 
+					 "removeNavi(#{index}, #{subrip_index})",
+				     :class => 'help' 
 	end
 %>
 </td>

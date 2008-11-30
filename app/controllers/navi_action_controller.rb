@@ -1,17 +1,12 @@
 class NaviActionController < ApplicationController
-
-  def add
-    @navi_action = NaviAction.new :position => params[:index].to_i + 1
-  end
-  
-  def remove
-  end
+  protect_from_forgery :except => :add_type_fields
 
   def add_type_fields
     rip = Rip.new
     rip.build_from params
     #TODO check index == rip.navi_actions.size - 1
-    subrip = params['subrip_index'] ? rip.children[params['subrip_index']] : rip
+    params['subrip_index'] = nil if params['subrip_index'].to_i == -1
+    subrip = params['subrip_index'] ? rip.children[params['subrip_index'].to_i] : rip
     populate_type_fields subrip
   end
 

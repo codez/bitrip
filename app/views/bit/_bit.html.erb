@@ -1,7 +1,9 @@
 <% 
 index ||= bit_counter
-id_suffix, field_suffix = sub_suffixes index, subrip_index
-bit_suffix = subrip_index ? "sub#{subrip_index}" : ""	# no _ for sortable_element
+id_suffix ||= id_suffix index, subrip_index
+field_suffix ||= field_suffix index, subrip_index
+bit_suffix ||= subrip_index ? "sub#{subrip_index}" : ""	# no '_' for sortable_element
+subrip_index ||= -1
 -%>
 
 <li id="bit<%= "#{bit_suffix}_#{index}" %>">
@@ -28,12 +30,9 @@ bit_suffix = subrip_index ? "sub#{subrip_index}" : ""	# no _ for sortable_elemen
 	<td><%= t 'bit_generalize' %></td>
 	--->
 	<td colspan="2" style="vertical-align: bottom;">
-	<%= link_to_remote '<span>Remove this bit</span>[-]', 
-					   :url => { :controller => :bit,  
-							     :action => :remove, 
-							     :subrip_index => subrip_index,
-							     :index => index }, 
-				       :html => { :class => 'help' } %>			   
+	<%= link_to_function '<span>Remove this bit</span>[-]', 
+					 	 "removeBit(#{index}, #{subrip_index})",
+					     :class => 'help' %>			   
   	</td>
   </tr>
 </table>

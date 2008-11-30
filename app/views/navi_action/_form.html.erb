@@ -16,7 +16,7 @@
 <table width="100%">
 <tr>
 <%= render :partial => 'navi_action/add_link', 
-		   :locals => { :index => rip.navi_actions.size, 
+		   :locals => { :index => rip.navi_actions.size - 1, 
 						:subrip_index => subrip_index  } %>
 						
 <%= render :partial => 'navi_action/remove_link', 

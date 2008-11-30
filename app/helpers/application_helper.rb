@@ -10,23 +10,26 @@ module ApplicationHelper
     end
   end
   
-  def observe_type_field(type, index, subrip_index)
-    id_suffix, field_suffix = sub_suffixes index, subrip_index
-    observe_field "navi_#{id_suffix}_type_#{type}", 
-        :url => { :controller => :navi_action, 
-                  :action => :add_type_fields, 
-                  :index => index,
-                  :subrip_index => subrip_index },
-        :with => "Form.serialize('ripform')",  
-        :update => "navi_fields_#{id_suffix}",
-        :after => "$('type_#{id_suffix}').update('loading elements ...')",
-        :loaded => "$('type_#{id_suffix}').update('<input type=\"hidden\" name=\"navi#{field_suffix}[type]\" value=\"#{type}\" />')"
+  def render_js(options)
+    replacements = options[:replace] || []
+    locals = options[:locals] || {}
+    replacements.each {|r| locals[r] = "0#{r.to_s}0" }
+    html = render :partial => options[:partial], :locals => locals
+    html = escape_javascript html
+    replacements.each { |r| html = html.gsub("0#{r.to_s}0", "\" + #{r.to_s} + \"") }
+    html
   end
   
   def sub_suffixes(index, subrip_index = nil)
-    id_suffix = subrip_index ? "sub_#{subrip_index}_#{index}" : index.to_s
-    field_suffix = subrip_index  ? "_sub[#{subrip_index}][#{index}]" : "[#{index}]"
-    [id_suffix, field_suffix]
+    [id_suffix(index, subrip_index), field_suffix(index, subrip_index)]
+  end
+  
+  def id_suffix(index, subrip_index = nil)
+    subrip_index ? "sub_#{subrip_index}_#{index}" : index.to_s
+  end
+  
+  def field_suffix(index, subrip_index = nil)
+    subrip_index  ? "_sub[#{subrip_index}][#{index}]" : "[#{index}]"
   end
   
   def sub_suffix(subrip_index = nil)

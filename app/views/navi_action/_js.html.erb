@@ -1,0 +1,51 @@
+function addNavi(index, subrip_index) {
+    var sub_suffix = subSuffix(subrip_index);
+	var id_suffix = idSuffix(index, subrip_index);
+	var field_suffix = fieldSuffix(index, subrip_index);
+
+	Element.insert("navis" + sub_suffix, 
+				   { bottom: "<%= render_js :partial => 'navi_action/navi', :locals => { :navi => NaviAction.new }, :replace => [:index, :subrip_index, :id_suffix, :field_suffix] %>" });
+	
+	$('navi' + field_suffix + '_position').value = index;  
+	
+	updateModifyLinks(index, subrip_index, sub_suffix);   
+	
+	observeTypeRadio('form', index, subrip_index, id_suffix, field_suffix);
+	observeTypeRadio('link', index, subrip_index, id_suffix, field_suffix);          
+}
+
+function removeNavi(index, subrip_index) {
+	$("navi_" + idSuffix(index, subrip_index)).remove();
+
+	updateModifyLinks(index - 1, subrip_index, subSuffix(subrip_index));   
+}
+
+function updateModifyLinks(index, subrip_index, sub_suffix) {
+	Element.replace("add_navi_link" + sub_suffix, 
+					"<%= render_js :partial => 'navi_action/add_link', :replace => [:index, :subrip_index, :sub_suffix] %>");
+
+	if (index >= 0) {
+		Element.replace("remove_navi_link" + sub_suffix, 
+						"<%= render_js :partial => 'navi_action/remove_link', :replace => [:index, :subrip_index, :sub_suffix] %>");
+	} else {
+		Element.replace("remove_navi_link" + sub_suffix, 
+						"<td id=\"remove_navi_link" + sub_suffix + "\" class=\"right\" width=\"100%\"></td>");
+	}
+}
+
+function observeTypeRadio(navi_type, index, subrip_index, id_suffix, field_suffix) {
+	new Form.Element.EventObserver('navi' + field_suffix + '_type_' + navi_type, 
+		function(element, value) {
+			new Ajax.Updater('navi_fields_' + id_suffix, 
+							 '<%= url_for(:controller => :navi_action, :action => :add_type_fields) %>?index=' + index + '&subrip_index=' + subrip_index, {
+							  asynchronous: true, 
+							  evalScripts: true, 
+							  onLoaded: function(request) { 
+							  		$('type_' + id_suffix).update('<input type=\"hidden\" name=\"navi' + field_suffix + '[type]\" value=\"' + navi_type + '\" />')
+							  }, 
+							  parameters: Form.serialize('ripform')
+							  }); 
+			$('type_' + id_suffix).update('loading elements ...');
+		});
+}
+

@@ -1,0 +1,32 @@
+
+function addBit(index, subrip_index) {
+    var sub_suffix = subSuffix(subrip_index);
+	var id_suffix = idSuffix(index, subrip_index);
+	var field_suffix = fieldSuffix(index, subrip_index);
+	var bit_suffix = bitSuffix(subrip_index);
+
+	Element.insert("bits" + sub_suffix, 
+				   { bottom: "<%= render_js :partial => 'bit/bit', :locals => { :bit => Bit.new }, :replace => [:index, :subrip_index, :id_suffix, :field_suffix, :bit_suffix] %>" });
+
+	Element.replace("add_bit_link" + sub_suffix, 
+					"<%= render_js :partial => 'bit/add_link', :replace => [:index, :subrip_index, :sub_suffix] %>");
+
+ 	sortableBits(sub_suffix);
+	
+	$('bit_order' + sub_suffix).value += ',' + index;
+}
+
+function removeBit(index, subrip_index) {
+	$("bit" + bitSuffix(subrip_index) + "_" + index).remove();
+}
+
+function sortableBits(sub_suffix) {
+	Sortable.create("bits" + sub_suffix, 
+					{constraint:'vertical', 
+					 onUpdate:function(){$("bit_order" + sub_suffix).value = Sortable.sequence("bits" + sub_suffix);}, 
+					 tag:'li'});
+}
+
+function bitSuffix(subrip_index) {
+	return (subrip_index > -1) ? "sub" + subrip_index : "";
+}

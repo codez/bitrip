@@ -1,0 +1,12 @@
+
+function idSuffix(index, subrip_index) {
+	return (subrip_index > -1) ? "sub_" + subrip_index + "_" + index : index;
+}
+
+function fieldSuffix(index, subrip_index) {
+	return (subrip_index > -1) ? "_sub[" + subrip_index + "][" + index + "]" : "[" + index + "]";
+}
+
+function subSuffix(subrip_index) {
+	return (subrip_index > -1) ? "_sub[" + subrip_index + "]" : "";
+}

@@ -28,9 +28,9 @@ class Message < CachedModel
   end
   
   def self.to_csv
-    puts 'context,key,content'
+    puts 'context,position,key,content'
     find(:all, :order => 'context, position').each do |m| 
-      puts "#{m.context},\"#{m.key}\",\"#{m.content.gsub(/\"/, "\"\"")}\""
+      puts "#{m.context},#{position},\"#{m.key}\",\"#{m.content.gsub(/\"/, "\"\"")}\""
     end
     true
   end

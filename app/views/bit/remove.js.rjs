@@ -1,4 +1,0 @@
-bit_suffix = params['subrip_index'] ? "sub#{params['subrip_index']}" : "" # no _ for sortable_element
-
-page["bit#{bit_suffix}_#{params['index']}"].remove 
-

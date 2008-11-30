@@ -29,4 +29,4 @@
 	<%= link_to '[+]', :action => :add, :context => params['context'] %>
 <% end -%>
 
-<% @bottom_js += sortable_element 'messages', :url => {:action => :order}, :tag => 'tr' %>
+<% @bottom_js += "Sortable.create('messages', {onUpdate:function(){new Ajax.Request('#{url_for(:action => :order)}', {asynchronous:true, evalScripts:true, parameters:Sortable.serialize('messages') + '&authenticity_token=' + encodeURIComponent('#{form_authenticity_token}')})}, tag:'tr'})" %>
