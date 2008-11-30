@@ -25,15 +25,15 @@ module ApplicationHelper
   end
   
   def id_suffix(index, subrip_index = nil)
-    subrip_index ? "sub_#{subrip_index}_#{index}" : index.to_s
+    subrip_index && subrip_index.to_i != -1 ? "sub_#{subrip_index}_#{index}" : index.to_s
   end
   
   def field_suffix(index, subrip_index = nil)
-    subrip_index  ? "_sub[#{subrip_index}][#{index}]" : "[#{index}]"
+    subrip_index && subrip_index.to_i != -1  ? "_sub[#{subrip_index}][#{index}]" : "[#{index}]"
   end
   
   def sub_suffix(subrip_index = nil)
-    subrip_index ? "_sub[#{subrip_index}]" : ""
+    subrip_index && subrip_index.to_i != -1 ? "_sub[#{subrip_index}]" : ""
   end
   
   def t(message_key)

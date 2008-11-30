@@ -6,7 +6,7 @@ function addNavi(index, subrip_index) {
 	Element.insert("navis" + sub_suffix, 
 				   { bottom: "<%= render_js :partial => 'navi_action/navi', :locals => { :navi => NaviAction.new }, :replace => [:index, :subrip_index, :id_suffix, :field_suffix] %>" });
 	
-	$('navi' + field_suffix + '_position').value = index;  
+	$('navi' + field_suffix + '_position').value = index + 1;  
 	
 	updateModifyLinks(index, subrip_index, sub_suffix);   
 	

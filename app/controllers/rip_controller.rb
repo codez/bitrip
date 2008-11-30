@@ -26,7 +26,6 @@ class RipController < ApplicationController
   def preview_temp
     @rip = Rip.new
     @rip.build_from params
-    puts @rip.inspect
     @rip.ignore_name_validation = true
     if @rip.valid?
       render_rip

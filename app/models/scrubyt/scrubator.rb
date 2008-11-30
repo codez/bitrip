@@ -16,7 +16,7 @@ class Scrubator
     end  
     nil
   rescue Exception => ex
-    ex.message
+     ex.message
   end
  
   def extract_links
