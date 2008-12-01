@@ -194,6 +194,14 @@ private
         field.value = params[field.name] if params[field.name]
       end
     end
+    @rip.children.each do |subrip|
+      subrip.navi_actions.each do |navi|
+        navi.form_fields.each do |field|
+          val = params["#{field.name}_#{subrip.position}"]
+          field.value = val if val
+        end
+      end
+    end
   end
   
   def id_method?(symbol)

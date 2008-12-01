@@ -19,7 +19,8 @@ class Rip < ActiveRecord::Base
 
 
   def has_fields?
-    navi_actions.any? { |navi| navi.type == :form }
+    navi_actions.any? { |navi| navi.type == :form } ||
+      children.any? { |subrip| subrip.has_fields? }
   end
   
   def all_required_set?

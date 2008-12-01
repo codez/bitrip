@@ -6,7 +6,13 @@
 <br/>
 <% form_tag(id_action(:show, @rip), {:method => :get}) do -%>
 <table>
-<%= render :partial => 'navi_action/query', :collection => @rip.navi_actions %>
+<%= render :partial => 'navi_action/query', 
+		   :collection => @rip.navi_actions %>
+<% @rip.children.each do |subrip| -%>
+<%= render :partial => 'navi_action/query', 
+		   :collection => subrip.navi_actions,
+		   :locals => { :subrip_index => subrip.position } %>
+<% end -%>
 <tr>
 	<td></td>
 	<td>

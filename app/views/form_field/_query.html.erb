@@ -7,7 +7,9 @@
 			<%= radio_button_tag query.name, opt, opt == query.value %><%= opt %><br/>
 		<% end -%>
 	<% else -%>
-		<%= text_field_tag query.name, query.value, :size => 20 %>
+		<%= text_field_tag (subrip_index ? "#{query.name}_#{subrip_index}" : query.name), 
+							query.value, 
+							:size => 20 %>
 	<% end -%>
 		<%= '*' if query.required %>
 	</td>
