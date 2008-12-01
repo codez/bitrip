@@ -24,7 +24,8 @@ class Rip < ActiveRecord::Base
   end
   
   def all_required_set?
-    navi_actions.all? { |navi| navi.all_required_set? }
+    navi_actions.all? { |navi| navi.all_required_set? } &&
+      children.all? { |subrip| subrip.all_required_set? }
   end
   
   def multi?
