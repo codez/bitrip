@@ -12,7 +12,7 @@
 
 <p class="sources">
 all data by
-<%= @rip.sources.collect {|s| "<a href=\"#{s}\">#{s}</a>"}.join(",") %>
+<%= @rip.sources.collect {|s| "<a href=\"#{s}\">#{s}</a>"}.join(", ") %>
 </p>
 
 <% if params_submitted? -%>
