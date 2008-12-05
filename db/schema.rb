@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 3) do
+ActiveRecord::Schema.define(:version => 4) do
 
   create_table "bits", :force => true do |t|
     t.string  "label"
@@ -19,6 +19,8 @@ ActiveRecord::Schema.define(:version => 3) do
     t.integer "position"
     t.string  "select_indizes"
   end
+
+  add_index "bits", ["rip_id"], :name => "index_bits_on_rip_id"
 
   create_table "form_fields", :force => true do |t|
     t.string  "type",                              :null => false
@@ -30,6 +32,8 @@ ActiveRecord::Schema.define(:version => 3) do
     t.boolean "constant",       :default => false
   end
 
+  add_index "form_fields", ["navi_action_id"], :name => "index_form_fields_on_navi_action_id"
+
   create_table "messages", :force => true do |t|
     t.string  "key",      :null => false
     t.text    "content"
@@ -37,12 +41,16 @@ ActiveRecord::Schema.define(:version => 3) do
     t.integer "position"
   end
 
+  add_index "messages", ["key"], :name => "index_messages_on_key", :unique => true
+
   create_table "navi_actions", :force => true do |t|
     t.string  "type"
     t.integer "rip_id",    :null => false
     t.integer "position"
     t.string  "link_text"
   end
+
+  add_index "navi_actions", ["rip_id"], :name => "index_navi_actions_on_rip_id"
 
   create_table "rips", :force => true do |t|
     t.string  "name",        :null => false
@@ -56,5 +64,7 @@ ActiveRecord::Schema.define(:version => 3) do
     t.string  "next_link"
     t.integer "position"
   end
+
+  add_index "rips", ["current", "name"], :name => "index_rips_on_name_and_current"
 
 end

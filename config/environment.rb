@@ -25,7 +25,7 @@ Rails::Initializer.run do |config|
   # config.gem "bj"
   # config.gem "hpricot", :version => '0.6', :source => "http://code.whytheluckystiff.net"
   # config.gem "aws-s3", :lib => "aws/s3"
-
+  
   # Only load the plugins named here, in the order given. By default, all plugins 
   # in vendor/plugins are loaded in alphabetical order.
   # :all can be used as a placeholder for all plugins not explicitly named
@@ -47,7 +47,6 @@ Rails::Initializer.run do |config|
   # If you change this key, all old sessions will become invalid!
   # Make sure the secret is at least 30 characters and all random, 
   # no regular words or you'll be exposed to dictionary attacks.
-  config.action_controller.session_store = :mem_cache_store
   config.action_controller.session = {
     :session_key => '_bitrip_session',
     :secret      => '55073ffedcae5eb0a7654d771c2dd106b35dfb55cb7876be923744ed5d9205bd27c53fd1347a897922594121ab0c082debbcff208e2898e88122734232c4f0f3'
@@ -57,7 +56,8 @@ Rails::Initializer.run do |config|
   # which shouldn't be used to store highly confidential information
   # (create the session table with "rake db:sessions:create")
   # config.action_controller.session_store = :active_record_store
-
+  config.action_controller.session_store = :mem_cache_store
+  
   # Use SQL instead of Active Record's schema dumper when creating the test database.
   # This is necessary if your schema can't be completely dumped by the schema dumper,
   # like if you have constraints or database-specific column types
@@ -74,8 +74,7 @@ ActionMailer::Base.delivery_method = :sendmail
 require 'memcache_settings'
 require "will_paginate" 
 
-
-unless ENV['RAILS_ENV'] == 'test'
+unless ENV['RAILS_ENV'] == 'test' || ENV['RAILS_ENV'] == 'profile'
   gem "RubyInline", "= 3.6.3"
   require 'scrubyt'
 end

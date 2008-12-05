@@ -1,7 +1,7 @@
 require "digest"
 require "digest/sha1"
 
-class Message < CachedModel
+class Message < ActiveRecord::Base
   
   CONTEXT_HELP = 'help'
   CONTEXT_FAQ = 'faq'
@@ -12,15 +12,27 @@ class Message < CachedModel
   validates_uniqueness_of :key
   validates_presence_of :key
   
+  def self.get(key)
+    c_key = cache_key(key)
+    content = CACHE.get c_key
+    if content.nil?
+      record = Message.find :first, :conditions => ['key = ?', key]
+      content = record.nil? ? key : record.content
+      CACHE.set c_key, content, MESSAGE_CACHE_TTL
+    end
+    content
+  end
+  
   def self.set_login(login)
-    m = get_login
-    m = Message.new :context => 'login', :key => 'login' if m.nil?
+    m = get('login')
+    m = Message.new :context => 'login', :key => 'login' if m == 'login'
     m.content = crypt(login)
     m.save
+    m.store_cache
   end
     
   def self.check_login(login)
-    crypt(login) == get_login.content
+    crypt(login) == get('login')
   end
   
   def self.crypt(string)
@@ -34,11 +46,19 @@ class Message < CachedModel
     end
     true
   end
+    
+  def cache_store
+    CACHE.set self.class.cache_key(key), content, MESSAGE_CACHE_TTL
+  end
+  
+  def cache_remove
+    CACHE.delete self.class.cache_key(key)
+  end
   
 private
   
-  def self.get_login
-    find :first, :conditions => ["context = 'login' AND key = 'login'"]
+  def self.cache_key(key)
+    "Message22:#{key}"
   end
   
 end

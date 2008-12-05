@@ -19,8 +19,7 @@ class ApplicationController < ActionController::Base
   after_filter :set_charset
 
   def msg(key)
-    message = Message.find :first, :conditions => ['key = ?', key]
-    message ? message.content : key
+    Message.get(key)
   end
 
   def init_vars

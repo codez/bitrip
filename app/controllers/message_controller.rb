@@ -52,6 +52,7 @@ class MessageController < ApplicationController
     if @message.update_attributes params['message']
       expire_page :action => :faq if @message.context == Message::CONTEXT_FAQ
       expire_page :action => :plain, :id => @message.key if @message.context == Message::CONTEXT_HELP
+      @message.cache_store
       flash[:notice] = 'The message has been saved.'
       redirect_to :action => :manage, :context => @message.context
     else  

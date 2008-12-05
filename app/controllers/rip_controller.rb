@@ -7,6 +7,7 @@ class RipController < ApplicationController
   ID_METHODS = ['preview', 'show', 'query', 'edit', 'copy']
   
   caches_page :index, :if => Proc.new { |c| c.params[:id].nil? }
+  caches_page :trash, :if => Proc.new { |c| c.params[:id].nil? && c.params[:page].nil?}
   caches_page :preview
 
   def index
@@ -144,6 +145,7 @@ class RipController < ApplicationController
     rip = Rip.find params[:id]
     rip.current = false
     if rip.save
+      expire_page :action => :trash
       flash[:notice] = "Rip was moved to trash"
     else
       flash[:notice] = "Rip could not be deleted: #{rip.errors.full_messages.join(", ")}"

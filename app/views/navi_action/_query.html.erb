@@ -1,3 +1,4 @@
+<% subrip_index ||= nil %>
 <% if not query.form_fields.empty? -%>
 	<% if subrip_index || query.rip.navi_actions.select{ |navi| navi.type == :form }.size > 1 -%>
 	<tr>
