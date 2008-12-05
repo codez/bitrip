@@ -1,6 +1,7 @@
 <%= 
     label = link.name
 	id_action = id_action(:preview, link)
+	path_prefix = (ENV['RAILS_ENV'] == 'production' ? '/bitrip' : '')
     href_url = "/rip/#{action_name}/#{params[:page].to_s}/#{id_action[:id]}"
 	if action_name == 'history'
 		label = "\##{link.revision}" 
@@ -9,9 +10,9 @@
         href_url = "/rip/#{action_name}/#{id_action[:id]}#{"&page=" + params[:page].to_s if params[:page]}"
     end
 	# dont use link_to_remote, url_for because of performance reasons
-	"<a href=\"#{href_url}\" " +
- 	"   onclick=\"parent.preview.location.href = '/message/loading'; " +
-                 "new Ajax.Request('/rip/#{id_action[:action]}/#{id_action[:id]}.js', " +
+	"<a href=\"#{path_prefix}#{href_url}\" " +
+ 	"   onclick=\"parent.preview.location.href = '#{path_prefix}/message/loading'; " +
+                 "new Ajax.Request('#{path_prefix}/rip/#{id_action[:action]}/#{id_action[:id]}.js', " +
                        "{asynchronous:false, evalScripts:true, method:'get'}); " +
 				 "return false;\">#{label}</a>" %>
 <%= "(#{link.created_at})" if action_name == 'history' %>

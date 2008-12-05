@@ -58,7 +58,7 @@ class Message < ActiveRecord::Base
 private
   
   def self.cache_key(key)
-    "Message22:#{key}"
+    "Message:#{key}"
   end
   
 end
