@@ -177,7 +177,7 @@ class RipController < ApplicationController
 private
 
   def current
-    Rip.find :first, :conditions => ['name = ? AND current', params[:id]]
+    Rip.current params[:id]
   end
 
   def render_rip

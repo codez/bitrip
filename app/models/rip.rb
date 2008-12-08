@@ -17,6 +17,9 @@ class Rip < ActiveRecord::Base
   
   attr_writer :ignore_name_validation
 
+  def self.current(name)
+    find :first, :conditions => ['name = ? AND current', name]
+  end
 
   def has_fields?
     navi_actions.any? { |navi| navi.type == :form } ||

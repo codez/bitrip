@@ -16,7 +16,7 @@
 				:class => 'help' ) if @rip.has_fields? %>
 	<br/>
 	<div class="small">
-	Data by <%= @rip.sources.join(',') %>
+	Data by <%= @rip.sources.join(', ') %>
 	</div>
 	<div class="small" style="float: right;">
 	<%= link_to "[+] <span style=>Clone this bitRip</span>", 

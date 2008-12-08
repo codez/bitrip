@@ -1,1 +1,27 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+
+field1_1_1:
+  id: 1
+  type: text
+  name: plz
+  value: 3000
+  navi_action_id: 1
+  constant: true
+  
+field1_1_2:
+  id: 2
+  type: text
+  name: menge
+  value: 4000
+  navi_action_id: 1
+  constant: true
+  
+field1_1_3:
+  id: 3
+  type: select
+  name: abladestellen
+  value: 1
+  navi_action_id: 1
+  constant: true
+  

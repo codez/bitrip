@@ -16,3 +16,40 @@ codez_bird:
   generalize: false
   position: 2
   
+multi1_1:
+  id: 3
+  rip_id: 3
+  label: none
+  xpath: //div[@id="preis"]
+  position: 1
+  
+multi1_2:
+  id: 8
+  rip_id: 3
+  label: none
+  xpath: /html/body/table/tr/td/table/tr[3]/td
+  position: 2
+  
+multi2_1:
+  id: 4
+  rip_id: 4
+  xpath: /html/body/table/tr/td/table/tr/td[4]/table[2]/tr/td/table/tr/td/form/table/tr[2]/td[2]/table/tr[4]/td[3]/div
+  position: 1
+  
+multi2_2:
+  id: 7
+  rip_id: 4
+  xpath: /html/body/table/tr/td/table/tr/td[4]/table[2]/tr/td/table/tr/td/form/table/tr[3]/td[2]/table/tr/td  
+  position: 2
+  
+multi3_1:
+  id: 5
+  rip_id: 5
+  xpath: /html/body/div/img
+  position: 1  
+  
+multi3_2:
+  id: 6
+  rip_id: 5
+  xpath: /html/body/div[2]
+  position: 2  

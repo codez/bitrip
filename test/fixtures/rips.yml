@@ -5,3 +5,28 @@ codez:
   name: test
   start_page: http://www.codez.ch
   
+multi: 
+  id: 2
+  name: multi
+  
+multi_1:
+  id: 3
+  name: multi
+  start_page: http://www.febizz.com/AGROLA/agrola_heizoelpreise.php?lang=de
+  parent_id: 2
+  position: 1
+  
+multi_2:
+  id: 4
+  name: multi
+  start_page: http://migrol.ch/skin/td_idle_d.asp?navig=89
+  parent_id: 2
+  position: 2
+  
+multi_3:
+  id: 5
+  name: multi
+  start_page: http://codez.ch
+  parent_id: 2
+  position: 3
+        

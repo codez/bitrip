@@ -1,1 +1,35 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+n1_1:
+  id: 1
+  rip_id: 3
+  type: form
+  position: 1
+  
+n3_1:
+  id: 2
+  rip_id: 5
+  type: link
+  position: 1
+  link_text: ":Derives"
+
+n3_2:
+  id: 3
+  rip_id: 5
+  position: 2
+  type: link
+  link_text: ":Deetown"
+
+n3_3:
+  id: 4
+  rip_id: 5
+  position: 3
+  type: link 
+  link_text: ":Home"
+
+n3_4:
+  id: 5
+  rip_id: 5
+  position: 4
+  type: link
+  link_text: ":Drop ahead"
