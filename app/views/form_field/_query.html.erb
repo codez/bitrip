@@ -2,7 +2,7 @@
 	<td valign="top"><%= query.name %></td>
 	<td>
 	<% # TODO: show appropriate input field %>
-	<% if query.type == :radio %>
+	<% if query.type == 'radio' %>
 		<% query.options_arr.each do |opt| -%>
 			<%= radio_button_tag query.name, opt, opt == query.value %><%= opt %><br/>
 		<% end -%>

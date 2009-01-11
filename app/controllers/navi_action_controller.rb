@@ -19,7 +19,7 @@ private
     
     navi = rip.complete_navi.last
     # check if navi type is defined. should not happen here
-    if navi.type.nil? || navi.type.to_s.empty?
+    if navi.type.nil? || navi.type.empty?
        render :text => ''
        return
     end
@@ -28,10 +28,10 @@ private
     index = params[:index]
     extractor = Scrubator.new rip
     case navi.type
-      when :link then 
+      when 'link' then 
         @links = extractor.extract_links
         render_populate_result navi, index, @links, 'link', 'links'
-      when :form then 
+      when 'form' then 
         navi.form_fields = extractor.extract_fields
         render_populate_result navi, index, navi.form_fields, 'form_fields', 'form fields'
     end

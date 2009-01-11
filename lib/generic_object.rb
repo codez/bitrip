@@ -10,11 +10,14 @@ class GenericObject
     @attrs[value]
   end
   
+  # special treatment because inherited...
+  def type
+    include?(:type) ? attr_value(:type) : super
+  end
+  
   def method_missing(symbol, *args)
     if include? symbol
-      val = @attrs[symbol.to_s]
-      val = val.collect{ |v| GenericObject.new v } if val.kind_of? Array
-      val
+      attr_value symbol
     else
       super symbol, args
     end  
@@ -22,6 +25,12 @@ class GenericObject
   
   def respond_to?(symbol, include_private = false)
     include?(symbol) || super(symbol, include_private)
+  end
+  
+  def attr_value(symbol)
+    val = @attrs[symbol.to_s]
+    val = val.collect{ |v| GenericObject.new v } if val.kind_of? Array
+    val
   end
   
   def include?(symbol)

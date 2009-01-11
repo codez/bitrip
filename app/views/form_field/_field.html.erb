@@ -9,7 +9,7 @@
 	</td>
 	<% # TODO: appropriate control for field.type -%>
 	<td>
-	<% if field.type == :radio %>
+	<% if field.type == 'radio' %>
 		<% field.options_arr.each do |opt| -%>
 		<%= f.radio_button :value, opt %><%= opt %><br/>
 		<% end -%>

@@ -1,6 +1,6 @@
 class NaviAction < ActiveRecord::Base
 
-  TYPES = [:form, :link]
+  TYPES = ['form', 'link']
 
   self.inheritance_column = nil
   
@@ -9,18 +9,7 @@ class NaviAction < ActiveRecord::Base
   
   validates_presence_of :type
   validates_inclusion_of :type, :in => TYPES
-  validates_presence_of :link_text, :if => Proc.new {|navi_action| navi_action.type == :link }
-
-  def type
-    value = read_attribute 'type'
-    value = value.to_sym if value
-  end  
-  
-  def type=(value) 
-    value = value.to_s 
-    value = nil if value.empty?
-    write_attribute 'type', value
-  end
+  validates_presence_of :link_text, :if => Proc.new {|navi_action| navi_action.type == 'link' }
   
   def all_required_set?
     form_fields.all? { |field| !field.required || (field.value && !field.value.empty?) }

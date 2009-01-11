@@ -13,8 +13,8 @@ field_suffix ||= field_suffix index, subrip_index
   <% else -%>
 	<div id="type_<%= id_suffix %>" class="indent">
 	Type
-	<%= f.radio_button :type, :form %>Form  	
-	<%= f.radio_button :type, :link %>Link	
+	<%= f.radio_button :type, 'form' %>Form  	
+	<%= f.radio_button :type, 'link' %>Link	
 	</div>
   <% end  # if navi.type -%>
 

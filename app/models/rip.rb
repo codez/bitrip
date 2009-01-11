@@ -22,7 +22,7 @@ class Rip < ActiveRecord::Base
   end
 
   def has_fields?
-    navi_actions.any? { |navi| navi.type == :form } ||
+    navi_actions.any? { |navi| navi.type == 'form' } ||
       children.any? { |subrip| subrip.has_fields? }
   end
   

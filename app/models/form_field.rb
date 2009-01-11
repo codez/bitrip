@@ -1,6 +1,6 @@
 class FormField < ActiveRecord::Base
   
-  TYPES = [:text, :password, :textarea, :select, :checkbox, :radio]
+  TYPES = ['text', 'password', 'textarea', 'select', 'checkbox', 'radio']
   
   self.inheritance_column = nil
   
@@ -13,17 +13,10 @@ class FormField < ActiveRecord::Base
   
   def type=(val)
     val = val.to_s.downcase if val
-    val = 'text' if val == 'text' || 
-                     val == 'password'
     val = nil if val == 'hidden' ||
                    val == 'image'          
     write_attribute 'type', val
   end
-  
-  def type
-    val = read_attribute 'type'
-    val.to_sym if val
-  end  
   
   def value
     val = read_attribute 'value'
@@ -45,12 +38,12 @@ class FormField < ActiveRecord::Base
   
   def control
     case type
-      when :text then :text_field
-      when :password then :password_field
-      when :textarea then :text_area
-      when :select then :collection_select
-      when :radio then :radio_button
-      when :checkbox then :check_box
+      when 'text' then :text_field
+      when 'password' then :password_field
+      when 'textarea' then :text_area
+      when 'select' then :collection_select
+      when 'radio' then :radio_button
+      when 'checkbox' then :check_box
     end  
   end
   

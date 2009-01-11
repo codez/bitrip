@@ -44,8 +44,8 @@ private
   
   def type_partial(type)
     case type
-      when :link then 'link'
-      when :form then 'form_fields'
+      when 'link' then 'link'
+      when 'form' then 'form_fields'
     end 
   end
   

@@ -32,18 +32,18 @@ class Scrubator
     
     form_fields = []
     fields.each do |f|
-      type = f[:field_type].downcase.to_sym
-      type = :text if type.nil?
+      type = f[:field_type].downcase
+      type = 'text' if type.nil?
       if FormField::TYPES.include? type
         field = FormField.new :name => f[:name]
         field.type = type
         # extract possible values for radio
         if existing = form_fields.detect{ |e| field.same? e }
-          if existing.type == :radio && type == :radio
+          if existing.type == 'radio' && type == 'radio'
             existing.add_option f[:value]
           end
         else
-          field.add_option f[:value] if type == :radio
+          field.add_option f[:value] if type == 'radio'
           form_fields.push field
         end
       end  
@@ -107,19 +107,19 @@ class Scrubator
     
     rip.complete_navi.each do |navi|
       case navi.type
-        when :form then
+        when 'form' then
           navi.form_fields.each do |field|
           begin  
             case field.type
-              when :text, :password, :hidden then 
+              when 'text', 'password', 'hidden' then 
                 handle_field extractor, :fill_textfield, field
-              when :textarea then
+              when 'textarea' then
                 handle_field extractor, :fill_textarea, field
-              when :select then
+              when 'select' then
                 handle_field extractor, :select_option, field
-              when :checkbox then
+              when 'checkbox' then
                 extractor.check_checkbox field.name if field.value
-              when :radio then
+              when 'radio' then
                 handle_radio extractor, field
             end
           rescue RuntimeError => ex
@@ -128,7 +128,7 @@ class Scrubator
           end
           end
           extractor.submit
-        when :link then
+        when 'link' then
           extractor.click_link navi.link_text
       end
     end 

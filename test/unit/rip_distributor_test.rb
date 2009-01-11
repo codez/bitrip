@@ -14,11 +14,40 @@ class RipDistributorTest < Test::Unit::TestCase
   end
   
   def test_serialize_rip
-    rip = Rip.find 1
+    rip = Rip.find 3
     distributor = RipDistributor.new
     distributor.write_xml rip
     o = distributor.read_xml rip.id
-    puts PP.pp(o.attrs, "", 60)
+    
+    assert_equal(rip.start_page, o.start_page)
+    assert_equal(rip.name, o.name)
+    i = 0
+    rip.bits.each do |bit|
+      obit = o.bits[i]
+      assert_equal(bit.label, obit.label)
+      assert_equal(bit.select_indizes_array, obit.select_indizes_array)
+      assert_equal(bit.xpath, obit.xpath)
+      assert_equal(bit.xpath_scrubyt, obit.xpath_scrubyt)
+      assert_equal(bit.position, obit.position)
+      i += 1
+    end
+    i = 0
+    rip.complete_navi.each do |navi|
+      onavi = o.complete_navi[i]
+      assert_equal(navi.position, onavi.position)
+      assert_equal(navi.type, onavi.type)
+      assert_equal(navi.link_text, onavi.link_text)
+      j = 0
+      navi.form_fields.each do |field|
+        ofield = onavi.form_fields[j]
+        assert_equal(field.type, ofield.type)
+        assert_equal(field.name, ofield.name)
+        assert_equal(field.value, ofield.value)
+        assert_equal(field.constant, ofield.constant)
+        j += 1
+      end
+      i += 1
+    end
   end
   
 end
