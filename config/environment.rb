@@ -73,6 +73,7 @@ ActionMailer::Base.delivery_method = :sendmail
 
 require 'memcache_settings'
 require "will_paginate" 
+require 'session'
 
 unless ENV['RAILS_ENV'] == 'test' || ENV['RAILS_ENV'] == 'profile'
   gem "RubyInline", "= 3.6.3"

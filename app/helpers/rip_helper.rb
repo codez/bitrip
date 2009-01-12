@@ -10,7 +10,7 @@ module RipHelper
   end
   
   def frame_url(rip)
-    (rip.name && !rip.name.empty?) ?
+    (rip && rip.name && !rip.name.empty?) ?
       url_for(id_action(:show, rip)) : 
       url_for(:controller => :message, :action => :plain, :id => "frame_#{params[:action]}")
   end

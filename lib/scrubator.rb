@@ -3,12 +3,16 @@ class Scrubator
   # input rip, output html fragment
   def ripit(rip)
     rips = rip.multi? ? rip.children : [rip]
-    #rips.each do |r|
-    #  snippets = rip_one r
-    #  assign_snippets(snippets, r)
-    #end  
-    RipDistributor.new.distribute_rips(self, rips)
+    if rips.size > 1
+      RipDistributor.new.distribute_rips(self, rips)
+    else
+      snippets = rip_one rips[0]
+      assign_snippets(snippets, rips[0])
+      nil
+    end
   rescue Exception => ex
+    puts ex.message
+    puts ex.backtrace.join("\n")
     ex.message
   end
   
@@ -63,7 +67,11 @@ class Scrubator
           bit bit.position.to_s, :type => :constant
         end
         
-        pattern.select_indices(bit.select_indizes_array) unless bit.select_indizes.nil? || bit.select_indizes.strip.empty?
+        unless bit.select_indizes.nil? || bit.select_indizes.strip.empty?
+          indizes = bit.select_indizes_array
+          indizes = [indizes] unless indizes.is_a? Array
+          pattern.select_indices(indizes) 
+        end
       end
       
       scrubator.next_pages self, rip
@@ -103,7 +111,7 @@ class Scrubator
   end
   
   def navigate_to_dest(extractor, rip)
-    extractor.fetch rip.start_page
+    extractor.fetch rip.start_url
     
     rip.complete_navi.each do |navi|
       case navi.type
@@ -156,8 +164,8 @@ class Scrubator
   
   def assign_snippets(snippets, rip)
     rip.bits.each do |bit|
-      snips = snippets.select { |s| s['bit'] == bit.position.to_s }
-      bit.snippets = snips.collect{ |s| s['html'] }
+      snips = snippets.select { |s| (s['bit'] || s[:bit]) == bit.position.to_s }
+      bit.snippets = snips.collect{ |s| s['html'] || s[:html] }
       extract_img bit if bit.img?
     end
   end

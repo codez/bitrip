@@ -6,15 +6,13 @@ class RipDistributor
   def distribute_rips(scrubator, rips)
     threads = []
     ex = nil
-    puts "ripping #{rips.size} rips"
     for r in rips
-      threads << Thread.new(r) do |rip|
+      # use active record a last time before diving into threads...
+      rip_hash = record_to_hash(r)  
+      threads << Thread.new(r, rip_hash) do |rip, hash|
         begin
-          puts "started thread #{rip.id}"
-          snippets = proc_rip rip
+          snippets = proc_rip hash
           scrubator.assign_snippets(snippets, rip)
-          
-          puts "done thread #{rip.id}"
         rescue Exception => ex
           puts ex.message
           puts ex.backtrace.join("\n")
@@ -28,17 +26,12 @@ class RipDistributor
   end
   
   def proc_rip(rip)
-    proc = IO.popen("ruby #{LOCAL_DIR}/rip_proc.rb", "w+")
-    xml = hash_to_xml(record_to_hash(rip))
-    proc.puts xml
-    proc.close_write
+    session = Session.new
+    response, err = session.execute "ruby #{LOCAL_DIR}/rip_proc.rb",
+                             :stdin => hash_to_xml(rip)
     
-    response = ''
-    while line = proc.gets
-      response += line
-    end  
-    
-    raise response if response.size < 5 || response[0..4] != '<opt>'
+    #raise response if response.size < 5 || response[0..4] != '<opt>'
+    raise err if session.exit_status > 0
     snippets = xml_to_hash(response)['snips']
     snippets.is_a?(Array) ? snippets : [snippets]
   end
@@ -97,7 +90,7 @@ private
     hash.each do |key, value|
       dup[key.to_s] = 
         if value.is_a? Array
-          value.collect {|h| encode_types h }
+          value.collect {|h| h.is_a?(Hash) ? encode_types(h) : hash_type(h) }
         elsif value.is_a? Hash
           encode_types value
         else
@@ -121,8 +114,8 @@ private
   end
   
   def parse_type(type_hash)
-    content = type_hash['content']
-    return case type_hash['type']
+    content = type_hash['valXXcontent']
+    return case type_hash['valXXtype']
       when 'String' then content
       when 'Fixnum' then content.to_i
       when 'Date' then Date.parse(content)
@@ -133,11 +126,11 @@ private
   end
   
   def hash_type?(hash)
-    hash.is_a?(Hash) && hash.has_key?('content') && hash.has_key?('type')
+    hash.is_a?(Hash) && hash.has_key?('valXXtype')
   end  
   
   def hash_type(value)
-    value.nil? ? nil : {'content' => value.to_s, 'type' => value.class.to_s}
+    value.nil? ? nil : {'valXXcontent' => value.to_s, 'valXXtype' => value.class.to_s}
   end
   
   def filename(rip_id)

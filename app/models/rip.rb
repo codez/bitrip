@@ -17,7 +17,6 @@ class Rip < ActiveRecord::Base
   validates_presence_of :bits, :unless => :multi?
   validates_format_of :start_page, :with => /^https?:\/\/.+/, :allow_nil => true, :message => 'must be a valid HTTP address'
 
-  
 
   def self.current(name)
     find :first, :conditions => ['name = ? AND current', name]

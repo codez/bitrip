@@ -25,7 +25,9 @@ class RipDistributorTest < Test::Unit::TestCase
     rip.bits.each do |bit|
       obit = o.bits[i]
       assert_equal(bit.label, obit.label)
-      assert_equal(bit.select_indizes_array, obit.select_indizes_array)
+      indizes = obit.select_indizes_array
+      indizes = [indizes] unless indizes.nil? || indizes.is_a?(Array)
+      assert_equal(bit.select_indizes_array, indizes)
       assert_equal(bit.xpath, obit.xpath)
       assert_equal(bit.xpath_scrubyt, obit.xpath_scrubyt)
       assert_equal(bit.position, obit.position)
@@ -53,7 +55,7 @@ class RipDistributorTest < Test::Unit::TestCase
   def test_distribute
     rip = Rip.find 2
     res = Scrubator.new.ripit(rip)
-    puts "Result:  " + res.inspect
+    puts res if res
     rip.children.each do |subrip|
       puts subrip.id
       subrip.bits.each do |bit|

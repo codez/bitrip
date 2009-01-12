@@ -22,6 +22,7 @@ multi1_1:
   label: none
   xpath: //div[@id="preis"]
   position: 1
+  select_indizes: 1
   
 multi1_2:
   id: 8
