@@ -1,9 +1,13 @@
 class Rip < ActiveRecord::Base
   
+  SANDBOX_NAME = 'sandbox'
+  SCRUBATOR_METHODS = [:start_url, :complete_navi, :bits]
+  
+  attr_writer :ignore_name_validation
+  acts_as_tree :order => 'position'
+  
   has_many :navi_actions, :order => 'position', :dependent => :destroy
   has_many :bits, :order => 'position', :dependent => :destroy
-  
-  acts_as_tree :order => 'position'
   
   before_save :set_subrip_names
   
@@ -13,9 +17,7 @@ class Rip < ActiveRecord::Base
   validates_presence_of :bits, :unless => :multi?
   validates_format_of :start_page, :with => /^https?:\/\/.+/, :allow_nil => true, :message => 'must be a valid HTTP address'
 
-  SANDBOX_NAME = 'sandbox'
   
-  attr_writer :ignore_name_validation
 
   def self.current(name)
     find :first, :conditions => ['name = ? AND current', name]

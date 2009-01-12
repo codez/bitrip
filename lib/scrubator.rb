@@ -1,34 +1,34 @@
 class Scrubator
   
-  def initialize(rip)
-    @rip = rip
-  end
-  
   # input rip, output html fragment
-  def ripit
-    rips = @rip.multi? ? @rip.children : [@rip]
-    rips.each do |rip|
-      snippets = scrubyt(rip).to_hash
-      host_url, base_url = extract_base_url(Scrubyt::FetchAction.get_current_doc_url)
-      fix_href_urls!(snippets, host_url, base_url)
-     
-      assign_snippets(snippets, rip)
-    end  
-    nil
+  def ripit(rip)
+    rips = rip.multi? ? rip.children : [rip]
+    #rips.each do |r|
+    #  snippets = rip_one r
+    #  assign_snippets(snippets, r)
+    #end  
+    RipDistributor.new.distribute_rips(self, rips)
   rescue Exception => ex
     ex.message
   end
+  
+  def rip_one(rip)
+    snippets = scrubyt(rip).to_hash
+    host_url, base_url = extract_base_url(Scrubyt::FetchAction.get_current_doc_url)
+    fix_href_urls!(snippets, host_url, base_url)
+    snippets
+  end
  
-  def extract_links
-    links = non_empty scrub_links(@rip)
+  def extract_links(rip)
+    links = non_empty scrub_links(rip)
     links.collect! { |l| l[:links] }
     
     # add index to multiple labels
     add_index links
   end
   
-  def extract_fields
-    fields = non_empty scrub_fields(@rip)
+  def extract_fields(rip)
+    fields = non_empty scrub_fields(rip)
     
     form_fields = []
     fields.each do |f|
@@ -103,7 +103,7 @@ class Scrubator
   end
   
   def navigate_to_dest(extractor, rip)
-    extractor.fetch rip.start_url
+    extractor.fetch rip.start_page
     
     rip.complete_navi.each do |navi|
       case navi.type
@@ -156,8 +156,8 @@ class Scrubator
   
   def assign_snippets(snippets, rip)
     rip.bits.each do |bit|
-      snips = snippets.select { |s| s[:bit] == bit.position.to_s }
-      bit.snippets = snips.collect{ |s| s[:html] }
+      snips = snippets.select { |s| s['bit'] == bit.position.to_s }
+      bit.snippets = snips.collect{ |s| s['html'] }
       extract_img bit if bit.img?
     end
   end

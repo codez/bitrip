@@ -19,17 +19,20 @@ class GenericObject
     if include? symbol
       attr_value symbol
     else
-      super symbol, args
+      #super symbol, args
+      []
     end  
   end
   
   def respond_to?(symbol, include_private = false)
-    include?(symbol) || super(symbol, include_private)
+    #include?(symbol) || super(symbol, include_private)
+    true
   end
   
   def attr_value(symbol)
     val = @attrs[symbol.to_s]
     val = val.collect{ |v| GenericObject.new v } if val.kind_of? Array
+    val = [GenericObject.new val] if val.is_a? Hash
     val
   end
   

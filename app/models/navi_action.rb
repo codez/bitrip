@@ -1,6 +1,7 @@
 class NaviAction < ActiveRecord::Base
 
   TYPES = ['form', 'link']
+  SCRUBATOR_METHODS = [:form_fields]
 
   self.inheritance_column = nil
   

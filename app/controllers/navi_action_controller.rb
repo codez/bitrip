@@ -26,13 +26,12 @@ private
     
     rip.navi_actions.delete navi
     index = params[:index]
-    extractor = Scrubator.new rip
     case navi.type
       when 'link' then 
-        @links = extractor.extract_links
+        @links = Scrubator.new.extract_links rip
         render_populate_result navi, index, @links, 'link', 'links'
       when 'form' then 
-        navi.form_fields = extractor.extract_fields
+        navi.form_fields = Scrubator.new.extract_fields rip
         render_populate_result navi, index, navi.form_fields, 'form_fields', 'form fields'
     end
   end

@@ -1,5 +1,7 @@
 class Bit < ActiveRecord::Base
   
+  SCRUBATOR_METHODS = [:xpath_scrubyt, :select_indizes_array]
+  
   belongs_to :rip
   acts_as_list :scope => :rip_id
   

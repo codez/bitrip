@@ -8,6 +8,8 @@ codez:
 multi: 
   id: 2
   name: multi
+  start_page: nil
+  parent_id: nil
   
 multi_1:
   id: 3
@@ -29,4 +31,3 @@ multi_3:
   start_page: http://codez.ch
   parent_id: 2
   position: 3
-        

@@ -50,4 +50,16 @@ class RipDistributorTest < Test::Unit::TestCase
     end
   end
   
+  def test_distribute
+    rip = Rip.find 2
+    res = Scrubator.new.ripit(rip)
+    puts "Result:  " + res.inspect
+    rip.children.each do |subrip|
+      puts subrip.id
+      subrip.bits.each do |bit|
+        puts bit.snippets.inspect
+      end
+    end
+  end
+  
 end

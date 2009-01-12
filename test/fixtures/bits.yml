@@ -46,10 +46,10 @@ multi3_1:
   id: 5
   rip_id: 5
   xpath: /html/body/div/img
-  position: 1  
+  position: 1
   
 multi3_2:
   id: 6
   rip_id: 5
   xpath: /html/body/div[2]
-  position: 2  
+  position: 2

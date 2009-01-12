@@ -181,7 +181,7 @@ private
   end
 
   def render_rip
-    @message = Scrubator.new(@rip).ripit 
+    @message = Scrubator.new.ripit @rip
     if @message.nil?
       render :action => :show, :layout => 'showrip'
     else 

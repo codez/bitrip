@@ -1,6 +1,7 @@
 class FormField < ActiveRecord::Base
   
   TYPES = ['text', 'password', 'textarea', 'select', 'checkbox', 'radio']
+  SCRUBATOR_METHODS = []
   
   self.inheritance_column = nil
   
