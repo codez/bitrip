@@ -54,7 +54,7 @@ class RipDistributorTest < Test::Unit::TestCase
   
   def test_distribute
     rip = Rip.find 2
-    res = Scrubator.new.ripit(rip)
+    res = Scrubator.new.ripit(rip, false)
     puts res if res
     rip.children.each do |subrip|
       puts subrip.id
@@ -62,6 +62,42 @@ class RipDistributorTest < Test::Unit::TestCase
         puts bit.snippets.inspect
       end
     end
+  end
+  
+  def test_distribute_profile
+    rip = Rip.find 6
+    stats = []
+    10.times do
+      start = Time.now
+      rips = rip.multi? ? rip.children : [rip]
+      distributor = RipDistributor.new
+      ex = distributor.distribute_rips(Scrubator.new, rips)
+      puts ex if ex
+      stats.push([Time.now - start] + distributor.stats)
+    end
+    puts "Distributed:"
+    puts avg(stats).inspect
+    
+    stats = []
+    10.times do
+      start = Time.now
+      ex = Scrubator.new.ripit(rip, false)
+      puts ex if ex
+      stats.push [Time.now - start]
+    end
+    puts "Serial:"
+    puts avg(stats).inspect
+  end
+  
+  def avg(arr)
+    avg = []
+    arr.first.size.times { avg.push 0 }
+    arr.each_with_index do |a, i|
+      a.each_with_index do |v, i|
+        avg[i] += v
+      end
+    end
+    avg.collect { |av| av / arr.size }
   end
   
 end

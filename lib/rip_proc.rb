@@ -22,8 +22,10 @@ begin
   distributor = RipDistributor.new
   xml = readlines.join("")
   rip = distributor.xml_to_hash(xml)
+  start = Time.now
   snippets = Scrubator.new.rip_one GenericObject.new(rip)
-  orig_stdout.puts distributor.hash_to_xml('snips' => snippets)
+  t = Time.now - start
+  orig_stdout.puts distributor.hash_to_xml('snips' => snippets, 'time' => t)
   
 rescue Exception => ex
   puts ex.message

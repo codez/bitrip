@@ -51,6 +51,33 @@ multi3_1:
   
 multi3_2:
   id: 6
-  rip_id: 5
+  rip_id: 6
   xpath: /html/body/div[2]
   position: 2
+  
+bm1_1:
+  id: 9
+  rip_id: 7
+  xpath: /html/body/div[3]/table/tr/td/table/tr[2]/td[2]/table/tr[2]/td
+  position: 1
+  
+bm2_1:
+  id: 10
+  rip_id: 8
+  xpath: /html/body/div[3]/table/tr/td/table/tr[2]/td[2]/table/tr[2]/td
+  position: 1
+bm3_1:
+  id: 11
+  rip_id: 9
+  xpath: /html/body/div[3]/table/tr/td/table/tr[2]/td[2]/table/tr[2]/td
+  position: 1
+bm4_1:
+  id: 12
+  rip_id: 10
+  xpath: /html/body/div[3]/table/tr/td/table/tr[2]/td[2]/table/tr[2]/td
+  position: 1
+bm5_1:
+  id: 13
+  rip_id: 11
+  xpath: /html/body/div[3]/table/tr/td/table/tr[2]/td[2]/table/tr[2]/td
+  position: 1

@@ -6,9 +6,17 @@ class RipDistributor
   def distribute_rips(scrubator, rips)
     threads = []
     ex = nil
+    
+    @preTime = 0
+    @procTime = 0
+    @postTime = 0
+    @ripTime = 0
+    
     for r in rips
+      start = Time.now
       # use active record a last time before diving into threads...
       rip_hash = record_to_hash(r)  
+      @preTime += Time.now - start
       threads << Thread.new(r, rip_hash) do |rip, hash|
         begin
           snippets = proc_rip hash
@@ -25,14 +33,26 @@ class RipDistributor
     ex
   end
   
+  def stats
+    [@preTime, @procTime, @ripTime, @postTime]
+  end
+  
   def proc_rip(rip)
+    start = Time.now
     session = Session.new
+    xml = hash_to_xml(rip)
+    @preTime += Time.now - start
+    start = Time.now
     response, err = session.execute "ruby #{LOCAL_DIR}/rip_proc.rb",
-                             :stdin => hash_to_xml(rip)
-    
+                             :stdin => xml  
+    @procTime += Time.now - start                         
+    start = Time.now
     #raise response if response.size < 5 || response[0..4] != '<opt>'
     raise err if session.exit_status > 0
-    snippets = xml_to_hash(response)['snips']
+    response = xml_to_hash response
+    @postTime += Time.now - start
+    @ripTime += response['time']
+    snippets = response['snips']
     snippets.is_a?(Array) ? snippets : [snippets]
   end
   
@@ -118,10 +138,11 @@ private
     return case type_hash['valXXtype']
       when 'String' then content
       when 'Fixnum' then content.to_i
+      when 'Float' then content.to_f
       when 'Date' then Date.parse(content)
       when 'FalseClass' then false
       when 'TrueClass' then true
-      else puts type_hash; type_hash
+      else raise type_hash.inspect
     end  
   end
   

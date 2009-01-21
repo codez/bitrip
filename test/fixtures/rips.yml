@@ -31,4 +31,44 @@ multi_3:
   start_page: http://codez.ch
   parent_id: 2
   position: 3
+  
+bm:
+  id: 6
+  name: bm
+  
+bm1:
+  id: 7
+  name: bm
+  start_page: http://www.bewegungsmelder.ch/bmonline.php?mtask=1&stask=19&task=result&date=today&subRegionID=1&ps=1
+  parent_id: 6
+  position: 1
+    
+bm2:
+  id: 8
+  name: bm
+  start_page: http://www.bewegungsmelder.ch/bmonline.php?mtask=1&stask=19&task=result&date=today&subRegionID=1&ps=2
+  parent_id: 6
+  position: 2
+    
+bm3:
+  id: 9
+  name: bm
+  start_page: http://www.bewegungsmelder.ch/bmonline.php?mtask=1&stask=19&task=result&date=today&subRegionID=1&ps=3
+  parent_id: 6
+  position: 3
+    
+bm4:
+  id: 10
+  name: bm
+  start_page: http://www.bewegungsmelder.ch/bmonline.php?mtask=1&stask=19&task=result&date=today&subRegionID=1&ps=4
+  parent_id: 6
+  position: 4
+    
+bm5:
+  id: 11
+  name: bm
+  start_page: http://www.bewegungsmelder.ch/bmonline.php?mtask=1&stask=19&task=result&date=today&subRegionID=1&ps=5
+  parent_id: 6
+  position: 5
+  
 
