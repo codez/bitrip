@@ -65,7 +65,7 @@ class RipDistributorTest < Test::Unit::TestCase
   end
   
   def test_distribute_profile
-    rip = Rip.find 6
+    rip = Rip.find 2
     stats = []
     10.times do
       start = Time.now

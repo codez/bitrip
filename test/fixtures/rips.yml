@@ -40,7 +40,7 @@ bm1:
   id: 7
   name: bm
   start_page: http://www.bewegungsmelder.ch/bmonline.php?mtask=1&stask=19&task=result&date=today&subRegionID=1&ps=1
-  parent_id: 6
+  parent_id: 2
   position: 1
     
 bm2:

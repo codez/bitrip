@@ -18,6 +18,7 @@ all data by
 <% if params_submitted? -%>
 	<p class="small">
 	direct link
-	<a href="<%= request.env['REQUEST_URI'] %>"><%= request.env['REQUEST_URI'] %></a>
+	<% link = current_link %>
+	<a href="<%= link %>"><%= link %></a>
 	</p>
 <% end -%>

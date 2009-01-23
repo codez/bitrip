@@ -1,17 +1,13 @@
 class Scrubator
   
   # input rip, output html fragment
-  def ripit(rip, distribute = nil)
+  def ripit(rip)
     rips = rip.multi? ? rip.children : [rip]
-    if distribute || (distribute.nil? && rips.size > 1)
-      RipDistributor.new.distribute_rips(self, rips)
-    else
-      rips.each do |r|
-        snippets = rip_one r
-        assign_snippets(snippets, r)
-      end
-      nil
+    rips.each do |r|
+      snippets = rip_one r
+      assign_snippets(snippets, r)
     end
+    nil
   rescue Exception => ex
     puts ex.message
     puts ex.backtrace.join("\n")

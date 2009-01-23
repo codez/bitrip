@@ -16,9 +16,16 @@ module RipHelper
   end
 
   def params_submitted?
-    request.env["QUERY_STRING"] && 
-    (request.env["HTTP_REFERER"].include?(request.env["SERVER_NAME"]) ||          # local
-     request.env["HTTP_REFERER"].include?(request.env["HTTP_X_FORWARDED_HOST"]) ) # production
+    request.env["QUERY_STRING"].size > 0 && 
+     request.env["HTTP_REFERER"].include?(request.env["SERVER_NAME"]) 
+  end
+ 
+  def current_link
+    if request.env['REQUEST_URI'].include?(request.env['SERVER_NAME'])
+      request.env['REQUEST_URI']
+    else
+      "http://#{request.env['SERVER_NAME']}#{request.env['REQUEST_URI']}"
+    end
   end
  
   def render_form(rip, action)
