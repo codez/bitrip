@@ -42,7 +42,7 @@ class Message < ActiveRecord::Base
   def self.to_csv
     puts 'context,position,key,content'
     find(:all, :order => 'context, position').each do |m| 
-      puts "#{m.context},#{position},\"#{m.key}\",\"#{m.content.gsub(/\"/, "\"\"")}\""
+      puts "#{m.context},#{m.position},\"#{m.key}\",\"#{m.content.gsub(/\"/, "\"\"")}\""
     end
     true
   end
@@ -58,7 +58,7 @@ class Message < ActiveRecord::Base
 private
   
   def self.cache_key(key)
-    "Message:#{key}"
+    "Message:#{key.tr(" ", "_")}"
   end
   
 end
