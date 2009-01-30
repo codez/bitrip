@@ -124,7 +124,7 @@ class Scrubator
               when 'select' then
                 handle_field extractor, :select_option, field
               when 'checkbox' then
-                extractor.check_checkbox field.name if field.value
+                extractor.check_checkbox(field.name) if field.value && !field.value.empty?
               when 'radio' then
                 handle_radio extractor, field
             end
