@@ -22,7 +22,7 @@ class Rip < ActiveRecord::Base
     if rip = find(:first, :conditions => ['name = ? AND current', name])
       rip
     else
-      raise ActiveRecord::RecordNotFound, "Couldn't find bitRip '#{name}'"   
+      raise ActiveRecord::RecordNotFound, "Couldn't find bitRip #{name}"   
    end
   end
 
