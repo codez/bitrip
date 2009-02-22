@@ -16,7 +16,7 @@ class RipController < ApplicationController
                          :page => params[:page],
                          :conditions => ['parent_id IS NULL AND current'] , 
                          :order => 'name'
-    @rip = current 
+    @rip = current if params[:id]
   end
   
   def preview    # ajax action

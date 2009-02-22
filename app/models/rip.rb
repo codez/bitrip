@@ -19,7 +19,11 @@ class Rip < ActiveRecord::Base
 
 
   def self.current(name)
-    find :first, :conditions => ['name = ? AND current', name]
+    if rip = find(:first, :conditions => ['name = ? AND current', name])
+      rip
+    else
+      raise ActiveRecord::RecordNotFound, "Couldn't find bitRip '#{name}'"   
+   end
   end
 
   def has_fields?
