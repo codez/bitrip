@@ -1,5 +1,11 @@
 class Scrubator
   
+  attr_reader :logger
+  
+  def initialize(logger = nil)
+    @logger = logger
+  end
+  
   # input rip, output html fragment
   def ripit(rip)
     rips = rip.multi? ? rip.children : [rip]
@@ -9,8 +15,8 @@ class Scrubator
     end
     nil
   rescue Exception => ex
-    puts ex.message
-    puts ex.backtrace.join("\n")
+    logger.info ex.message
+    logger.info ex.backtrace.join("\n")
     ex.message
   end
   
