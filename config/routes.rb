@@ -46,14 +46,12 @@ ActionController::Routing::Routes.draw do |map|
   map.connect 'rip/index/:page',
     :controller => 'rip',
     :action => 'index',
-    :requirements => { :page => /\d+/},
-    :page => nil
+    :requirements => { :page => /\d+/}
     
   map.connect 'rip/index/:page/:id',
     :controller => 'rip',
     :action => 'index',
-    :requirements => { :page => /\d+/},
-    :page => nil
+    :requirements => { :page => /\d+/}
     
   map.connect ':controller/:action.:format'
   map.connect ':controller/:action/:id'
