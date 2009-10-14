@@ -1,7 +1,7 @@
 <div id="ripinfo">
 <% if @rip -%>	
 	<h3>
-		<%= @rip.description %> 
+		<%= h @rip.description %> 
 		<%= link_to '[..] <span style="font-size: smaller;">Edit this bitRip</span>', 
 					id_action(:edit, @rip), 
 					:class => 'help' %>

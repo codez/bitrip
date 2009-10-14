@@ -1,4 +1,4 @@
-<% @title = @rip.name %>
+<% @title = h @rip.name %>
 
 <h1><%= h @rip.description %></h1>
 <%= render :partial => 'bit/show', :collection => @rip.bits %>
