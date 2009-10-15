@@ -105,7 +105,7 @@ class RipController < ApplicationController
     prev_rip = Rip.find params[:id] 
     if captcha_valid? && @rip.save_revision(params[:id])
       flash[:notice] = "#{@rip.name} bitRip was saved successfully"
-      expire_page :action => :preview, :id => prev_rip.name
+      expire_page :action => :preview, :id => prev_rip.name, :format => 'js'
       if prev_rip.name != @rip.name
         expire_page :action => :index
         no_of_pages.times {|i| expire_page :action => :index, :page => i+1 }
