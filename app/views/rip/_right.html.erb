@@ -1,4 +1,8 @@
 <div id="rightform">
+	What's one plus one?
+	<%= text_field_tag 'captcha', nil, :size => 8 %>
+	<br/>	
+	<br/>
 	<%= submit_to_target 'Preview', {:action => 'preview_temp'}, 'preview' %>	
 	<%= submit_to_target 'Cancel', {:action => 'cancel'}, '_self' %>
 	<%= submit_to_target 'Save', action, '_self' %>

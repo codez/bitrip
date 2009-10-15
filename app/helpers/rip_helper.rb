@@ -28,7 +28,7 @@ module RipHelper
     end
   end
  
-  def render_form(rip, action)
+  def render_form(action)
     render :partial => 'form', :locals => { :action => action }
   end
  

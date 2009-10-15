@@ -73,13 +73,13 @@ class RipController < ApplicationController
     @rip = Rip.new :revision => 1, :current => true
     @rip.build_from params
     @rip.ignore_name_validation = false
-    if @rip.save
+    if captcha_valid? && @rip.save
       flash[:notice] = "#{@rip.name} bitRip was added successfully"
       expire_page :action => :index
       no_of_pages.times {|i| expire_page :action => :index, :page => i+1 }
-      redirect_to :action => :index, :id => @rip.name, :page => 1
+      redirect_to :action => 'index', :id => @rip.name, :page => 1
     else
-      render :action => :add
+      render :action => 'add'
     end  
   end
   
@@ -103,7 +103,7 @@ class RipController < ApplicationController
     @rip = new_unless_sandbox
     @rip.build_from params
     prev_rip = Rip.find params[:id] 
-    if @rip.save_revision params[:id] 
+    if captcha_valid? && @rip.save_revision(params[:id])
       flash[:notice] = "#{@rip.name} bitRip was saved successfully"
       expire_page :action => :preview, :id => prev_rip.name
       if prev_rip.name != @rip.name
@@ -217,6 +217,13 @@ private
   
   def no_of_pages
     (Rip.count(:conditions => ['parent_id IS NULL AND current']) / PER_PAGE).ceil 
+  end
+  
+  def captcha_valid?
+     valid = params[:captcha].strip.downcase == 'two' || 
+       params[:captcha].to_i == 2
+     flash[:notice] = "Sorry, but one plus one is not #{params[:captcha]}"
+     valid
   end
   
 end
