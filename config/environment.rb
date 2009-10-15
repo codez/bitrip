@@ -66,7 +66,8 @@ Rails::Initializer.run do |config|
   # Activate observers that should always be running
   # config.active_record.observers = :cacher, :garbage_collector
   
-  config.action_controller.page_cache_directory = RAILS_ROOT + "/public/cache/"
+  # use this only with mod_rewrite. passenger uses the default setting.
+  #config.action_controller.page_cache_directory = RAILS_ROOT + "/public/cache/"
 end
 
 ActionMailer::Base.delivery_method = :sendmail
