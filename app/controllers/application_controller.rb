@@ -7,8 +7,7 @@ class ApplicationController < ActionController::Base
   helper_method :msg
 
   # See ActionController::RequestForgeryProtection for details
-  # Uncomment the :secret if you're not using the cookie session store
-  protect_from_forgery :secret => 'ff1098132afe0140076dcd167f882173421'
+  protect_from_forgery
   
   # See ActionController::Base for details 
   # Uncomment this to filter the contents of submitted sensitive data parameters
@@ -35,7 +34,7 @@ class ApplicationController < ActionController::Base
   
   def rescue_action_in_public(exception)
     case exception
-      when ::ActionController::RoutingError, ActiveRecord::RecordNotFound, ::ActionController::UnknownAction
+      when ::ActionController::RoutingError, ActiveRecord::RecordNotFound, ::ActionController::UnknownAction, ::ActionController::InvalidAuthenticityToken
         render(:file => "#{RAILS_ROOT}/public/404.html",
                :status => "404 Not Found")
       else

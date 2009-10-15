@@ -15,15 +15,13 @@ class Rip < ActiveRecord::Base
   validates_format_of :name, :with => /^[A-Za-z0-9\-_\.]*$/, :unless => :parent, :message => "may only contain letters, numbers or one of '._-'"
   validates_exclusion_of :name, :in => ['rip', 'bit', 'navi_action', 'form_field', 'message']
   validates_presence_of :bits, :unless => :multi?
-  validates_format_of :start_page, :with => /^https?:\/\/.+/, :allow_nil => true, :message => 'must be a valid HTTP address'
+  validates_format_of :start_page, :with => /^https?:\/\/.+/, :if => :start_page_required?, :message => 'must be a valid HTTP address'
 
 
   def self.current(name)
-    if rip = find(:first, :conditions => ['name = ? AND current', name])
-      rip
-    else
-      raise ActiveRecord::RecordNotFound, "Couldn't find bitRip #{name}"   
-   end
+    rip = find(:first, :conditions => ['name = ? AND current', name])
+    raise ActiveRecord::RecordNotFound, "Couldn't find bitRip #{name}" unless rip
+    rip
   end
 
   def has_fields?
@@ -267,6 +265,10 @@ private
     navi_actions.each do |navi|
       child.navi_actions << navi
     end
+  end
+  
+  def start_page_required?
+    parent.nil? && (! multi? || ! children.all? {|subrip| subrip.start_page =~ /^https?:\/\/.+/ })
   end
   
 end

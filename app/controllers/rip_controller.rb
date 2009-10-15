@@ -222,7 +222,7 @@ private
   def captcha_valid?
      valid = params[:captcha].strip.downcase == 'two' || 
        params[:captcha].to_i == 2
-     flash[:notice] = "Sorry, but one plus one is not #{params[:captcha]}"
+     flash[:notice] = "Sorry, but one plus one is not '#{params[:captcha]}'" unless valid
      valid
   end
   

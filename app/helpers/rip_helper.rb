@@ -39,9 +39,12 @@ module RipHelper
   end
   
   def change_type_link(label, type)
-    options = {:action => controller.action_name, :type => type}
+    action = controller.action_name
+    action = 'add' if action == 'create'
+    action = 'edit' if action == 'update'
+    options = {:action => action, :type => type}
     confirm = {}
-    confirm[:confirm] = "You will lose some of the currently entered\ninformation if you change the type of this bitRip." if options[:action] != 'add'
+    confirm[:confirm] = "You will lose some of the currently entered\ninformation if you change the type of this bitRip." if controller.action_name != 'add'
     link_to label, options, confirm
   end
  
