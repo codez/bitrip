@@ -7,7 +7,6 @@ class NaviActionController < ApplicationController
     #TODO check index == rip.navi_actions.size - 1
     subrip_index = nil 
     subrip_index = params['subrip'].keys.sort.index(params['subrip_index']) if params['subrip_index'] && params['subrip_index'].to_i != -1
-    puts subrip_index
     subrip = subrip_index ? rip.children[subrip_index] : rip
     populate_type_fields subrip
   end

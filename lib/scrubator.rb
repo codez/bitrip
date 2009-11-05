@@ -42,7 +42,7 @@ class Scrubator
     fields.each do |f|
       type = f[:field_type].downcase
       type = 'text' if type.nil?
-      if FormField::TYPES.include? type
+      if FormField::TYPES.include?(type) && f[:name] && !f[:name].strip.empty?
         field = FormField.new :name => f[:name]
         field.type = type
         # extract possible values for radio
