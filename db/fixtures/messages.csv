@@ -1,0 +1,118 @@
+context,position,key,content
+faq,0,"So what's this all about?","BitRip displays selected bits from web sites. Once you defined how to get them, you may access them directly with a single link. Saving this link in your bookmarks will give you quick access to the desired information. Presented clearly, up to date and lightweight.
+<br/>
+There are two main views of bitRip. The one you're watching right now, together with the overview of the existing rips and the possibility to edit them. This view is meant for managing and creating bitRips and requires a bit of learning on how to build such bitRips. It is possible to combine several bits of information on one resulting page, even if they origin from different web sites.
+<br/>
+The other view is the result you get from a bitRip and is usually accessed directly. The layout is very simple and contains a minimum of distraction. The focus is on directly spotting the required information without the need for any preceeding navigation. This view is also optimized for mobile devices."
+faq,1,"And everybody gets to edit everything here?","Uhm, of course. Why build a user registration, verification and data collection system, if you can have the same service without that? Every bitRip created may be viewed and extended by everybody. This supports collaboration and cooperation instead of solitary people. And, as bitRips have a complete history and cannot be deleted (only moved to a trash), nothing will get lost by overriding."
+faq,2,"What the heck is XPath and how does it work?","Let me spare you some of the details here. For bitRip, XPath is used to find the bits you want to rip from a web page. Every web page is build with a simple markup called <a href=""http://html.net/tutorials/html/lesson2.asp"">HTML</a>. A basic web page with a title and some paragraphs would look like this in HTML:
+
+<pre>  &lt;html&gt;
+    &lt;body&gt;
+      &lt;h1&gt;Hello there&lt;/h1&gt;
+      &lt;p&gt;This is an example.&lt;/p&gt;
+      &lt;p&gt;Even with two lines.&lt;/p&gt;
+    &lt;/body&gt;
+  &lt;/html&gt;</pre>
+
+As you may have noticed, everything in HTML is surrounded by funny keywords in pointy brackets. These are called <i>tags</i>. Tags may surround other tags again, and they never overlap. Now, what has this to do with XPath? A XPath defines, as the name says, a path to a certain element. It does so by joining all the tags from the begining down to the desired element with slashes. In above example, the XPath for the paragraphs would therefore look like <i>/html/body/p</i>. Easy, isn't it?
+<br/>
+Well, the hard part is to figure out the XPath for your bits in larger web pages. First, you have to open the HTML source code of the corresponding page. This should be achievable somewhere in your browser menu. Then, with a simple text search, you have to identify your desired element in the source. From there, follow the enclosing tags upwards and voil&agrave;, you have the required XPath.
+<br/>
+In certain cases, one XPath might match more than one element. In our above example, with one of the two paragraphs is matched? Well, both are. If you want to exactly specify which paragraph to use, you have to count and give the corresponding position in the XPath as well: <i>/html/body/p[1]</i> is the first, <i>/html/body/p[2]</i> is the second. Please note that positions may be defined for every tag in the XPath, not only for the last one.
+<br/>
+Ok, some much for now. Of course, there are many more options and ways to find your bits with XPath. There is a quite a good overview and also a couple of links at <a href=""http://en.wikipedia.org/wiki/XPath_1.0"">Wikipedia</a>. 
+As you should be surfing with <a href=""http://www.mozilla.com"">Firefox</a> anyways, there are two plugins, <a href=""http://xpath.alephzarro.com"">XPather</a> and <a href=""http://getfirebug.com"">Firebug</a>, that let you easily find the XPath of any HTML element.
+Should you be interested in scientific specifications, check out the stuff at the <a href=""http://www.w3.org/TR/xpath"">W3 Consortium</a>."
+faq,3,"Why does my XPath not work?","In most cases, your XPath does just not match anything in the ripped page. Please consider the following possibilities:
+<br/>
+- The page fetched by bitRip is not exaclty the same as you see in your browser. Many web sites detect which browser you are using and what language is set in your preferences. Some even try to detect your geographical location. If possible, figure out a location independent address of your desired page (e.g., <i>http://www.google.com/ncr</i> for the plain, unlocalized Google start page). It's important to make sure bitRip really gets the same page as you expect. You can achieve this by defining a bit with the XPath set to '/', which will display the entire page. 
+<br/>
+- If you use a browser plugin to look at your source code or to extract an XPath, they do not necessarly display the source as returned by the web server, but a fixed version. This is actually a good thing, but as bitRip will use the source as returned by the web site, it may get a little confusing. For example, the Firefox plugin Firebug will add &lt;tbody&gt; tags inside all tables, as well as in generated XPaths. If you get your XPath from Firebug, make sure to remove additional <i>tbody</i> elements from your path.
+<br/>
+- Last but not least, web sites may just return invalid HTML code. This is usually fixed by your browser, but not by bitRip. Try using a different XPath. For example, it is sometimes possible to ignore the first couple of elements from your path. So instead of <i>/html/body/p</i>, you would get the same result in above example just with <i>/p</i>."
+faq,4,"You say accessible with a single click but still ask me for input when a bitRip uses forms?","So we do. Instead of filling the forms with a predefined value (which is possible as well), we think bitRips may be used more generically like this. For example, a bitRip that questions your location to display the corresponding weather forecast can be used for all possible locations. Once you are viewing the results of such a bitRip, there is a link containing all the information you entered. With this link, you have the single click access for your location. And your friend from the other town may re-use the same bitRip, just with his location."
+faq,5,"Why is everything so slow?","While bitRip returns only the desired bits of information, it still has to fetch the complete web page in the background and extract these bits for you. Plus, if some navigation is required to get to the selected bits, these intermediate pages have to be loaded as well. So there is quite a lot of traffic going on, and this takes its time. But still, bitRip should be a lot faster than you to perform these actions. Especially if you have a slow connection, as it's still the case on mobile phones today.
+<br/>
+Nevertheless, our servers are not the fastest either. Any donations for buying more hardware are greatly appreciated. Please see the contact information below."
+faq,6,"Why do I need JavaScript to edit bitRips? Don't you know it's from the Devil?","Sorry about that, but without wanting to start a religious flame war, we believe it's time for a decision. As a rather complex service, it would be a pain to edit bitRips without JavaScript. We only use widely known and approved libraries such as <a href=""http://script.aculo.us"">Script.aculo.us</a> and <a href=""http://www.prototypejs.org"">Prototype</a>. So: no JavaScript, no editing bitRip. All the other functionalities are provided. It is no problem to just view a bitRip in a simple browser without JavaScript.
+<br/>
+By the way, as firm believers of the <a href=""http://en.wikipedia.org/wiki/Flying_Spaghetti_Monster"">Flying Spaghetti Monster</a>, we adore JavaScript for its wonderfull possibilities to write delicious <a href=""http://en.wikipedia.org/wiki/Spaghetti_code"">spaghetti code</a> and would never abandon it."
+faq,7,"But is bitRip Web 2.0?","Don't worry! BitRip IS Web 2.0. It's all about mobile-user-enabled-wiki-style-meta-meta-mashups, plus a slight taste of piracy. "
+faq,8,"What is this site made of?","Basically, bitRip is <a href=""http://scrubyt.org"">Scrubyt</a> on <a href=""http://rubyonrails.com"">Rails</a>. 
+The first is a library for extracting arbitrary parts of websites, written in <a href=""http://ruby-lang.org"">Ruby</a>. The interface is pretty similar to what is provided here. So you might find some further explanations, ideas and solutions there.
+The later is the latest hyped web framework and provides the functionality to build this bitRip editing website.
+<br/>
+Furthermore, there is a good foundation with <a href=""http://www.postgresql.org"">PostgreSQL</a>, <a href=""http://httpd.apache.org"">Apache Httpd</a>, <a href=""http://www.modrails.com/"">Phusion Passenger</a>, a hand full of <a href=""http://www.centos.org"">CentOS</a> and some selected spices.
+All together, bitRip is completely built on <a href=""http://en.wikipedia.org/wiki/OSS"">Open Source Software</a>.
+"
+faq,9,"This bitRip thing is soo toatally awesome, I wanna dedicate all my life to you! What is your bank account number?","How about you contact us about this one on webmaster/at/codez.ch? We're sure we'll find a decent agreement. Of course, plain comments, raves and hugs are welcome as well."
+help,0,"rip_name","The name is used to identify this rip. It will appear in the rip's link. No spaces are allowed, using only lowercase letters is recommended."
+help,1,"rip_next_link","If your ripped page is continued on following, similar pages (i.e., where the same bits may be extracted), you can specify the label of the link which jumps to the next page. Use number (#) of pages to only load the first x pages. Entering nothing or 0 will load all available pages."
+help,2,"rip_title","The title will appear on top of the rip page. May be left blank."
+help,3,"rip_start_page","The URL where the rip starts. If no navigation follows, the bits will be looked for on this page.If you define navigation actions, the first action will use a form or a link on this page."
+help,4,"bit_label","The label will appear in front of the found information for this bit. May be left blank."
+help,5,"bit_select_indizes","If this bit returns more than one value, you may specify which ones should be selected. You may enter a comma-separated list of numbers, like <i>1,2,4,6</i>; a range like <i>2..5</i>; or a keyword as <i>last</i>, <i>all_but_last</i>, <i>all_but_first</i>, <i>every_even</i>, <i>every_odd</i>, <i>every_second</i>, <i>every_third</i>, <i>every_fourth</i>."
+help,6,"bit_xpath","The XPath defines how to find this information bit. Basically, this is the hierarchy of HTML tags on the destination page that leads to the desired element (eg. /html/body/div[2]). For more help on XPath, see our FAQ."
+help,7,"field_required","Required. Choose this, if the corresponding field must not be left blank."
+help,8,"field_constant","Constant. Choose this, if the corresponding field will always have the value entered. If this option is not selected, the entered value will be discarded on save."
+help,9,"field_type_text","This is a normal text field. Please enter a matching value."
+help,10,"field_type_textarea","This field is a text area. You may enter arbitrary input."
+help,11,"field_type_password","This is a password field. It is highly discouraged to define this field as constant, because data saved here will be visible to anybody. Also be aware that bitRip is not a secured service, so any information you enter will be sent in clear text."
+help,12,"field_type_select","This field is a select box. Enter one of the labels found in the corresponding page."
+help,14,"field_type_checkbox","This is a group of check boxes. Select the desired values."
+help,14,"field_type_radio","Choose one option from these radio buttons."
+help,15,"frame_index","<p>
+<span style=""font-size: larger; font-weight: bold;"">
+Are you
+</span>
+tired of permanently browsing a long way through jam-packed websites, just to get to a few small bits of interesting information?
+</p>
+<p>
+Wouldn't it be nice to have a clear page with only these bits on it? Reachable with one click? And lightweight enough for mobile use?
+</p>
+<p>
+<b>Enter bitRip.</b>
+</p>
+<p>
+BitRip displays selected bits from websites. Once you defined how to get them, you may access them directly with a single link.
+</p>
+<p>
+Without all the clutter.
+</p>"
+help,16,"frame_sandbox","Use this sandbox to play around with bitRip. 
+<br/>
+You may save changes, but they will be lost when someone else saves his/hers."
+help,17,"frame_add","<h3>Ready to rip?</h3>
+<p>
+To get started, enter the address of the page you want to rip and hit <i>Preview</i>.  This should display the entire page.
+</p>
+<p>
+Next, if required, figure out the necessary navigation elements. These may be either links or forms. Fill in the appropriate values and check the resulting page again.
+</p>
+<p>
+Once you are on your destination page, determine the XPaths of the desired bits. More about that in the <a href=""../faq"" target=""_parent"">[FAQ]</a>.
+</p>
+<p>
+If your bits are on different pages, you may use a <i>Multi page</i> rip. Should these pages share a common initial navigation, use <i>Multi page w/ common navigation</i>.
+</p>"
+help,18,"frame_history","<p>
+<b>The History</b>
+</p>
+<p>
+All previous versions of a bitRip are saved in this history. You may look at previous versions just as you would at the most recent one.
+</p>
+<p>
+If you want to revert this bitRip to a certain date, just edit and save the corresponding version to make it the latest version again. 
+</p>"
+help,19,"frame_trash","<p>
+<b>The Trash</b>
+</p>
+<p>
+All bitRips that have been deleted will end up here. There is no guarantee about when the trash is emptied, so you better don't store your favorite bitRips here.
+</p>
+<p>
+To move a bitRip out of the trash, simply edit it and save it again. This will put it back on the front page.
+</p>"
+help,20,"starter_sandbox","Feel free to experiment here. Your may save your changes, but the next person may overwrite them again..."
+help,21,"starter_noscript","Editing bitRips requires <a href=""http://en.wikipedia.org/wiki/JavaScript"">JavaScript</a>. Please use a browser that supports JavaScript and has it <a href=""https://www.google.com/adsense/support/bin/answer.py?hl=en&answer=12654"">enabled</a>."
