@@ -1,3 +1,4 @@
 config/deploy.rb
 config/httpd_site.conf
 config/database.yml
+.DS_Store
